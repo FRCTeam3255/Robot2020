@@ -14,7 +14,7 @@ public class SN_MotionProfile {
 	//counter taken from stackoverflow: https://stackoverflow.com/questions/18009416/how-to-count-total-rows-in-csv-using-java
 	public static int count(String filename) throws IOException {
 		InputStream is = new BufferedInputStream(
-				new FileInputStream(Filesystem.getDeployDirectory() + "/" + filename));
+				new FileInputStream(Filesystem.getDeployDirectory() + "/paths/" + filename));
 		try {
 			byte[] c = new byte[1024];
 			int count = 0;
@@ -36,7 +36,8 @@ public class SN_MotionProfile {
 
 	public static double[][] reader(String fileName) throws IOException {
 		// Get scanner instance
-		File toScan = new File(Filesystem.getDeployDirectory(), fileName);
+		File toScan = new File(Filesystem.getDeployDirectory()+"/paths", fileName);
+		System.out.println(Filesystem.getDeployDirectory()+"/paths");
 		Scanner scanner = new Scanner(toScan);
 		double[][] output = new double[count(fileName)+1][3];
 
