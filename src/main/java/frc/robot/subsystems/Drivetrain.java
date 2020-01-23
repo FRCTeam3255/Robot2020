@@ -13,20 +13,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drivetrain extends SubsystemBase
-{
-   // Creates a new ExampleSubsystem
+public class Drivetrain extends SubsystemBase {
+  // Creates a new ExampleSubsystem
 
   TalonSRX leftTalon;
   TalonSRX rightTalon;
-
-  public Drivetrain()
-  {
+  
+  public Drivetrain() {
     leftTalon = new TalonSRX(0);
     rightTalon = new TalonSRX(2);
   }
-  public void arcadeDrive(double speed, double turn)
-  {
+  public void arcadeDrive(double speed, double turn) {
     leftTalon.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward,-turn);
     rightTalon.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, turn);
   }
