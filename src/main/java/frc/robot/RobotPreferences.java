@@ -30,6 +30,14 @@ public class RobotPreferences {
     public static final SN_DoublePreference motProfIz = new SN_DoublePreference("motProfIz", 400);
     public static final SN_DoublePreference motProfPeakOut = new SN_DoublePreference("motProfPeakOut", 1.0);
 
+    //Climber
+    
+    public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference("climberCountsPerInches", 400);
+    public static final SN_DoublePreference climberP = new SN_DoublePreference("climberP", 1.0);
+    public static final SN_DoublePreference climberI = new SN_DoublePreference("climberI", 0.0);
+    public static final SN_DoublePreference climberD = new SN_DoublePreference("climberD", 0.0);
+    public static final SN_DoublePreference climberF = new SN_DoublePreference("climberF", 1023.0/6800.0);
+    public static final SN_DoublePreference climberIz = new SN_DoublePreference("climberIz", 400);
     //Turret
     public static final SN_DoublePreference susanCountsPerDegree = new SN_DoublePreference("susanCountsPerDegree", 400);
     public static final SN_DoublePreference hoodCountsPerDegree = new SN_DoublePreference("hoodCountsPerDegree", 400);

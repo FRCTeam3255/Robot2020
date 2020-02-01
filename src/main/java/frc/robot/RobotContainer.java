@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveArcade;
 import frc.robot.subsystems.Drivetrain;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
+import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -25,6 +26,7 @@ public class RobotContainer {
   private final Drivetrain m_drivetrain = new Drivetrain();
 
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
+  public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.

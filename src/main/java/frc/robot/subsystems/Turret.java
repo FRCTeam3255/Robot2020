@@ -77,10 +77,31 @@ public class Turret extends SubsystemBase {
   public double getShooterSpeed(){
     return shooterEnocder.getVelocity();
   }
+  public void resetSusanEncoder(){
+    lazySusanTalon.getSensorCollection().setIntegratedSensorPosition(0, 100);
 
-  public void getSusanEncoder(){
-    lazySusanTalon.getSelectedSensorPosition();
   }
+  public void resetHoodEncoder(){
+    hoodTalon.getSensorCollection().setIntegratedSensorPosition(0, 100);
+  }
+  public double getHoodEncoder(){
+    return hoodTalon.getSelectedSensorPosition();
+  }
+
+  public double getSusanEncoder(){
+    return lazySusanTalon.getSelectedSensorPosition();
+  }
+
+
+  public double getSusanPosition(){
+    return lazySusanTalon.getSelectedSensorPosition()/RobotPreferences.susanCountsPerDegree.getValue();
+  }
+
+
+  public double getHoodPosition(){
+    return hoodTalon.getSelectedSensorPosition()/RobotPreferences.hoodCountsPerDegree.getValue();
+  }
+
 
   @Override
   public void periodic() {

@@ -7,35 +7,54 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
+import frc.robot.RobotPreferences;
 
 public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
+  private TalonSRX climberTalon;
+  private TalonSRXConfiguration _config;
+  
 
   public Climber()
   {
+    climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
+    _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
+    /* rest of the configs */
+    _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband
+        .getValue(); /* 0.1 % super small for best low-speed control */
+    _config.slot0.kF = RobotPreferences.climberF.getValue();
+    _config.slot0.kP = RobotPreferences.climberP.getValue();
+    _config.slot0.kI = RobotPreferences.climberI.getValue();
+    _config.slot0.kD = RobotPreferences.climberD.getValue();
+    _config.slot0.integralZone = (int) RobotPreferences.climberIz.getValue();
+
   }
 
 
   // methods
 
   // speed can be -1 to +1
-  public void extend(double speed)
+  public void setSpeed(double speed)
   {
+    climberTalon.set(ControlMode.PercentOutput, speed);
   }
 
   // extend to specific height (in inches)
   public void extendToHeight(int height)
   {
+    climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue()*height);
   }
 
-  public void clamp(boolean clamped)
-  {
-  }
 
   @Override
   public void periodic() {
