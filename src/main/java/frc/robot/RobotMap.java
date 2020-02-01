@@ -23,8 +23,9 @@ public class RobotMap {
     public static final int INNER_SHOOTER_GATE_TALON = 7;
     public static final int OUTER_SHOOTER_GATE_TALON = 8;
     public static final int CLIMBER_TALON = 9;
-    public static final int SPINNER_TALON = 10;
-    
+    public static final int CP_TALON = 10;
+    //servo
+    public static final int CP_SERVO = 0;
     //sparks
 	public static final int SHOOTER_FRONT_SPARK = 1;
 	public static final int SHOOTER_BACK_SPARK = 2;
@@ -36,7 +37,10 @@ public class RobotMap {
     public static final int STAGED_SWITCH = 2;
 	public static final int CLIMBER_ENCODER_A = 0;
 	public static final int CLIMBER_ENCODER_B = 1;
-
+    //solenoids
+    public static final int INTAKE_SOLENOID_A = 0;
+    public static final int INTAKE_SOLENOID_B = 1;
+    
     //Encoders
 
     //Digital input

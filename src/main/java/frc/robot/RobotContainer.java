@@ -10,7 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveArcade;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Vision;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +29,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drivetrain = new Drivetrain();
+  private final Vision m_vision = new Vision();
+  private final ControlPanel m_controlPanel = new ControlPanel();
+  private final Turret m_turret = new Turret();
+  private final Climber m_climber = new Climber();
+  private final Intake m_intake = new Intake();
 
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
