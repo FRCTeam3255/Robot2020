@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanel;
 
-public class ControlPanelUp extends CommandBase {
+public class ToggleControlPanel extends CommandBase {
   /**
-   * Creates a new ControlPanelUp.
+   * Creates a new ToggleControlPanel.
    */
   private final ControlPanel m_controlPanel;
-  public ControlPanelUp(ControlPanel subsystem) {
+  public ToggleControlPanel(ControlPanel subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_controlPanel = subsystem;
     addRequirements(subsystem);
@@ -24,7 +24,12 @@ public class ControlPanelUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_controlPanel.retractServo();
+    if(m_controlPanel.getServo() <= .1){
+      m_controlPanel.deployServo();
+    }
+    if(m_controlPanel.getServo() >= .9){
+      m_controlPanel.retractServo();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

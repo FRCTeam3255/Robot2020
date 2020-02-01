@@ -50,7 +50,7 @@ public class Climber extends SubsystemBase {
   }
 
   // extend to specific height (in inches)
-  public void extendToHeight(int height)
+  public void extendToHeight(double height)
   {
     climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue()*height);
   }

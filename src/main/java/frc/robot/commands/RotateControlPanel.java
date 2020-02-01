@@ -8,36 +8,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotPreferences;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ControlPanel;
 
-public class ClimberWinch extends CommandBase {
+public class RotateControlPanel extends CommandBase {
   /**
-   * Creates a new ClimberWinch.
+   * Creates a new ControlPanelRotate.
    */
-  private final Climber m_climber;
-  public ClimberWinch(Climber subsystem) {
+  private final ControlPanel m_controlPanel;
+  private double m_color;
+  private double m_numRotations;
+  public RotateControlPanel(ControlPanel subsystem, double color, double numRotations) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
+    m_controlPanel = subsystem;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setSpeed(RobotPreferences.climberWenchSpeed.getValue());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.setSpeed(0);
-
   }
 
   // Returns true when the command should end.

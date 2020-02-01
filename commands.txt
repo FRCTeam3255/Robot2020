@@ -3,16 +3,16 @@ Naming Scheme - verb - noun
 Tele-OP
 
 Drivetrain
-- DriveArcade - const
-- DriveMotionProfile
+//- DriveArcade - const
+//- DriveMotionProfile
 
 Climber
-- DeployClimberPosition - press
-- DeployClimberManual - hold
-- WinchClimber - hold
+//- DeployClimberPosition - press
+//- DeployClimberManual - hold
+//- WinchClimber - hold
 
 CP
-- ToggleControlPanel - press
+//- ToggleControlPanel - press
 - RotateControlPanel(double speed)
 - RotateControlPanel(int numSpins)
 - SpinToColor - dashboard

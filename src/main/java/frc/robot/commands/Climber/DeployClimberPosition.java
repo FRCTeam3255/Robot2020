@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Climber;
 
-public class ClimberDeploy extends CommandBase {
+public class DeployClimberPosition extends CommandBase {
   /**
-   * Creates a new ClimberDeploy.
+   * Creates a new DeployClimberPosition.
    */
   private final Climber m_climber;
-  public ClimberDeploy(Climber subsystem) {
+  private double m_position;
+  public DeployClimberPosition(Climber subsystem, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = subsystem;
+    m_position = position;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.extendToHeight(RobotPreferences.climberHeight.getValue());
+    m_climber.extendToHeight(m_position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

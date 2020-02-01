@@ -5,26 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ControlPanel;
+import frc.robot.subsystems.Climber;
 
-public class ControlPanelDown extends CommandBase {
+public class DeployClimberManual extends CommandBase {
   /**
-   * Creates a new ControlPanelDown.
+   * Creates a new DeployClimberManual.
    */
-  private final ControlPanel m_controlPanel;
-  public ControlPanelDown(ControlPanel subsystem) {
+  private final Climber m_climber;
+  private double m_speed;
+  public DeployClimberManual(Climber subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_controlPanel = subsystem;
+    m_climber = subsystem;
+    m_speed = speed;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_controlPanel.deployServo();
+    m_climber.setSpeed(m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

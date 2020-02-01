@@ -44,10 +44,10 @@ public void deployServo(){
   deployServo.set(1);
 }
 public void retractServo(){
-  deployServo.set(-1);
+  deployServo.set(0);
 }
-public void getServo(){
-  deployServo.get();
+public double getServo(){
+  return deployServo.get();
 }
 
 @Override
