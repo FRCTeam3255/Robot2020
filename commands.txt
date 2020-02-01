@@ -1,23 +1,33 @@
 Naming Scheme - verb - noun
 
 Tele-OP
+
+Drivetrain
 - DriveArcade - const
+- DriveMotionProfile
+
+Climber
 - DeployClimberPosition - press
 - DeployClimberManual - hold
 - WinchClimber - hold
+
+CP
 - ToggleControlPanel - press
 - RotateControlPanel(double speed)
 - RotateControlPanel(int numSpins)
 - SpinToColor - dashboard
-- RotateHood(double speed) - hold
-- SetHoodPosition(double degrees) (uses PID)
-- RotateTurret(double speed) - hold
-- SetTurretPosition(double degrees) - press
-- ToggleTurretVision - press (controls turret rotation and hood position)
+
+Intake
 - CollectBall - hold
 - ToggleCollectorDeploy - Dashboard
 - LoadStage1 - press
 - LoadStage2 - press
 - Shoot - press
+
+Turret
+- RotateHood(double speed) - hold
+- SetHoodPosition(double degrees) (uses PID)
+- RotateTurret(double speed) - hold
+- SetTurretPosition(double degrees) - press
+- ToggleTurretVision - press (controls turret rotation and hood position)
 - SetShooterSpeed(double speed)
-- DriveMotionProfile
