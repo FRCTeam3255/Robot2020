@@ -15,9 +15,26 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  TalonFX name;
-  public Climber() {
 
+  public Climber()
+  {
+  }
+
+
+  // methods
+
+  // speed can be -1 to +1
+  public void extend(double speed)
+  {
+  }
+
+  // extend to specific height (in inches)
+  public void extendToHeight(int height)
+  {
+  }
+
+  public void clamp(boolean clamped)
+  {
   }
 
   @Override

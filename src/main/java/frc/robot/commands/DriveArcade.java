@@ -7,12 +7,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
-public class ArcadeDrive extends CommandBase
+public class DriveArcade extends CommandBase
 {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -22,7 +21,7 @@ public class ArcadeDrive extends CommandBase
    * Creates a new ArcadeDrive.
    **/
 
-  public ArcadeDrive(Drivetrain subsystem)
+  public DriveArcade(Drivetrain subsystem)
   {
     m_drivetrain = subsystem;
     addRequirements(subsystem);
