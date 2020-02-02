@@ -28,6 +28,8 @@ public class Climber extends SubsystemBase {
   public Climber()
   {
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
+    _config = new TalonSRXConfiguration();
+
     _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
     /* rest of the configs */
     _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband

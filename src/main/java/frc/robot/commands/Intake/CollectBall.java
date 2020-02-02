@@ -5,19 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Intake;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class Shoot extends CommandBase {
+public class CollectBall extends CommandBase {
   /**
-   * Creates a new Shoot.
+   * Creates a new CollectBall.
    */
-  private final Turret m_turret;
-  public Shoot(Turret subsystem) {
+  private final Intake m_intake;
+  private SN_DoublePreference m_speed;
+  public CollectBall(Intake subsystem, SN_DoublePreference speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = subsystem;
+    m_intake = subsystem;
+    m_speed = speed;
     addRequirements(subsystem);
   }
 
@@ -29,6 +32,7 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intake.collectorSetSpeed(m_speed.getValue());
   }
 
   // Called once the command ends or is interrupted.

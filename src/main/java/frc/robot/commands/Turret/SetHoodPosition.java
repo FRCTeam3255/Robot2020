@@ -5,34 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Turret;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class DeployClimberManual extends CommandBase {
+public class SetHoodPosition extends CommandBase {
   /**
-   * Creates a new DeployClimberManual.
+   * Creates a new SetHoodPosition.
    */
-  private final Climber m_climber;
-  private SN_DoublePreference m_speed;
-  public DeployClimberManual(Climber subsystem, SN_DoublePreference speed) {
+  private final Turret m_turret;
+  private SN_DoublePreference m_degrees;
+  public SetHoodPosition(Turret subsystem, SN_DoublePreference degrees) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
-    m_speed = speed;
+    m_turret = subsystem;
+    m_degrees = degrees;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setSpeed(m_speed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_turret.hoodMoveToDegree(m_degrees.getValue());
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +43,6 @@ public class DeployClimberManual extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

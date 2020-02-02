@@ -23,9 +23,9 @@ public class Intake extends SubsystemBase {
 
   private TalonFX collectorTalon;
   private TalonFX turretGateTalon;
-  private TalonFX innerShooterGateTalon;
-  private TalonFX outerShooterGateTalon;
-  private DigitalInput initialSwitch;
+  private TalonFX finalShooterGateTalon;
+  private TalonFX initialShooterGateTalon;
+  private DigitalInput collectionSwitch;
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
   private DoubleSolenoid collectorSolenoid;
@@ -36,16 +36,16 @@ public class Intake extends SubsystemBase {
   public Intake() {
     collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
     turretGateTalon = new TalonFX(RobotMap.TURRET_GATE_TALON);
-    innerShooterGateTalon = new TalonFX(RobotMap.INNER_SHOOTER_GATE_TALON);
-    outerShooterGateTalon = new TalonFX(RobotMap.OUTER_SHOOTER_GATE_TALON);
+    finalShooterGateTalon = new TalonFX(RobotMap.INNER_SHOOTER_GATE_TALON);
+    initialShooterGateTalon = new TalonFX(RobotMap.OUTER_SHOOTER_GATE_TALON);
 
     collectorSolenoid = new DoubleSolenoid(RobotMap.INTAKE_SOLENOID_A,
     RobotMap.INTAKE_SOLENOID_B);
 
   }
 
-  public boolean getInitialSwitch() {
-    return initialSwitch.get();
+  public boolean getCollectionSwitch() {
+    return collectionSwitch.get();
   }
   public boolean getBottomSwitch() {
     return bottomSwitch.get();
@@ -60,11 +60,11 @@ public class Intake extends SubsystemBase {
   public void turretGateSetSpeed(double speed){
     turretGateTalon.set(ControlMode.PercentOutput, speed);
   }
-  public void innerShooterGateSetSpeed(double speed){
-    innerShooterGateTalon.set(ControlMode.PercentOutput, speed);
+  public void initialShooterGateSetSpeed(double speed){
+    finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
-  public void outerShooterSetSpeed(double speed){
-    outerShooterGateTalon.set(ControlMode.PercentOutput, speed);
+  public void finalShooterSetSpeed(double speed){
+    initialShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
   public void deployCollector(){
     collectorSolenoid.set(intakeDeployedValue);
@@ -73,8 +73,8 @@ public class Intake extends SubsystemBase {
     collectorSolenoid.set(intakeRetractedValue);
 
   }
-  public void getCollector(){
-    collectorSolenoid.get();
+  public boolean getCollectorDeployed(){
+    return (collectorSolenoid.get()==intakeDeployedValue);
   }
 
   

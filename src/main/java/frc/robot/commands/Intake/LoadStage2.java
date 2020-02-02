@@ -5,21 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class DeployClimberManual extends CommandBase {
+public class LoadStage2 extends CommandBase {
   /**
-   * Creates a new DeployClimberManual.
+   * Creates a new LoadStage2.
    */
-  private final Climber m_climber;
+  private final Intake m_intake;
   private SN_DoublePreference m_speed;
-  public DeployClimberManual(Climber subsystem, SN_DoublePreference speed) {
+  private boolean m_finished;
+  public LoadStage2(Intake subsystem, SN_DoublePreference speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
+    m_intake = subsystem;
     m_speed = speed;
     addRequirements(subsystem);
   }
@@ -27,12 +28,15 @@ public class DeployClimberManual extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setSpeed(m_speed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intake.initialShooterGateSetSpeed(m_speed.getValue());
+    if(m_intake.getStagedSwitch()){
+      m_finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +47,6 @@ public class DeployClimberManual extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_finished;
   }
 }

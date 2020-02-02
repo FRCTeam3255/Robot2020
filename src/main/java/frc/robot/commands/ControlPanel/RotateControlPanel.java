@@ -5,34 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ControlPanel;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class DeployClimberManual extends CommandBase {
+public class RotateControlPanel extends CommandBase {
   /**
-   * Creates a new DeployClimberManual.
+   * Creates a new ControlPanelRotate.
    */
-  private final Climber m_climber;
   private SN_DoublePreference m_speed;
-  public DeployClimberManual(Climber subsystem, SN_DoublePreference speed) {
+  private final ControlPanel m_controlPanel;
+  public RotateControlPanel(ControlPanel subsystem, SN_DoublePreference speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
     m_speed = speed;
+    m_controlPanel = subsystem;
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.setSpeed(m_speed.getValue());
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_controlPanel.setSpeed(m_speed.getValue());
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +44,6 @@ public class DeployClimberManual extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

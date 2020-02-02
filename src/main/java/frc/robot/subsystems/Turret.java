@@ -37,6 +37,9 @@ public class Turret extends SubsystemBase {
   public Turret() {
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
+    shooterPIDController = shooterMaster.getPIDController();
+    
+
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
     shooterSlave.follow(shooterMaster);
@@ -65,9 +68,15 @@ public class Turret extends SubsystemBase {
   public void susanTurnToDegree(double degree){
     lazySusanTalon.set(ControlMode.Position, (degree*RobotPreferences.susanCountsPerDegree.getValue()));
   }
+  public void setSusanSpeed(double speed){
+    lazySusanTalon.set(ControlMode.Position, speed);
+  }
 
   public void hoodMoveToDegree(double degree){
     lazySusanTalon.set(ControlMode.Position, (degree*RobotPreferences.hoodCountsPerDegree.getValue()));
+  }
+  public void setHoodSpeed(double speed){
+    lazySusanTalon.set(ControlMode.Position, speed);
   }
 
   public void setShooterSpeed(double speed){

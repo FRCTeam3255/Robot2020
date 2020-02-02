@@ -5,20 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotPreferences;
 import frc.robot.subsystems.ControlPanel;
+import frc.robot.subsystems.ControlPanel.panelColor;
+import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
-public class RotateControlPanel extends CommandBase {
+public class SpinControlPanelCount extends CommandBase {
   /**
-   * Creates a new ControlPanelRotate.
+   * Creates a new SpinControlPanelCount.
    */
   private final ControlPanel m_controlPanel;
-  private double m_color;
-  private double m_numRotations;
-  public RotateControlPanel(ControlPanel subsystem, double color, double numRotations) {
+  private SN_IntPreference m_numRotations;
+  private boolean m_finished;
+  private double m_colorCounter = 0;
+  private panelColor m_initialColor;
+  private panelColor m_currentColor;
+
+  public SpinControlPanelCount(ControlPanel subsystem, SN_IntPreference numRotations) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_numRotations = numRotations;
     m_controlPanel = subsystem;
     addRequirements(subsystem);
   }
@@ -26,12 +34,21 @@ public class RotateControlPanel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    m_initialColor = m_controlPanel.getColor();
+    m_currentColor = m_initialColor;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
+    if(m_currentColor != m_controlPanel.getColor()){
+      m_colorCounter++;
+    }
+    m_currentColor = m_controlPanel.getColor();
+    if(m_numRotations.getValue() == m_colorCounter/8){
+      m_finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +59,6 @@ public class RotateControlPanel extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finished;
   }
 }

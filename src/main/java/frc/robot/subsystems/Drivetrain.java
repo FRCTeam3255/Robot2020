@@ -12,6 +12,7 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
-import frc.robot.commands.MotionProfileReload;
+import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 
 public class Drivetrain extends SubsystemBase
 {
@@ -33,13 +34,15 @@ public class Drivetrain extends SubsystemBase
 
   public Drivetrain()
   {
-    TalonFX leftMaster = new TalonFX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
-    TalonFX leftSlave = new TalonFX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
-    TalonFX rightMaster = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
-    TalonFX rightSlave = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
+    leftMaster = new TalonFX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
+    leftSlave = new TalonFX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
+    rightMaster = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
+    rightSlave = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
+    _config = new TalonFXConfiguration();
+    
 
     
-    SmartDashboard.putData("Reload Profiles", new MotionProfileReload());
+    SmartDashboard.putData("Reload Profiles", new ReloadMotionProfile());
 
     _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     /* rest of the configs */
@@ -49,6 +52,8 @@ public class Drivetrain extends SubsystemBase
     _config.slot0.kP = RobotPreferences.motProfP.getValue();
     _config.slot0.kI = RobotPreferences.motProfI.getValue();
     _config.slot0.kD = RobotPreferences.motProfD.getValue();
+    _config.peakOutputForward = .2;
+    _config.peakOutputReverse = -.2;
     _config.slot0.integralZone = (int) RobotPreferences.motProfIz.getValue();
     _config.slot0.closedLoopPeakOutput = RobotPreferences.motProfPeakOut.getValue();
     rightMaster.configAllSettings(_config);
@@ -62,18 +67,41 @@ public class Drivetrain extends SubsystemBase
     /* pick the sensor phase and desired direction */
     rightMaster.setSensorPhase(false);
     leftMaster.setSensorPhase(false);
-    rightMaster.setInverted(true); /* right side has to apply +V to M-, to go forward */
-    rightSlave.setInverted(true);
+    rightMaster.setInverted(false); /* right side has to apply +V to M-, to go forward */
+    rightSlave.setInverted(false);
+    leftMaster.setInverted(true);
+    leftSlave.setInverted(true);
+
   }
   
   public void arcadeDrive(double speed, double turn)
   {
-    leftMaster.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward,-turn);
-    leftSlave.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward,-turn);
-    rightMaster.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, turn);
-    rightSlave.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, turn);
+    if((speed>-.2&&speed<.2)){
+      speed = 0;
+    }
+    if((turn>-.2&&turn<.2)){
+      turn = 0;
+    }
+      leftMaster.set(ControlMode.PercentOutput, .2*speed, DemandType.ArbitraryFeedForward, -.2*turn);
+      rightMaster.set(ControlMode.PercentOutput, .2*speed, DemandType.ArbitraryFeedForward, .2*turn);
   }
 
+  public void driveDistance(double distance){
+    leftMaster.set(ControlMode.Position, distance*RobotPreferences.motProfSensorUnitsPerFt.getValue());
+    leftSlave.follow(leftMaster);
+    rightMaster.set(ControlMode.Position, distance*RobotPreferences.motProfSensorUnitsPerFt.getValue());
+    rightSlave.follow(rightMaster);
+
+  }
+  public int getPositionError(){
+    return leftMaster.getClosedLoopError();
+  }
+
+  public void resetPositionPID(){
+    rightMaster.set(ControlMode.PercentOutput, 0.0);
+    leftMaster.set(ControlMode.PercentOutput, 0.0);
+    resetEncoderCounts();
+  }
   public void resetMotionProfile(){
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     leftMaster.set(ControlMode.PercentOutput, 0.0);
@@ -116,6 +144,7 @@ public class Drivetrain extends SubsystemBase
 
     SmartDashboard.putNumber("Drivetrain Left Encoder", getLeftEncoderCount());
     SmartDashboard.putNumber("Drivetrain Right Encoder", getRightEncoderCount());
+    SmartDashboard.putNumber("Drivetrain Error", getPositionError());
     SmartDashboard.putBoolean("Motion Finished", isMotionProfileFinished());
   }
 }

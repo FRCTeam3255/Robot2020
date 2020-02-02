@@ -21,14 +21,17 @@ public class RobotPreferences {
     public static final SN_DoublePreference vHigh = new SN_DoublePreference("vHigh", 255);
 
     //Drivetrain
-    public static final SN_IntPreference motProfSensorUnitsPerRot = new SN_IntPreference("motProfSensorUnitsPerRot", 659);
+    public static final SN_IntPreference motProfSensorUnitsPerFt = new SN_IntPreference("motProfSensorUnitsPerFt", 11700);
     public static final SN_DoublePreference motProfNeutralDeadband = new SN_DoublePreference("motProfNeutralDeadband", 0.001);
-    public static final SN_DoublePreference motProfP = new SN_DoublePreference("motProfP", 1.0);
+    public static final SN_DoublePreference motProfP = new SN_DoublePreference("motProfP", 0.1);
     public static final SN_DoublePreference motProfI = new SN_DoublePreference("motProfI", 0.0);
     public static final SN_DoublePreference motProfD = new SN_DoublePreference("motProfD", 0.0);
-    public static final SN_DoublePreference motProfF = new SN_DoublePreference("motProfF", 1023.0/6800.0);
+    // public static final SN_DoublePreference motProfF = new SN_DoublePreference("motProfF", 1023.0/6800.0);
+    public static final SN_DoublePreference motProfF = new SN_DoublePreference("motProfF", 0);
     public static final SN_DoublePreference motProfIz = new SN_DoublePreference("motProfIz", 400);
     public static final SN_DoublePreference motProfPeakOut = new SN_DoublePreference("motProfPeakOut", 1.0);
+    public static final SN_DoublePreference driveDistance = new SN_DoublePreference("driveDistance", 5.0);
+    public static final SN_DoublePreference driveDistance2 = new SN_DoublePreference("driveDistance2", -5.0);
 
     //Climber
     
@@ -44,6 +47,8 @@ public class RobotPreferences {
     //Turret
     public static final SN_DoublePreference susanCountsPerDegree = new SN_DoublePreference("susanCountsPerDegree", 400);
     public static final SN_DoublePreference hoodCountsPerDegree = new SN_DoublePreference("hoodCountsPerDegree", 400);
+    public static final SN_DoublePreference susanVisionP = new SN_DoublePreference("susanVisionP", 1.0);
+    public static final SN_DoublePreference hoodVisionP = new SN_DoublePreference("susanVisionP", 1.0);
     public static final SN_DoublePreference susanP = new SN_DoublePreference("susanP", 1.0);
     public static final SN_DoublePreference susanI = new SN_DoublePreference("susanI", 0);
     public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
@@ -56,6 +61,39 @@ public class RobotPreferences {
     public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 1e-6);
     public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
 
+    //ControlPanel
+    
+    //reds
+    public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 0);
+    public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", 0);
+    public static final SN_DoublePreference redsGreenLow = new SN_DoublePreference("redsGreenLow", 0);
+    public static final SN_DoublePreference redsGreenHigh = new SN_DoublePreference("redsGreenHigh", 0);
+    public static final SN_DoublePreference redsBlueLow = new SN_DoublePreference("redsBlueLow", 0);
+    public static final SN_DoublePreference redsBlueHigh = new SN_DoublePreference("redsBlueHigh", 0);
+    //greens
+    public static final SN_DoublePreference greensRedLow = new SN_DoublePreference("greensRedLow", 0);
+    public static final SN_DoublePreference greensRedHigh = new SN_DoublePreference("greensRedHigh", 0);
+    public static final SN_DoublePreference greensGreenLow = new SN_DoublePreference("greensGreenLow", 0);
+    public static final SN_DoublePreference greensGreenHigh = new SN_DoublePreference("greensGreenHigh", 0);
+    public static final SN_DoublePreference greensBlueLow = new SN_DoublePreference("greensBlueLow", 0);
+    public static final SN_DoublePreference greensBlueHigh = new SN_DoublePreference("greensBlueHigh", 0);
+    //blues
+    public static final SN_DoublePreference bluesRedLow = new SN_DoublePreference("bluesRedLow", 0);
+    public static final SN_DoublePreference bluesRedHigh = new SN_DoublePreference("bluesRedHigh", 0);
+    public static final SN_DoublePreference bluesGreenLow = new SN_DoublePreference("bluesGreenLow", 0);
+    public static final SN_DoublePreference bluesGreenHigh = new SN_DoublePreference("bluesGreenHigh", 0);
+    public static final SN_DoublePreference bluesBlueLow = new SN_DoublePreference("bluesBlueLow", 0);
+    public static final SN_DoublePreference bluesBlueHigh = new SN_DoublePreference("bluesBlueHigh", 0);
+    //yellows
+    public static final SN_DoublePreference yellowsRedLow = new SN_DoublePreference("yellowsRedLow", 0);
+    public static final SN_DoublePreference yellowsRedHigh = new SN_DoublePreference("yellowsRedHigh", 0);
+    public static final SN_DoublePreference yellowsGreenLow = new SN_DoublePreference("yellowsGreenLow", 0);
+    public static final SN_DoublePreference yellowsGreenHigh = new SN_DoublePreference("yellowsGreenHigh", 0);
+    public static final SN_DoublePreference yellowsBlueLow = new SN_DoublePreference("yellowsBlueLow", 0);
+    public static final SN_DoublePreference yellowsBlueHigh = new SN_DoublePreference("yellowsBlueHigh", 0);
 
+
+    //speed
+    public static final SN_DoublePreference controlPanelSpinSpeed = new SN_DoublePreference("controlPanelSpinSpeed", .5);
 
 }
