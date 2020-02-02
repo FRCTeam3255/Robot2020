@@ -5,26 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ControlPanel;
+import frc.robot.RobotContainer;
 
-public class ControlPanelSpin extends CommandBase {
+public class ReloadMotionProfile extends CommandBase {
   /**
-   * Creates a new ControlPanelSpin.
+   * Creates a new ReloadMotionProfile.
    */
-  private final ControlPanel m_controlPanel;
-  public ControlPanelSpin(ControlPanel subsystem) {
+  public ReloadMotionProfile() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_controlPanel = subsystem;
-    addRequirements(subsystem);
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    RobotContainer.motionReload();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +42,6 @@ public class ControlPanelSpin extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -73,9 +73,9 @@ public class MotionProfile {
         point.timeDur = durationMilliseconds;
   
         /* drive part */
-        point.position = direction * positionRot * RobotPreferences.motProfSensorUnitsPerRot.getValue(); // Rotations =>
+        point.position = direction * positionRot * RobotPreferences.motProfSensorUnitsPerFt.getValue(); // Rotations =>
                                                                                                          // sensor units
-        point.velocity = direction * velocityRPM * RobotPreferences.motProfSensorUnitsPerRot.getValue() / 600.0; // RPM =>
+        point.velocity = direction * velocityRPM * RobotPreferences.motProfSensorUnitsPerFt.getValue() / 600.0; // RPM =>
                                                                                                                  // units
                                                                                                                  // per
                                                                                                                  // 100ms

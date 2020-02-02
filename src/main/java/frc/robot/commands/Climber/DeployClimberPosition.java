@@ -9,14 +9,15 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class DeployClimberPosition extends CommandBase {
   /**
    * Creates a new DeployClimberPosition.
    */
   private final Climber m_climber;
-  private double m_position;
-  public DeployClimberPosition(Climber subsystem, double position) {
+  private SN_DoublePreference m_position;
+  public DeployClimberPosition(Climber subsystem, SN_DoublePreference position) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_climber = subsystem;
     m_position = position;
@@ -26,7 +27,7 @@ public class DeployClimberPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.extendToHeight(m_position);
+    m_climber.extendToHeight(m_position.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -5,33 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.Intake;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class MotionProfileReload extends CommandBase {
+public class Shoot extends CommandBase {
   /**
-   * Creates a new MotionProfileReload.
+   * Creates a new Shoot.
    */
-  public MotionProfileReload() {
+  private final Intake m_intake;
+  private SN_DoublePreference m_speed;
+  public Shoot(Intake subsystem, SN_DoublePreference speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
+    m_intake = subsystem;
+    m_speed = speed;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.motionReload();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intake.finalShooterSetSpeed(m_speed.getValue());
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +43,6 @@ public class MotionProfileReload extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.DigitalSource;
  */
 public class RobotMap {
     //talons
-    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 1;
-    public static final int DRIVETRAIN_LEFT_BACK_TALON = 2;
-    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 3;
-    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 4;
+    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 0;
+    public static final int DRIVETRAIN_LEFT_BACK_TALON = 1;
+    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 2;
+    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 3;
     public static final int COLLECTOR_TALON = 5;
     public static final int TURRET_GATE_TALON = 6;
     public static final int INNER_SHOOTER_GATE_TALON = 7;

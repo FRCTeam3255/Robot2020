@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Drivetrain.DriveArcade;
+import frc.robot.commands.Drivetrain.DriveDistance;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -60,6 +61,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    drive.btn_A.whileHeld(new DriveDistance(m_drivetrain, RobotPreferences.driveDistance));
+    drive.btn_B.whileHeld(new DriveDistance(m_drivetrain, RobotPreferences.driveDistance2));
   }
 
 
