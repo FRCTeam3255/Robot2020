@@ -73,7 +73,7 @@ public class Auto1 extends CommandBase {
       else if(currentCommand == lineupTurretCmd) {
 //        switch(lineupTurretCmd.finishReason) {
 //          case LineupTurretCmd.State.TIMED_OUT:
-        }
+//        }
       }
     }
 
