@@ -86,6 +86,10 @@ public class Turret extends SubsystemBase {
   public double getShooterSpeed(){
     return shooterEnocder.getVelocity();
   }
+  public boolean isShooterSpedUp(double speed){
+    return (Math.abs(getShooterSpeed()-speed)<RobotPreferences.shooterTolerance.getValue());
+  }
+
   public void resetSusanEncoder(){
     lazySusanTalon.getSensorCollection().setIntegratedSensorPosition(0, 100);
 

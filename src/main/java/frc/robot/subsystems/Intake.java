@@ -61,10 +61,11 @@ public class Intake extends SubsystemBase {
     turretGateTalon.set(ControlMode.PercentOutput, speed);
   }
   public void initialShooterGateSetSpeed(double speed){
-    finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
-  }
-  public void finalShooterSetSpeed(double speed){
     initialShooterGateTalon.set(ControlMode.PercentOutput, speed);
+  }
+  public void finalShooterGateSetSpeed(double speed){
+    finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
+
   }
   public void deployCollector(){
     collectorSolenoid.set(intakeDeployedValue);

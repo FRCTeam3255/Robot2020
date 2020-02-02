@@ -16,11 +16,9 @@ public class Shoot extends CommandBase {
    * Creates a new Shoot.
    */
   private final Intake m_intake;
-  private SN_DoublePreference m_speed;
-  public Shoot(Intake subsystem, SN_DoublePreference speed) {
+  public Shoot(Intake subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = subsystem;
-    m_speed = speed;
     addRequirements(subsystem);
   }
 
@@ -32,7 +30,7 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.finalShooterSetSpeed(m_speed.getValue());
+    m_intake.finalShooterGateSetSpeed(1);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +41,6 @@ public class Shoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !m_intake.getStagedSwitch();
   }
 }

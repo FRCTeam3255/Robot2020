@@ -16,12 +16,10 @@ public class LoadStage1 extends CommandBase {
    * Creates a new LoadStage1.
    */
   private final Intake m_intake;
-  private SN_DoublePreference m_speed;
   private boolean m_finished;
-  public LoadStage1(Intake subsystem, SN_DoublePreference speed) {
+  public LoadStage1(Intake subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = subsystem;
-    m_speed = speed;
     addRequirements(subsystem);
   }
 
@@ -33,7 +31,7 @@ public class LoadStage1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.turretGateSetSpeed(m_speed.getValue());
+    m_intake.turretGateSetSpeed(1);
     if(m_intake.getCollectionSwitch()){
       m_finished = true;
     }

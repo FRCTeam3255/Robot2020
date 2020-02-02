@@ -60,6 +60,9 @@ public class RobotPreferences {
     public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", 10e-5);
     public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 1e-6);
     public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
+    public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
+    public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
+    public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterFullSpeed", 100);
 
     //ControlPanel
     

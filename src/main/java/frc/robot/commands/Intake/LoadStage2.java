@@ -18,7 +18,7 @@ public class LoadStage2 extends CommandBase {
   private final Intake m_intake;
   private SN_DoublePreference m_speed;
   private boolean m_finished;
-  public LoadStage2(Intake subsystem, SN_DoublePreference speed) {
+  public LoadStage2(Intake subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intake = subsystem;
     m_speed = speed;
@@ -33,7 +33,7 @@ public class LoadStage2 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.initialShooterGateSetSpeed(m_speed.getValue());
+    m_intake.initialShooterGateSetSpeed(1);
     if(m_intake.getStagedSwitch()){
       m_finished = true;
     }

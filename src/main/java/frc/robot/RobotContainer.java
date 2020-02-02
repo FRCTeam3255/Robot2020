@@ -29,12 +29,12 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drivetrain = new Drivetrain();
-  private final Vision m_vision = new Vision();
-  private final ControlPanel m_controlPanel = new ControlPanel();
-  private final Turret m_turret = new Turret();
-  private final Climber m_climber = new Climber();
-  private final Intake m_intake = new Intake();
+  public static final Drivetrain m_drivetrain = new Drivetrain();
+  public static final Vision m_vision = new Vision();
+  public static final ControlPanel m_controlPanel = new ControlPanel();
+  public static final Turret m_turret = new Turret();
+  public static final Climber m_climber = new Climber();
+  public static final Intake m_intake = new Intake();
 
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
