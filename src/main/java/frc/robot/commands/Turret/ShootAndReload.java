@@ -28,10 +28,10 @@ public class ShootAndReload extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
-    addCommands(new SetShooterSpeed(RobotContainer.m_turret, RobotPreferences.shooterFullSpeed));
+//    addCommands(new SetShooterSpeed(RobotContainer.m_turret, RobotPreferences.shooterFullSpeed));
     addCommands(new Shoot(RobotContainer.m_intake));
     addCommands(new LoadStage2(RobotContainer.m_intake));
     addCommands(new LoadStage1(RobotContainer.m_intake));
-    addCommands(new SetShooterSpeed(RobotContainer.m_turret, RobotPreferences.shooterNoSpeed));
+//    addCommands(new SetShooterSpeed(RobotContainer.m_turret, RobotPreferences.shooterNoSpeed));
   }
 }

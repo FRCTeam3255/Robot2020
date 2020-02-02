@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Turret.AlignTurretVision;
+import frc.robot.commands.Turret.ShootAndReload;
 
 public class Auto1 extends CommandBase {
-  // instantiate all the subcommands
+  // TODO - declare all the subcommands
   DriveMotionProfile driveForwardCmd;
   AlignTurretVision lineupTurretCmd;
-  Command firstShotCmd;
-  Command secondShotCmd;
+  ShootAndReload firstShotCmd;
+  ShootAndReload secondShotCmd;
 
   Command currentCommand;
 
@@ -26,6 +27,8 @@ public class Auto1 extends CommandBase {
    */
   public Auto1() {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    // TODO - instantiate all the subcommands
   }
 
   // Called when the command is initially scheduled.
@@ -44,33 +47,46 @@ public class Auto1 extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(final boolean interrupted) {
   }
 
-  void switchCommand(Command cmd) {
+  void switchCommand(final Command cmd) {
+    currentCommand.end(false);
+
     currentCommand = cmd;
+
     cmd.initialize();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(currentCommand.isFinished()) {
-      // TODO: set this following check to be against the last command you want to run
-      if(currentCommand == secondShotCmd) {
-        return true;
-      }
+    if (currentCommand.isFinished() == false) {
+      return false;
+    }
 
-      if(currentCommand == driveForwardCmd) {
-        // set currentCommand based on ending status of driveForwardCommand and return true or false
-        switchCommand(lineupTurretCmd);
-        return false;
+    if (currentCommand == driveForwardCmd) {
+      // set currentCommand based on ending status of driveForwardCommand and return
+      // true or false
+      switchCommand(lineupTurretCmd);
+      return false;
+    } else if (currentCommand == lineupTurretCmd) {
+      switch (lineupTurretCmd.finishReason) {
+        case SUCCESS:
+          break;
+        case TIMEOUT:
+          break;
+        case NO_TARGET:
+          break;
+        case NOT_FINISHED:
+          break;
       }
-      else if(currentCommand == lineupTurretCmd) {
-//        switch(lineupTurretCmd.finishReason) {
-//          case LineupTurretCmd.State.TIMED_OUT:
-//        }
-      }
+    } else if (currentCommand == lineupTurretCmd) {
+      // switch(lineupTurretCmd.finishReason) {
+      // case LineupTurretCmd.State.TIMED_OUT:
+      // }
+    } else if (currentCommand == secondShotCmd) {
+      return true;
     }
 
     return false;
