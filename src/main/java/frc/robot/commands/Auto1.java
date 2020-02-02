@@ -9,17 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.Drivetrain.DriveMotionProfile;
+import frc.robot.commands.Turret.AlignTurretVision;
 
 public class Auto1 extends CommandBase {
-  public enum State {
-    DRIVE_FORWARD,
-  };
-
-  State myState = State.DRIVE_FORWARD;
-
   // instantiate all the subcommands
-  Command driveForwardCmd;
-  Command lineupTurretCmd;
+  DriveMotionProfile driveForwardCmd;
+  AlignTurretVision lineupTurretCmd;
   Command firstShotCmd;
   Command secondShotCmd;
 
