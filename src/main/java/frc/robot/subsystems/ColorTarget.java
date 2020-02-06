@@ -20,22 +20,23 @@ public class ColorTarget {
     SN_DoublePreference m_highBluePref;
   
     ColorTarget(SN_DoublePreference lowRedPref, SN_DoublePreference highRedPref, SN_DoublePreference lowGreenPref, SN_DoublePreference highGreenPref, SN_DoublePreference lowBluePref, SN_DoublePreference highBluePref) {
-      reloadValues();
       m_lowRedPref = lowRedPref;
       m_highRedPref = highRedPref;
       m_lowGreenPref = lowGreenPref;
       m_highGreenPref = highGreenPref;
       m_lowBluePref = lowBluePref;
       m_highBluePref = highBluePref;
+      reloadValues();
+
     }
   
     void reloadValues() {
-        lowRed = m_lowRedPref.getValue();
-        highRed = m_highRedPref.getValue();
-        lowGreen = m_lowGreenPref.getValue();
-        highGreen = m_highGreenPref.getValue();
-        lowBlue = m_lowBluePref.getValue();
-        highBlue = m_highBluePref.getValue();
+        lowRed = m_lowRedPref.getValue()/255;
+        highRed = m_highRedPref.getValue()/255;
+        lowGreen = m_lowGreenPref.getValue()/255;
+        highGreen = m_highGreenPref.getValue()/255;
+        lowBlue = m_lowBluePref.getValue()/255;
+        highBlue = m_highBluePref.getValue()/255;
     }
   
     boolean matchesColor(Color color) {

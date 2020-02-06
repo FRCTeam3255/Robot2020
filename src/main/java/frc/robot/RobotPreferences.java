@@ -67,33 +67,33 @@ public class RobotPreferences {
     //ControlPanel
     
     //reds
-    public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 0);
-    public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", 0);
-    public static final SN_DoublePreference redsGreenLow = new SN_DoublePreference("redsGreenLow", 0);
-    public static final SN_DoublePreference redsGreenHigh = new SN_DoublePreference("redsGreenHigh", 0);
-    public static final SN_DoublePreference redsBlueLow = new SN_DoublePreference("redsBlueLow", 0);
-    public static final SN_DoublePreference redsBlueHigh = new SN_DoublePreference("redsBlueHigh", 0);
+    public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 100);
+    public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", 130);
+    public static final SN_DoublePreference redsGreenLow = new SN_DoublePreference("redsGreenLow", 85);
+    public static final SN_DoublePreference redsGreenHigh = new SN_DoublePreference("redsGreenHigh", 105);
+    public static final SN_DoublePreference redsBlueLow = new SN_DoublePreference("redsBlueLow", 25);
+    public static final SN_DoublePreference redsBlueHigh = new SN_DoublePreference("redsBlueHigh", 55);
     //greens
-    public static final SN_DoublePreference greensRedLow = new SN_DoublePreference("greensRedLow", 0);
-    public static final SN_DoublePreference greensRedHigh = new SN_DoublePreference("greensRedHigh", 0);
-    public static final SN_DoublePreference greensGreenLow = new SN_DoublePreference("greensGreenLow", 0);
-    public static final SN_DoublePreference greensGreenHigh = new SN_DoublePreference("greensGreenHigh", 0);
-    public static final SN_DoublePreference greensBlueLow = new SN_DoublePreference("greensBlueLow", 0);
-    public static final SN_DoublePreference greensBlueHigh = new SN_DoublePreference("greensBlueHigh", 0);
+    public static final SN_DoublePreference greensRedLow = new SN_DoublePreference("greensRedLow", 15);
+    public static final SN_DoublePreference greensRedHigh = new SN_DoublePreference("greensRedHigh", 90);
+    public static final SN_DoublePreference greensGreenLow = new SN_DoublePreference("greensGreenLow", 60);
+    public static final SN_DoublePreference greensGreenHigh = new SN_DoublePreference("greensGreenHigh", 255);
+    public static final SN_DoublePreference greensBlueLow = new SN_DoublePreference("greensBlueLow", 20);
+    public static final SN_DoublePreference greensBlueHigh = new SN_DoublePreference("greensBlueHigh", 100);
     //blues
     public static final SN_DoublePreference bluesRedLow = new SN_DoublePreference("bluesRedLow", 0);
-    public static final SN_DoublePreference bluesRedHigh = new SN_DoublePreference("bluesRedHigh", 0);
-    public static final SN_DoublePreference bluesGreenLow = new SN_DoublePreference("bluesGreenLow", 0);
-    public static final SN_DoublePreference bluesGreenHigh = new SN_DoublePreference("bluesGreenHigh", 0);
-    public static final SN_DoublePreference bluesBlueLow = new SN_DoublePreference("bluesBlueLow", 0);
-    public static final SN_DoublePreference bluesBlueHigh = new SN_DoublePreference("bluesBlueHigh", 0);
+    public static final SN_DoublePreference bluesRedHigh = new SN_DoublePreference("bluesRedHigh", 100);
+    public static final SN_DoublePreference bluesGreenLow = new SN_DoublePreference("bluesGreenLow", 50);
+    public static final SN_DoublePreference bluesGreenHigh = new SN_DoublePreference("bluesGreenHigh", 204);
+    public static final SN_DoublePreference bluesBlueLow = new SN_DoublePreference("bluesBlueLow", 55);
+    public static final SN_DoublePreference bluesBlueHigh = new SN_DoublePreference("bluesBlueHigh", 155);
     //yellows
-    public static final SN_DoublePreference yellowsRedLow = new SN_DoublePreference("yellowsRedLow", 0);
-    public static final SN_DoublePreference yellowsRedHigh = new SN_DoublePreference("yellowsRedHigh", 0);
-    public static final SN_DoublePreference yellowsGreenLow = new SN_DoublePreference("yellowsGreenLow", 0);
-    public static final SN_DoublePreference yellowsGreenHigh = new SN_DoublePreference("yellowsGreenHigh", 0);
+    public static final SN_DoublePreference yellowsRedLow = new SN_DoublePreference("yellowsRedLow", 25);
+    public static final SN_DoublePreference yellowsRedHigh = new SN_DoublePreference("yellowsRedHigh", 165);
+    public static final SN_DoublePreference yellowsGreenLow = new SN_DoublePreference("yellowsGreenLow", 55);
+    public static final SN_DoublePreference yellowsGreenHigh = new SN_DoublePreference("yellowsGreenHigh", 205);
     public static final SN_DoublePreference yellowsBlueLow = new SN_DoublePreference("yellowsBlueLow", 0);
-    public static final SN_DoublePreference yellowsBlueHigh = new SN_DoublePreference("yellowsBlueHigh", 0);
+    public static final SN_DoublePreference yellowsBlueHigh = new SN_DoublePreference("yellowsBlueHigh", 120);
 
 
     //speed
