@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -35,6 +34,7 @@ public class ControlPanel extends SubsystemBase {
   public ControlPanel() {
     spinner = new TalonFX(RobotMap.CP_TALON);
     deployServo = new Servo(RobotMap.CP_SERVO);
+    reloadColorTargets();
 
   }
 
@@ -55,20 +55,37 @@ public void reloadColorTargets() {
 }
 
 public panelColor getColor() {
+  Color color = m_colorSensor.getColor();
+
+
+  if(redTarget.matchesColor(color)){
+    return panelColor.red;
+  } else if(greenTarget.matchesColor(color)){
+    return panelColor.green;
+  } else if(blueTarget.matchesColor(color)){
+    return panelColor.blue;
+  } else if(yellowTarget.matchesColor(color)){
+    return panelColor.yellow;
+  }else{
+    return panelColor.none;
+  }
+
+}
+public String getStringColor() {
     Color color = m_colorSensor.getColor();
 
 
     if(redTarget.matchesColor(color)){
-      return panelColor.red;
-    } else if(greenTarget.matchesColor(color)){
-      return panelColor.green;
-    } else if(blueTarget.matchesColor(color)){
-      return panelColor.blue;
-    } else if(yellowTarget.matchesColor(color)){
-      return panelColor.yellow;
-    }else{
-      return panelColor.none;
+      return "r";
+    } if(greenTarget.matchesColor(color)){
+      return "g";
+    } if(blueTarget.matchesColor(color)){
+      return "b";
+    } if(yellowTarget.matchesColor(color)){
+      return "y";
     }
+      return "huh";
+    
 
 }
 
@@ -91,9 +108,11 @@ public panelColor getColor() {
     double IR = m_colorSensor.getIR();
     int proximity = m_colorSensor.getProximity();
 
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Red", 255*detectedColor.red);
+    SmartDashboard.putString("Color Found", getStringColor());
+    SmartDashboard.putNumber("tw", 1);
+    SmartDashboard.putNumber("Green", 255*detectedColor.green);
+    SmartDashboard.putNumber("Blue", 255*detectedColor.blue);
     SmartDashboard.putNumber("IR", IR);
     SmartDashboard.putNumber("Proximity", proximity);
   }
