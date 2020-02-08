@@ -9,20 +9,25 @@ package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Vision;
 
-public class DriveArcade extends CommandBase
+public class DriveToBall extends CommandBase
 {
   private final Drivetrain m_drivetrain;
+  private final Vision m_vision;
 
   /**
-   * Creates a new DriveArcade.
+   * Creates a new DriveToBall.
    **/
 
-  public DriveArcade(Drivetrain subsystem)
+  public DriveToBall(Drivetrain drivetrain, Vision vision)
   {
-    m_drivetrain = subsystem;
-    addRequirements(subsystem);
+    m_drivetrain = drivetrain;
+    m_vision = vision;
+    addRequirements(drivetrain);
+    addRequirements(vision);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -39,7 +44,7 @@ public class DriveArcade extends CommandBase
 
   public void execute() 
   {
-    m_drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
+    m_drivetrain.arcadeDrive(.75, m_vision.getX()*RobotPreferences.ballP.getValue());
   }
 
   // Called once the command ends or is interrupted.

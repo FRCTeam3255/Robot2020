@@ -9,8 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Climber.WinchClimber;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveDistance;
+import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -66,6 +68,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.btn_A.whileHeld(new DriveDistance(m_drivetrain, RobotPreferences.driveDistance));
     drive.btn_B.whileHeld(new DriveDistance(m_drivetrain, RobotPreferences.driveDistance2));
+    drive.btn_Y.whileHeld(new DriveToBall(m_drivetrain,m_vision));
+    manipulator.btn_7.whileHeld(new WinchClimber(m_climber, RobotPreferences.climberWinchSpeed));
+    manipulator.btn_8.whileHeld(new WinchClimber(m_climber, RobotPreferences.climberDeploySpeed));
   }
 
 

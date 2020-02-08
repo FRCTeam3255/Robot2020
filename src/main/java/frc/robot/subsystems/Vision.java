@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
@@ -27,19 +30,22 @@ public class Vision extends SubsystemBase {
    */
 
 
-   UsbCamera camera;
-   CvSink cvSink;
-   CvSource outputStream;
-   CvSource sourceStream;
-   Mat source;
-   Mat output;
-   Mat circles;
-   Mat binary;
+  UsbCamera camera;
+  CvSink cvSink;
+  CvSource outputStream;
+  CvSource sourceStream;
+  Mat source;
+  Mat output;
+  Mat circles;
+  Mat binary;
+  Mat mask;
+  Mat heirarchy;
+  List<MatOfPoint> contours;
 
-   double xPosition;
-   
-   Scalar lower = new Scalar(35, 140, 60);
-   Scalar upper = new Scalar(35, 140, 60);
+  double xPosition;
+  
+  Scalar lower = new Scalar(35, 140, 60);
+  Scalar upper = new Scalar(35, 140, 60);
 
   public Vision() {
     Thread thread = new Thread(){
@@ -55,22 +61,29 @@ public class Vision extends SubsystemBase {
     //Color sensing for balls
     public void startStreams(){
 
-        camera = CameraServer.getInstance().startAutomaticCapture();
+      camera = CameraServer.getInstance().startAutomaticCapture();
 
-        cvSink = CameraServer.getInstance().getVideo();
-        sourceStream = CameraServer.getInstance().putVideo("src", 640, 480);
-        outputStream = CameraServer.getInstance().putVideo("filter", 640, 480);
-    
-        source = new Mat();
-        output = new Mat();
-        circles = new Mat();
-        binary = new Mat();
-        
+      cvSink = CameraServer.getInstance().getVideo();
+      sourceStream = CameraServer.getInstance().putVideo("src", 640, 480);
+      outputStream = CameraServer.getInstance().putVideo("filter", 640, 480);
+  
+      source = new Mat();
+      output = new Mat();
+      circles = new Mat();
+      heirarchy = new Mat();
+      binary = new Mat();
+      
+      
     }
 
 
+    public double getX(){
+      return (xPosition-80);
+  }
+
+
+
     //limelight
-  
     public boolean visionHasTarget() {
       if ((NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0)) < 1) {
         return false;
@@ -98,24 +111,55 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
 
-    // cvSink.grabFrame(source);
-    // Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2HSV);        //! [houghcircles]
-    // // Core.inRange(source, lower, upper, output);
+    cvSink.grabFrame(source);
+    try {
+ 
+      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2HSV);        //! [houghcircles]
+      // Core.inRange(source, lower, upper, output);
+  
+      Core.inRange(output, new Scalar(RobotPreferences.hLow.getValue(), RobotPreferences.sLow.getValue(), RobotPreferences.vLow.getValue()),
+              new Scalar(RobotPreferences.hHigh.getValue(), RobotPreferences.sHigh.getValue(), RobotPreferences.vHigh.getValue()), circles);
+      Imgproc.threshold( circles, binary, 100,255,Imgproc.THRESH_BINARY );
 
-    // Core.inRange(output, new Scalar(RobotPreferences.hLow.getValue(), RobotPreferences.sLow.getValue(), RobotPreferences.vLow.getValue()),
-    //         new Scalar(RobotPreferences.hHigh.getValue(), RobotPreferences.sHigh.getValue(), RobotPreferences.vHigh.getValue()), circles);
-    // Imgproc.threshold( circles, binary, 100,255,Imgproc.THRESH_BINARY );
-    
-    // Moments m = Imgproc.moments(binary,true);
-    // double x = m.m10/m.m00;
-    // xPosition = x;
-    // double y = m.m01/m.m00;
-    // Point point = new Point(x,y);
-    // Imgproc.circle(source, point, 5, new Scalar(255,0,255), 3, 8, 0 );
 
-    
-    // sourceStream.putFrame(source);
-    // outputStream.putFrame(circles);
+      contours = new ArrayList<MatOfPoint>();
+      Imgproc.findContours(binary, contours, heirarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+      
+      double maxVal = 0;
+      int maxValIdx = 0;
+
+
+      for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++)
+      {
+          double contourArea = Imgproc.contourArea(contours.get(contourIdx));
+          if (maxVal < contourArea)
+          {
+              maxVal = contourArea;
+              maxValIdx = contourIdx;
+          }
+      }
+      
+      
+      mask = new Mat(source.rows(), source.cols(), CvType.CV_8U, Scalar.all(0));
+      Imgproc.drawContours(mask, contours, maxValIdx, new Scalar(255), -1);
+
+
+
+
+      
+
+      Moments m = Imgproc.moments(mask,true);
+      double x = m.m10/m.m00;
+      xPosition = x;
+      double y = m.m01/m.m00;
+      Point point = new Point(x,y);
+      Imgproc.circle(source, point, 5, new Scalar(255,0,255), 3, 8, 0 );
+      SmartDashboard.putNumber("x", getX());
+      sourceStream.putFrame(source);
+      outputStream.putFrame(mask);
+    }catch(Exception e){
+      System.out.println("something went wrong! Is your camera plugged in?");
+    }
   }
 }
     
