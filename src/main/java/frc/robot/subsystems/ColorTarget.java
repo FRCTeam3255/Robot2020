@@ -31,16 +31,19 @@ public class ColorTarget {
     }
   
     void reloadValues() {
-        lowRed = m_lowRedPref.getValue()/255;
-        highRed = m_highRedPref.getValue()/255;
-        lowGreen = m_lowGreenPref.getValue()/255;
-        highGreen = m_highGreenPref.getValue()/255;
-        lowBlue = m_lowBluePref.getValue()/255;
-        highBlue = m_highBluePref.getValue()/255;
+        lowRed = m_lowRedPref.getValue();
+        highRed = m_highRedPref.getValue();
+        lowGreen = m_lowGreenPref.getValue();
+        highGreen = m_highGreenPref.getValue();
+        lowBlue = m_lowBluePref.getValue();
+        highBlue = m_highBluePref.getValue();
     }
   
     boolean matchesColor(Color color) {
-        if(((lowRed<color.red)&&(color.red<highRed))&&((lowGreen<color.green)&&(color.green<highGreen))&&((lowBlue<color.blue)&&(color.blue<highBlue))){
+        boolean redTarget = (lowRed<color.red)&&(color.red<highRed);
+        boolean greenTarget = (lowGreen<color.green)&&(color.green<highGreen);
+        boolean blueTarget = (lowBlue<color.blue)&&(color.blue<highBlue);
+        if(redTarget && greenTarget && blueTarget){
             return true;
         }
         return false;

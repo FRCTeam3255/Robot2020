@@ -65,7 +65,6 @@ public class RobotPreferences {
     public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterFullSpeed", 100);
 
     //ControlPanel
-    
     //reds
     public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 100);
     public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", 130);

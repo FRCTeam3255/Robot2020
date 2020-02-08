@@ -54,6 +54,9 @@ public class RobotContainer {
   public static void motionReload(){
     
   }
+  public static void colorReload(){
+    m_controlPanel.reloadColorTargets();
+  }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
