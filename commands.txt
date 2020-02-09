@@ -84,3 +84,10 @@ Auto #1 - Drive Forward, shoot 3, collect 5 at CP, shoot 5, collect 1 at RZ, sho
     //line up and shoot
     AlignTurretVision
     ShootAndReload(true)
+
+
+sensor 1 hit -> spin m1 & m2
+sensor 3 hit -> stop m2
+sensor 3 and 2 hit -> stop m1
+sens 3 2 and 1 hit -> stop Intake
+sens 3 free -> repeat

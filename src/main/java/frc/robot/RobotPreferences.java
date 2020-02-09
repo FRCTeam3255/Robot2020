@@ -4,7 +4,6 @@ import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class RobotPreferences {
-
     //Vision
     public static final SN_DoublePreference visionDriveP = new SN_DoublePreference("visionDriveP", .4);
     public static final SN_DoublePreference visionSteerP = new SN_DoublePreference("visionSpeedP", .04);
@@ -19,7 +18,6 @@ public class RobotPreferences {
     public static final SN_DoublePreference hHigh = new SN_DoublePreference("hHigh", 255);
     public static final SN_DoublePreference sHigh = new SN_DoublePreference("sHigh", 255);
     public static final SN_DoublePreference vHigh = new SN_DoublePreference("vHigh", 255);
-
     //Drivetrain
     public static final SN_IntPreference motProfSensorUnitsPerFt = new SN_IntPreference("motProfSensorUnitsPerFt", 11700);
     public static final SN_DoublePreference motProfNeutralDeadband = new SN_DoublePreference("motProfNeutralDeadband", 0.001);
@@ -32,9 +30,7 @@ public class RobotPreferences {
     public static final SN_DoublePreference motProfPeakOut = new SN_DoublePreference("motProfPeakOut", 1.0);
     public static final SN_DoublePreference driveDistance = new SN_DoublePreference("driveDistance", 5.0);
     public static final SN_DoublePreference driveDistance2 = new SN_DoublePreference("driveDistance2", -5.0);
-
     //Climber
-    
     public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference("climberCountsPerInches", 400);
     public static final SN_DoublePreference climberP = new SN_DoublePreference("climberP", 1.0);
     public static final SN_DoublePreference climberI = new SN_DoublePreference("climberI", 0.0);
@@ -44,7 +40,6 @@ public class RobotPreferences {
     public static final SN_IntPreference climberHeight = new SN_IntPreference("climberHeight", 30);
     public static final SN_DoublePreference climberWinchSpeed = new SN_DoublePreference("climberWinchSpeed", -1);
     public static final SN_DoublePreference climberDeploySpeed = new SN_DoublePreference("climberDeploySpeed", 1);
-
     //Turret
     public static final SN_DoublePreference susanCountsPerDegree = new SN_DoublePreference("susanCountsPerDegree", 400);
     public static final SN_DoublePreference hoodCountsPerDegree = new SN_DoublePreference("hoodCountsPerDegree", 400);
@@ -64,7 +59,6 @@ public class RobotPreferences {
     public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
     public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
     public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterFullSpeed", 100);
-
     //ControlPanel
     //reds
     public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 100);
@@ -94,9 +88,6 @@ public class RobotPreferences {
     public static final SN_DoublePreference yellowsGreenHigh = new SN_DoublePreference("yellowsGreenHigh", 205);
     public static final SN_DoublePreference yellowsBlueLow = new SN_DoublePreference("yellowsBlueLow", 0);
     public static final SN_DoublePreference yellowsBlueHigh = new SN_DoublePreference("yellowsBlueHigh", 120);
-
-
     //speed
     public static final SN_DoublePreference controlPanelSpinSpeed = new SN_DoublePreference("controlPanelSpinSpeed", .5);
-
 }
