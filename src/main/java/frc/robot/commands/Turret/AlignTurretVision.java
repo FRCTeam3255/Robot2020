@@ -49,29 +49,30 @@ public class AlignTurretVision extends CommandBase {
   @Override
   public void execute() {
     // TODO - add logic to do nothing if no vision
-    m_turret.setSusanSpeed(m_vision.getVisionXError()*RobotPreferences.susanVisionP.getValue());
-    m_turret.hoodMoveToDegree(m_vision.getVisionArea()*RobotPreferences.hoodVisionP.getValue());
+    m_turret.setSusanSpeed(m_speed.getValue()*m_vision.getVisionXError()*RobotPreferences.susanVisionP.getValue());
+    m_turret.hoodMoveToDegree(m_vision.getHoodVisionPosition());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_turret.setSusanSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return true if X error and hood are within tolerance
-    if(true) {
-      finishReason = FinishReason.SUCCESS;
-      return true;
-    }
+    // // return true if X error and hood are within tolerance
+    // if(true) {
+    //   finishReason = FinishReason.SUCCESS;
+    //   return true;
+    // }
     
-    // return true if timed out
-    if(true) {
-      finishReason = FinishReason.TIMEOUT;
-      return true;
-    }
+    // // return true if timed out
+    // if(true) {
+    //   finishReason = FinishReason.TIMEOUT;
+    //   return true;
+    // }
 
     return false;
   }

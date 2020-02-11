@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -22,24 +23,28 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
 
-  private TalonFX collectorTalon;
-  private TalonFX turretGateTalon;
-  private TalonFX finalShooterGateTalon;
-  private TalonFX initialShooterGateTalon;
+  private TalonSRX collectorTalon;
+  private TalonSRX turretGateTalon;
+  private TalonSRX finalShooterGateTalon;
+  private TalonSRX initialShooterGateTalon;
   private DigitalInput collectionSwitch;
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
   private DoubleSolenoid collectorSolenoid;
+  private boolean isCollectionLegal;
   
 	private static final Value intakeDeployedValue = Value.kReverse;
 	private static final Value intakeRetractedValue = Value.kForward;
   
   public Intake() {
-    collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
-    turretGateTalon = new TalonFX(RobotMap.TURRET_GATE_TALON);
-    finalShooterGateTalon = new TalonFX(RobotMap.INNER_SHOOTER_GATE_TALON);
-    initialShooterGateTalon = new TalonFX(RobotMap.OUTER_SHOOTER_GATE_TALON);
-    collectionSwitch = new DigitalInput(RobotMap.INITIAL_SWITCH);
+    collectorTalon = new TalonSRX(RobotMap.COLLECTOR_TALON);
+    turretGateTalon = new TalonSRX(RobotMap.TURRET_GATE_TALON);
+    finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
+    initialShooterGateTalon = new TalonSRX(RobotMap.INITIAL_SHOOTER_GATE_TALON);
+
+    collectionSwitch = new DigitalInput(RobotMap.COLLECTOR_SWITCH);
+    bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
+    stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
 
     collectorSolenoid = new DoubleSolenoid(RobotMap.INTAKE_SOLENOID_A,
     RobotMap.INTAKE_SOLENOID_B);
@@ -78,6 +83,12 @@ public class Intake extends SubsystemBase {
   }
   public boolean getCollectorDeployed(){
     return (collectorSolenoid.get()==intakeDeployedValue);
+  }
+  public void setCollectionLegality(boolean legality){
+    isCollectionLegal = legality;
+  }
+  public boolean getCollectionLegality(){
+    return isCollectionLegal;
   }
 
   

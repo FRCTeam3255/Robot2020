@@ -93,7 +93,7 @@ public class Vision extends SubsystemBase {
     }
   
     public double getVisionXError() {
-      return (RobotPreferences.visionGoalAngle.getValue()
+      return (RobotPreferences.visionGoalArea.getValue()
           - NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
     }
   
@@ -106,6 +106,16 @@ public class Vision extends SubsystemBase {
           && (Math.abs(getVisionArea()) < RobotPreferences.visionAreaTol.getValue()));
     }
 
+    public double getHoodVisionPosition(){
+      double position = (1/(RobotPreferences.hoodVisionP.getValue()*90*getVisionArea()));
+      position = position*90;
+      if(position>90){
+        position = 90;
+      }else if(position<0){
+        position = 0;
+      }
+      return position;
+    }
 
 
   @Override
@@ -160,6 +170,11 @@ public class Vision extends SubsystemBase {
     }catch(Exception e){
       System.out.println("something went wrong! Is your camera plugged in?");
     }
+    SmartDashboard.putNumber("xerrll", getVisionXError());
+    SmartDashboard.putNumber("area err", getVisionArea());
+    SmartDashboard.putNumber("given position", RobotPreferences.hoodCountsPerDegree.getValue()*RobotPreferences.hoodVisionP.getValue()*getVisionArea());
+    SmartDashboard.putNumber("one over given position", getHoodVisionPosition());
+
   }
 }
     

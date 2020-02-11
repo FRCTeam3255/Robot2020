@@ -7,8 +7,12 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -17,13 +21,26 @@ import frc.robot.RobotPreferences;
 public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
+   * climbs with pid, climbs manually
    */
-  private CANSparkMax climberSpark;
+  private TalonFX climberTalon;
+  private TalonFXConfiguration _config;
   
 
   public Climber()
   {
-    climberSpark = new CANSparkMax(RobotMap.CLIMBER_TALON, MotorType.kBrushless);
+    climberTalon = new TalonFX(RobotMap.CLIMBER_TALON);
+    _config = new TalonFXConfiguration();
+
+    _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
+    /* rest of the configs */
+    _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband
+        .getValue(); /* 0.1 % super small for best low-speed control */
+    _config.slot0.kF = RobotPreferences.climberF.getValue();
+    _config.slot0.kP = RobotPreferences.climberP.getValue();
+    _config.slot0.kI = RobotPreferences.climberI.getValue();
+    _config.slot0.kD = RobotPreferences.climberD.getValue();
+    _config.slot0.integralZone = (int) RobotPreferences.climberIz.getValue();
 
   }
 
@@ -33,14 +50,13 @@ public class Climber extends SubsystemBase {
   // speed can be -1 to +1
   public void setSpeed(double speed)
   {
-    climberSpark.set(speed);
+    climberTalon.set(ControlMode.PercentOutput, speed);
   }
 
   // extend to specific height (in inches)
   public void extendToHeight(double height)
   {
-    //currently under debate whether or not we're using sparks for climber, waiting for verdict before writing this function.
-    // climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue()*height);
+    climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue()*height);
   }
 
 

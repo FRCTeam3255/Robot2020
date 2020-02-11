@@ -91,3 +91,8 @@ sensor 3 hit -> stop m2
 sensor 3 and 2 hit -> stop m1
 sens 3 2 and 1 hit -> stop Intake
 sens 3 free -> repeat
+
+20 - .2
+
+
+given/20*90

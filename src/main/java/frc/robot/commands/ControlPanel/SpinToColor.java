@@ -7,6 +7,7 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.ControlPanel;
@@ -31,6 +32,7 @@ public class SpinToColor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_initialColor = m_controlPanel.getColor();
     if(m_initialColor == panelColor.red && m_goalColor == panelColor.yellow){
       m_speedCoefficient = -1;
     }else if(m_initialColor == panelColor.green && m_goalColor == panelColor.red){
@@ -39,23 +41,31 @@ public class SpinToColor extends CommandBase {
       m_speedCoefficient = -1;
     }else if(m_initialColor == panelColor.yellow && m_goalColor == panelColor.blue){
       m_speedCoefficient = -1;
+    }else{
+      m_speedCoefficient = 1;
     }
+    SmartDashboard.putString("init color", m_controlPanel.getColor().toString());
+    SmartDashboard.putNumber("coeff", m_speedCoefficient);
+      m_controlPanel.setSpeed(m_speedCoefficient*RobotPreferences.controlPanelSpinSpeed.getValue());
+
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_controlPanel.getColor()!=m_goalColor){
-      m_controlPanel.setSpeed(m_speedCoefficient*RobotPreferences.controlPanelSpinSpeed.getValue());
-    }else{
+    if(!(m_controlPanel.getColor()!=m_goalColor)){
       m_finished = true;
+
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+      m_controlPanel.setSpeed(0);
+      m_finished = false;
+
   }
 
   // Returns true when the command should end.

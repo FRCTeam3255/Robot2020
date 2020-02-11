@@ -10,12 +10,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
@@ -28,8 +30,8 @@ public class Turret extends SubsystemBase {
   CANSparkMax shooterMaster;
   CANSparkMax shooterSlave;
   CANEncoder shooterEnocder;
-  TalonFX lazySusanTalon;
-  TalonFX hoodTalon;
+  TalonSRX lazySusanTalon;
+  TalonSRX hoodTalon;
 
   private CANPIDController shooterPIDController;
   
@@ -50,16 +52,17 @@ public class Turret extends SubsystemBase {
     shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
     shooterPIDController.setOutputRange(-1.0, 1.0);
 
-    lazySusanTalon = new TalonFX(RobotMap.LAZY_SUSAN);
+    lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     lazySusanTalon.configFactoryDefault();
-    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
+    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
 
-    hoodTalon = new TalonFX(RobotMap.LAZY_SUSAN);
+    //todo: fix
+    hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
-    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
+    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
@@ -69,14 +72,14 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.set(ControlMode.Position, (degree*RobotPreferences.susanCountsPerDegree.getValue()));
   }
   public void setSusanSpeed(double speed){
-    lazySusanTalon.set(ControlMode.Position, speed);
+    lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
   public void hoodMoveToDegree(double degree){
-    lazySusanTalon.set(ControlMode.Position, (degree*RobotPreferences.hoodCountsPerDegree.getValue()));
+    hoodTalon.set(ControlMode.Position, (degree*RobotPreferences.hoodCountsPerDegree.getValue()));
   }
   public void setHoodSpeed(double speed){
-    lazySusanTalon.set(ControlMode.Position, speed);
+    hoodTalon.set(ControlMode.Position, speed);
   }
 
   public void setShooterSpeed(double speed){
@@ -91,11 +94,11 @@ public class Turret extends SubsystemBase {
   }
 
   public void resetSusanEncoder(){
-    lazySusanTalon.getSensorCollection().setIntegratedSensorPosition(0, 100);
+    lazySusanTalon.getSensorCollection().setQuadraturePosition(0, 100);
 
   }
   public void resetHoodEncoder(){
-    hoodTalon.getSensorCollection().setIntegratedSensorPosition(0, 100);
+    hoodTalon.getSensorCollection().setQuadraturePosition(0, 100);
   }
   public double getHoodEncoder(){
     return hoodTalon.getSelectedSensorPosition();
@@ -119,5 +122,7 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Hood Encoder", getHoodEncoder());
+    SmartDashboard.putNumber("Hood Err", hoodTalon.getClosedLoopError());
   }
 }

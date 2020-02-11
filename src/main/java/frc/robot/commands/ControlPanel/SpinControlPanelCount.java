@@ -42,10 +42,12 @@ public class SpinControlPanelCount extends CommandBase {
   @Override
   public void execute() {
     m_controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
-    if(m_currentColor != m_controlPanel.getColor()){
+    if((m_currentColor != m_controlPanel.getColor())&&(m_controlPanel.getColor()!=panelColor.none)){
       m_colorCounter++;
     }
-    m_currentColor = m_controlPanel.getColor();
+    if(m_controlPanel.getColor()!=panelColor.none){
+      m_currentColor = m_controlPanel.getColor();
+    }
     if(m_numRotations.getValue() == m_colorCounter/8){
       m_finished = true;
     }
@@ -54,6 +56,9 @@ public class SpinControlPanelCount extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_controlPanel.setSpeed(0);
+    m_finished = false;
+    m_colorCounter=0;
   }
 
   // Returns true when the command should end.
