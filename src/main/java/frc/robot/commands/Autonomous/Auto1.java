@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Turret.AlignTurretVision;
-import frc.robot.commands.Turret.ShootAndReload;
 import frc.robot.subsystems.Drivetrain;
 
 public class Auto1 extends CommandBase {

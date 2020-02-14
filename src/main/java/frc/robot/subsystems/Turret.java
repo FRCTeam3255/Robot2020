@@ -27,20 +27,20 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
 
-  CANSparkMax shooterMaster;
-  CANSparkMax shooterSlave;
-  CANEncoder shooterEnocder;
-  TalonSRX lazySusanTalon;
-  TalonSRX hoodTalon;
+  private CANSparkMax shooterMaster;
+  private CANSparkMax shooterSlave;
+  private CANEncoder shooterEnocder;
+  private TalonSRX finalShooterGateTalon;
+  private TalonSRX lazySusanTalon;
+  private TalonSRX hoodTalon;
 
   private CANPIDController shooterPIDController;
-  
 
   public Turret() {
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
     shooterPIDController = shooterMaster.getPIDController();
-    
+    finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
 
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
@@ -59,7 +59,7 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
 
-    //todo: fix
+    // todo: fix
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -68,56 +68,63 @@ public class Turret extends SubsystemBase {
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
   }
 
-  public void susanTurnToDegree(double degree){
-    lazySusanTalon.set(ControlMode.Position, (degree*RobotPreferences.susanCountsPerDegree.getValue()));
+  public void finalShooterGateSetSpeed(double speed) {
+    finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
+
   }
-  public void setSusanSpeed(double speed){
+
+  public void susanTurnToDegree(double degree) {
+    lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
+  }
+
+  public void setSusanSpeed(double speed) {
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  public void hoodMoveToDegree(double degree){
-    hoodTalon.set(ControlMode.Position, (degree*RobotPreferences.hoodCountsPerDegree.getValue()));
+  public void hoodMoveToDegree(double degree) {
+    hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
-  public void setHoodSpeed(double speed){
+
+  public void setHoodSpeed(double speed) {
     hoodTalon.set(ControlMode.Position, speed);
   }
 
-  public void setShooterSpeed(double speed){
-    shooterPIDController.setReference(speed*RobotPreferences.shooterMaxRPM.getValue(), ControlType.kVelocity);
-  }
-  
-  public double getShooterSpeed(){
-    return shooterEnocder.getVelocity();
-  }
-  public boolean isShooterSpedUp(double speed){
-    return (Math.abs(getShooterSpeed()-speed)<RobotPreferences.shooterTolerance.getValue());
+  public void setShooterSpeed(double speed) {
+    shooterPIDController.setReference(speed * RobotPreferences.shooterMaxRPM.getValue(), ControlType.kVelocity);
   }
 
-  public void resetSusanEncoder(){
+  public double getShooterSpeed() {
+    return shooterEnocder.getVelocity();
+  }
+
+  public boolean isShooterSpedUp(double speed) {
+    return (Math.abs(getShooterSpeed() - speed) < RobotPreferences.shooterTolerance.getValue());
+  }
+
+  public void resetSusanEncoder() {
     lazySusanTalon.getSensorCollection().setQuadraturePosition(0, 100);
 
   }
-  public void resetHoodEncoder(){
+
+  public void resetHoodEncoder() {
     hoodTalon.getSensorCollection().setQuadraturePosition(0, 100);
   }
-  public double getHoodEncoder(){
+
+  public double getHoodEncoder() {
     return hoodTalon.getSelectedSensorPosition();
   }
 
-  public double getSusanEncoder(){
+  public double getSusanEncoder() {
     return lazySusanTalon.getSelectedSensorPosition();
   }
 
-
-  public double getSusanPosition(){
-    return lazySusanTalon.getSelectedSensorPosition()/RobotPreferences.susanCountsPerDegree.getValue();
+  public double getSusanPosition() {
+    return lazySusanTalon.getSelectedSensorPosition() / RobotPreferences.susanCountsPerDegree.getValue();
   }
 
-
-  public double getHoodPosition(){
-    return hoodTalon.getSelectedSensorPosition()/RobotPreferences.hoodCountsPerDegree.getValue();
+  public double getHoodPosition() {
+    return hoodTalon.getSelectedSensorPosition() / RobotPreferences.hoodCountsPerDegree.getValue();
   }
-
 
   @Override
   public void periodic() {

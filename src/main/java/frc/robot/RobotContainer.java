@@ -22,9 +22,9 @@ import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
-import frc.robot.commands.Intake.Shoot;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.RotateTurret;
+import frc.robot.commands.Turret.Shoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -96,10 +96,9 @@ public class RobotContainer {
     drive.btn_Y.whileHeld(new DriveToBall(m_drivetrain, m_vision));
     drive.btn_A.whileHeld(new Auto1(m_drivetrain, mot1, mot2, mot3));
 
-    manipulator.btn_1.whileHeld(new Shoot(m_intake));
+    manipulator.btn_1.whileHeld(new Shoot(m_turret));
     manipulator.btn_2.whenPressed(new SpinControlPanelCount(m_controlPanel, RobotPreferences.spinCount));
     manipulator.btn_3.whileHeld(new AlignTurretVision(m_turret, m_vision, RobotPreferences.susanSpeed));
-    manipulator.btn_4.whileHeld(new CollectBall(m_intake, RobotPreferences.collectorSpeed));
 
     manipulator.btn_7.whileHeld(new WinchClimber(m_climber, RobotPreferences.climberWinchSpeed));
     manipulator.btn_8.whileHeld(new DeployClimberManual(m_climber, RobotPreferences.climberUpSpeed));

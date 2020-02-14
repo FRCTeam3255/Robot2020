@@ -21,15 +21,6 @@ public class AlignTurretVision extends CommandBase {
   private final Vision m_vision;
   private SN_DoublePreference m_speed;
 
-  public enum FinishReason {
-    SUCCESS,
-    TIMEOUT,
-    NO_TARGET,
-    NOT_FINISHED
-  };
-
-  public FinishReason finishReason = FinishReason.NOT_FINISHED;
-
   public AlignTurretVision(Turret turretSubsystem, Vision visionSubsystem, SN_DoublePreference speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_turret = turretSubsystem;
@@ -42,15 +33,18 @@ public class AlignTurretVision extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // TODO - add logic to do nothing if no vision
-    m_turret.setSusanSpeed(m_speed.getValue()*m_vision.getVisionXError()*RobotPreferences.susanVisionP.getValue());
-    m_turret.hoodMoveToDegree(m_vision.getHoodVisionPosition());
+    if (m_vision.visionHasTarget()) {
+
+      m_turret
+          .setSusanSpeed(m_speed.getValue() * m_vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
+      m_turret.hoodMoveToDegree(m_vision.getHoodVisionPosition());
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -62,18 +56,6 @@ public class AlignTurretVision extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // // return true if X error and hood are within tolerance
-    // if(true) {
-    //   finishReason = FinishReason.SUCCESS;
-    //   return true;
-    // }
-    
-    // // return true if timed out
-    // if(true) {
-    //   finishReason = FinishReason.TIMEOUT;
-    //   return true;
-    // }
-
     return false;
   }
 }
