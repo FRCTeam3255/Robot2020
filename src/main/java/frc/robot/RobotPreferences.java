@@ -38,7 +38,8 @@ public class RobotPreferences {
     public static final SN_DoublePreference climberIz = new SN_DoublePreference("climberIz", 400);
     public static final SN_IntPreference climberHeight = new SN_IntPreference("climberHeight", 30);
     public static final SN_DoublePreference climberWinchSpeed = new SN_DoublePreference("climberWinchSpeed", -.5);
-    public static final SN_DoublePreference climberDeploySpeed = new SN_DoublePreference("climberDeploySpeed", .5);
+    public static final SN_DoublePreference climberUpSpeed = new SN_DoublePreference("climberUpSpeed", .5);
+    public static final SN_DoublePreference climberDownSpeed = new SN_DoublePreference("climberDownSpeed", -.5);
     //Turret
     public static final SN_DoublePreference susanCountsPerDegree = new SN_DoublePreference("susanCountsPerDegree", 84);
     public static final SN_DoublePreference hoodCountsPerDegree = new SN_DoublePreference("hoodCountsPerDegree", 87);
@@ -64,7 +65,7 @@ public class RobotPreferences {
     public static final SN_IntPreference spinCount = new SN_IntPreference("spinCount", 1);
 
     //Intake
-    public static final SN_DoublePreference collectorSpeed = new SN_DoublePreference("collectorSpeed", 1);
+    public static final SN_DoublePreference collectorSpeed = new SN_DoublePreference("collectorSpeed", .6);
     //reds
     public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", 100);
     public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", 130);

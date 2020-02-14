@@ -14,6 +14,7 @@ public class ReloadMotionProfile extends CommandBase {
   /**
    * Creates a new ReloadMotionProfile.
    */
+
   public ReloadMotionProfile() {
     // Use addRequirements() here to declare subsystem dependencies.
   }

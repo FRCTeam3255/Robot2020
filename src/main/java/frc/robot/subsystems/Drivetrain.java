@@ -18,12 +18,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 
-public class Drivetrain extends SubsystemBase
-{
+public class Drivetrain extends SubsystemBase {
   // Creates a new ExampleSubsystem
   private TalonFX leftMaster;
   private TalonFX leftSlave;
@@ -32,17 +32,12 @@ public class Drivetrain extends SubsystemBase
 
   private TalonFXConfiguration _config;
 
-  public Drivetrain()
-  {
+  public Drivetrain() {
     leftMaster = new TalonFX(RobotMap.DRIVETRAIN_LEFT_FRONT_TALON);
     leftSlave = new TalonFX(RobotMap.DRIVETRAIN_LEFT_BACK_TALON);
     rightMaster = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_FRONT_TALON);
     rightSlave = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_BACK_TALON);
     _config = new TalonFXConfiguration();
-    
-
-    
-    SmartDashboard.putData("Reload Profiles", new ReloadMotionProfile());
 
     _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     /* rest of the configs */
@@ -52,8 +47,8 @@ public class Drivetrain extends SubsystemBase
     _config.slot0.kP = RobotPreferences.motProfP.getValue();
     _config.slot0.kI = RobotPreferences.motProfI.getValue();
     _config.slot0.kD = RobotPreferences.motProfD.getValue();
-    _config.peakOutputForward = .2;
-    _config.peakOutputReverse = -.2;
+    _config.peakOutputForward = 1;
+    _config.peakOutputReverse = -1;
     _config.slot0.integralZone = (int) RobotPreferences.motProfIz.getValue();
     _config.slot0.closedLoopPeakOutput = RobotPreferences.motProfPeakOut.getValue();
     rightMaster.configAllSettings(_config);
@@ -63,7 +58,6 @@ public class Drivetrain extends SubsystemBase
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
 
-    
     /* pick the sensor phase and desired direction */
     rightMaster.setSensorPhase(false);
     leftMaster.setSensorPhase(false);
@@ -73,70 +67,108 @@ public class Drivetrain extends SubsystemBase
     leftSlave.setInverted(true);
 
   }
-  
-  public void arcadeDrive(double speed, double turn)
-  {
-    if((speed>-.2&&speed<.2)){
+
+  public void arcadeDrive(double speed, double turn) {
+    if ((speed > -.2 && speed < .2)) {
       speed = 0;
     }
-    if((turn>-.2&&turn<.2)){
+    if ((turn > -.2 && turn < .2)) {
       turn = 0;
     }
-      leftMaster.set(ControlMode.PercentOutput, .2*speed, DemandType.ArbitraryFeedForward, -.2*turn);
-      rightMaster.set(ControlMode.PercentOutput, .2*speed, DemandType.ArbitraryFeedForward, .2*turn);
+    leftMaster.set(ControlMode.PercentOutput, .2 * speed, DemandType.ArbitraryFeedForward, -.2 * turn);
+    rightMaster.set(ControlMode.PercentOutput, .2 * speed, DemandType.ArbitraryFeedForward, .2 * turn);
   }
 
-  public void driveDistance(double distance){
-    leftMaster.set(ControlMode.Position, distance*RobotPreferences.motProfSensorUnitsPerFt.getValue());
+  public void driveDistance(double distance) {
+    leftMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue());
     leftSlave.follow(leftMaster);
-    rightMaster.set(ControlMode.Position, distance*RobotPreferences.motProfSensorUnitsPerFt.getValue());
+    rightMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue());
     rightSlave.follow(rightMaster);
 
   }
-  public int getPositionError(){
+
+  public int getPositionError() {
     return leftMaster.getClosedLoopError();
   }
 
-  public void resetPositionPID(){
+  public void resetPositionPID() {
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     resetEncoderCounts();
   }
-  public void resetMotionProfile(){
+
+  public void resetMotionProfile() {
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     leftMaster.set(ControlMode.PercentOutput, 0.0);
     rightMaster.clearMotionProfileTrajectories();
     leftMaster.clearMotionProfileTrajectories();
     resetEncoderCounts();
   }
-  
-  public double getLeftEncoderCount(){
+
+  public double getLeftEncoderCount() {
     return leftMaster.getSelectedSensorPosition();
   }
 
-  public double getRightEncoderCount(){
+  public double getRightEncoderCount() {
     return rightMaster.getSelectedSensorPosition();
   }
 
-  public void resetEncoderCounts(){
+  public void resetEncoderCounts() {
     leftMaster.getSensorCollection().setIntegratedSensorPosition(0, 100);
     rightMaster.getSensorCollection().setIntegratedSensorPosition(0, 100);
   }
 
-  
-  public void startMotionProfile(MotionProfile motion) {
-    leftMaster.startMotionProfile(motion.getPoints()[0], 10, ControlMode.MotionProfile);
+  public void initBuffer(final BufferedTrajectoryPointStream bufferedStream, final double[][] profile,
+      final int totalCnt) {
+
+    final boolean forward = true; // set to false to drive in opposite direction of profile (not really needed
+    // since you can use negative numbers in profile).
+
+    final TrajectoryPoint point = new TrajectoryPoint(); // temp for for loop, since unused params are initialized
+    // automatically, you can alloc just one
+
+    /* clear the buffer, in case it was used elsewhere */
+    bufferedStream.Clear();
+
+    /* Insert every point into buffer, no limit on size */
+    for (int i = 0; i < totalCnt; ++i) {
+
+      final double direction = forward ? +1 : -1;
+      final double positionRot = profile[i][0];
+      final double velocityRPM = profile[i][1];
+      final int durationMilliseconds = (int) profile[i][2];
+
+      /* for each point, fill our structure and pass it to API */
+      point.timeDur = durationMilliseconds;
+
+      /* drive part */
+      point.position = direction * positionRot * RobotPreferences.motProfSensorUnitsPerFt.getValue(); // Rotations =>
+                                                                                                      // sensor units
+      point.velocity = direction * velocityRPM * RobotPreferences.motProfSensorUnitsPerFt.getValue() / 600.0; // RPM =>
+                                                                                                              // units
+                                                                                                              // per
+                                                                                                              // 100ms
+      point.arbFeedFwd = 0; // good place for kS, kV, kA, etc...
+
+      point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+      point.zeroPos = false; /* don't reset sensor, this is done elsewhere since we have multiple sensors */
+      point.isLastPoint = ((i + 1) == totalCnt); /* set this to true on the last point */
+      point.useAuxPID = false; /* tell MPB that we aren't using both pids */
+
+      bufferedStream.Write(point);
+    }
+  }
+
+  public void startMotionProfile(BufferedTrajectoryPointStream pointsLeft, BufferedTrajectoryPointStream pointsRight) {
+    leftMaster.startMotionProfile(pointsLeft, 10, ControlMode.MotionProfile);
     leftSlave.follow(leftMaster);
-    rightMaster.startMotionProfile(motion.getPoints()[1], 10, ControlMode.MotionProfile);
+    rightMaster.startMotionProfile(pointsRight, 10, ControlMode.MotionProfile);
     rightSlave.follow(rightMaster);
   }
 
   public boolean isMotionProfileFinished() {
     return (rightMaster.isMotionProfileFinished() && leftMaster.isMotionProfileFinished());
   }
-
-
-
 
   @Override
   public void periodic() {

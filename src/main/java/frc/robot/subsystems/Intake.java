@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
 
-  private TalonSRX collectorTalon;
+  private TalonFX collectorTalon;
   private TalonSRX turretGateTalon;
   private TalonSRX finalShooterGateTalon;
   private TalonSRX initialShooterGateTalon;
@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
 	private static final Value intakeRetractedValue = Value.kForward;
   
   public Intake() {
-    collectorTalon = new TalonSRX(RobotMap.COLLECTOR_TALON);
+    collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
     turretGateTalon = new TalonSRX(RobotMap.TURRET_GATE_TALON);
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
     initialShooterGateTalon = new TalonSRX(RobotMap.INITIAL_SHOOTER_GATE_TALON);

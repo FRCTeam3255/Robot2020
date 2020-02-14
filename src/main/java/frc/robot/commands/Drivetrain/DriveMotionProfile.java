@@ -13,29 +13,59 @@ import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.MotionProfile;
 import frcteam3255.robotbase.SN_MotionProfile;
 
 public class DriveMotionProfile extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final Drivetrain m_drivetrain;
-    private MotionProfile m_motion;
+
     /**
      * Creates a new DriveMotionProfile.
      */
+    BufferedTrajectoryPointStream pointsLeft;
+    BufferedTrajectoryPointStream pointsRight;
 
-    public DriveMotionProfile(Drivetrain subsystem, MotionProfile motion) {
-        m_motion = motion;
+    String leftFilename;
+    String rightFilename;
+
+    public DriveMotionProfile(Drivetrain subsystem, String leftName, String rightName) {
+        pointsLeft = new BufferedTrajectoryPointStream();
+        pointsRight = new BufferedTrajectoryPointStream();
+        leftFilename = leftName;
+        rightFilename = rightName;
+
         m_drivetrain = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
+        reload();
+
     }
+
+    public void reload() {
+
+        try {
+            m_drivetrain.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
+                    SN_MotionProfile.count(leftFilename));
+        } catch (IOException e) {
+            System.out.println("initBuffer failed :(. Is your file in deploy?");
+            e.printStackTrace();
+        }
+        try {
+            m_drivetrain.initBuffer(pointsRight, SN_MotionProfile.reader(rightFilename),
+                    SN_MotionProfile.count(rightFilename));
+        } catch (IOException e) {
+            System.out.println("initBuffer failed :(. Is your file in deploy?");
+            e.printStackTrace();
+        }
+
+    }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
 
         m_drivetrain.resetEncoderCounts();
-        m_drivetrain.startMotionProfile(m_motion);
+        m_drivetrain.startMotionProfile(pointsLeft, pointsRight);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

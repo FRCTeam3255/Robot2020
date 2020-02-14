@@ -23,13 +23,15 @@ public class Climber extends SubsystemBase {
    * Creates a new Climber.
    * climbs with pid, climbs manually
    */
-  private TalonFX climberTalon;
+  private TalonSRX climberTalon;
+  private TalonFX winchTalon;
   private TalonFXConfiguration _config;
   
 
   public Climber()
   {
-    climberTalon = new TalonFX(RobotMap.CLIMBER_TALON);
+    winchTalon = new TalonFX(RobotMap.WINCH_TALON);
+    climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
     _config = new TalonFXConfiguration();
 
     _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
@@ -51,6 +53,11 @@ public class Climber extends SubsystemBase {
   public void setSpeed(double speed)
   {
     climberTalon.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setWinchSpeed(double speed)
+  {
+    winchTalon.set(ControlMode.PercentOutput, speed);
   }
 
   // extend to specific height (in inches)
