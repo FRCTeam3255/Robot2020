@@ -21,7 +21,10 @@ public class SpinToColor extends CommandBase {
   private double speedCoefficient;
   private boolean finished;
 
+  // TODO: don't pass in the color, have the goal color read from the FMS in
+  // initialize
   public SpinToColor(panelColor a_goalColor) {
+
     // Use addRequirements() here to declare subsystem dependencies.
     goalColor = a_goalColor;
     addRequirements(RobotContainer.controlPanel);
@@ -33,6 +36,11 @@ public class SpinToColor extends CommandBase {
     finished = false;
     speedCoefficient = 1;
     initialColor = RobotContainer.controlPanel.getColor();
+    /*
+     * TODO: Will need to verify that motor polarity spins the intended direction
+     * for this optimization to work. Comment of what the heck this logic was trying
+     * to do would have been nice too. :-)
+     */
     if (initialColor == panelColor.red && goalColor == panelColor.yellow) {
       speedCoefficient = -1;
     } else if (initialColor == panelColor.green && goalColor == panelColor.red) {
