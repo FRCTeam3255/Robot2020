@@ -25,11 +25,10 @@ public class ToggleControlPanel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (controlPanel.getServo() <= .1) {
-      controlPanel.deployServo();
-    }
-    if (controlPanel.getServo() >= .9) {
-      controlPanel.retractServo();
+    if (controlPanel.getControlPanelDeployed()) {
+      controlPanel.retractControlPanel();
+    } else {
+      controlPanel.deployControlPanel();
     }
   }
 

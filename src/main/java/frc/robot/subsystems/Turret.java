@@ -58,7 +58,6 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
 
-    // todo: fix
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);

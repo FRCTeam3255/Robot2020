@@ -29,6 +29,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
+import frcteam3255.robotbase.SN_MotionProfile;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import frcteam3255.robotbase.Joystick.SN_SwitchboardStick;
@@ -55,20 +56,22 @@ public class RobotContainer {
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
 
-  public static DriveMotionProfile failMot = new DriveMotionProfile(drivetrain, "failMot_left.csv",
-      "failMot_right.csv");
-  public static DriveMotionProfile grabBallMot = new DriveMotionProfile(drivetrain, "grabBallMot_left.csv",
-      "grabBallMot_right.csv");
-  public static DriveMotionProfile getBackMot = new DriveMotionProfile(drivetrain, "getBackMot_left.csv",
-      "getBackMot_right.csv");
-  public static DriveMotionProfile finalMot = new DriveMotionProfile(drivetrain, "finalMot_left.csv",
-      "finalMot_right.csv");
+  public static DriveMotionProfile failMot;
+  public static DriveMotionProfile grabBallMot;
+  public static DriveMotionProfile getBackMot;
+  public static DriveMotionProfile finalMot;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+    SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
+
+    failMot = new DriveMotionProfile(drivetrain, "failMot_left.csv", "failMot_right.csv");
+    grabBallMot = new DriveMotionProfile(drivetrain, "grabBallMot_left.csv", "grabBallMot_right.csv");
+    getBackMot = new DriveMotionProfile(drivetrain, "getBackMot_left.csv", "getBackMot_right.csv");
+    finalMot = new DriveMotionProfile(drivetrain, "finalMot_left.csv", "finalMot_right.csv");
 
     configureButtonBindings();
 
@@ -97,7 +100,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.btn_Y.whenPressed(
-        new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount));
+        new DriveToBall(drivetrain, vision, intake, false, RobotPreferences.ballTimeout, RobotPreferences.ballCount));
     drive.btn_A.whileHeld(new Auto1(drivetrain, new AlignAndShoot(intake, turret, vision, 3), failMot,
         new AlignAndShootToPos(intake, turret, 3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos),
         grabBallMot, getBackMot, new AlignAndShoot(intake, turret, vision, 4),

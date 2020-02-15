@@ -14,10 +14,10 @@ public class RobotMap {
     // talons
 
     // DT
-    public static final int DRIVETRAIN_LEFT_FRONT_TALON = 0;
-    public static final int DRIVETRAIN_LEFT_BACK_TALON = 1;
-    public static final int DRIVETRAIN_RIGHT_FRONT_TALON = 2;
-    public static final int DRIVETRAIN_RIGHT_BACK_TALON = 3;
+    public static final int DRIVETRAIN_LEFT_MASTER = 0;
+    public static final int DRIVETRAIN_LEFT_SLAVE = 1;
+    public static final int DRIVETRAIN_RIGHT_MASTER = 2;
+    public static final int DRIVETRAIN_RIGHT_SLAVE = 3;
     // Intake
     public static final int COLLECTOR_TALON = 4;
     public static final int TURRET_GATE_TALON = 5;
@@ -47,8 +47,10 @@ public class RobotMap {
     public static final int SUSAN_RIGHT_SWITCH = 5;
 
     // solenoids
-    public static final int INTAKE_SOLENOID_A = 0;
-    public static final int INTAKE_SOLENOID_B = 1;
+    public static final int COLLECTOR_SOLENOID_A = 0;
+    public static final int COLLECTOR_SOLENOID_B = 1;
+    public static final int CONTROL_PANEL_SOLENOID_A = 2;
+    public static final int CONTROL_PANEL_SOLENOID_B = 3;
 
     // Encoders
 

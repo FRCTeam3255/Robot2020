@@ -11,8 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,16 +25,20 @@ public class ControlPanel extends SubsystemBase {
   private TalonFX spinner;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-  private Servo deployServo;
 
   private ColorTarget redTarget;
   private ColorTarget greenTarget;
   private ColorTarget blueTarget;
   private ColorTarget yellowTarget;
+  private DoubleSolenoid controlPanelSolenoid;
+  private static final Value controlPanelDeployedValue = Value.kReverse;
+  private static final Value controlPanelRetractedValue = Value.kForward;
 
   public ControlPanel() {
     spinner = new TalonFX(RobotMap.CP_TALON);
-    deployServo = new Servo(RobotMap.CP_SERVO);
+    spinner.configFactoryDefault();
+    controlPanelSolenoid = new DoubleSolenoid(RobotMap.CONTROL_PANEL_SOLENOID_A, RobotMap.CONTROL_PANEL_SOLENOID_B);
+
     SmartDashboard.putData("Reload Colors", new ReloadColorTargets());
     reloadColorTargets();
 
@@ -48,22 +53,31 @@ public class ControlPanel extends SubsystemBase {
   }
 
   public void reloadColorTargets() {
-    redTarget = new ColorTarget(
-      RobotPreferences.redsRedLow,      RobotPreferences.redsRedHigh,
-      RobotPreferences.redsGreenLow,    RobotPreferences.redsGreenHigh,
-      RobotPreferences.redsBlueLow,     RobotPreferences.redsBlueHigh);
-    greenTarget = new ColorTarget(
-      RobotPreferences.greensRedLow,    RobotPreferences.greensRedHigh,
-      RobotPreferences.greensGreenLow,  RobotPreferences.greensGreenHigh, 
-      RobotPreferences.greensBlueLow,   RobotPreferences.greensBlueHigh);
-    blueTarget = new ColorTarget(
-      RobotPreferences.bluesRedLow,     RobotPreferences.bluesRedHigh,
-      RobotPreferences.bluesGreenLow,   RobotPreferences.bluesGreenHigh,
-      RobotPreferences.bluesBlueLow,    RobotPreferences.bluesBlueHigh);
-    yellowTarget = new ColorTarget(
-      RobotPreferences.yellowsRedLow,   RobotPreferences.yellowsRedHigh,
-      RobotPreferences.yellowsGreenLow, RobotPreferences.yellowsGreenHigh,
-      RobotPreferences.yellowsBlueLow,  RobotPreferences.yellowsBlueHigh);
+    redTarget = new ColorTarget(RobotPreferences.redsRedLow, RobotPreferences.redsRedHigh,
+        RobotPreferences.redsGreenLow, RobotPreferences.redsGreenHigh, RobotPreferences.redsBlueLow,
+        RobotPreferences.redsBlueHigh);
+    greenTarget = new ColorTarget(RobotPreferences.greensRedLow, RobotPreferences.greensRedHigh,
+        RobotPreferences.greensGreenLow, RobotPreferences.greensGreenHigh, RobotPreferences.greensBlueLow,
+        RobotPreferences.greensBlueHigh);
+    blueTarget = new ColorTarget(RobotPreferences.bluesRedLow, RobotPreferences.bluesRedHigh,
+        RobotPreferences.bluesGreenLow, RobotPreferences.bluesGreenHigh, RobotPreferences.bluesBlueLow,
+        RobotPreferences.bluesBlueHigh);
+    yellowTarget = new ColorTarget(RobotPreferences.yellowsRedLow, RobotPreferences.yellowsRedHigh,
+        RobotPreferences.yellowsGreenLow, RobotPreferences.yellowsGreenHigh, RobotPreferences.yellowsBlueLow,
+        RobotPreferences.yellowsBlueHigh);
+  }
+
+  public void deployControlPanel() {
+    controlPanelSolenoid.set(controlPanelDeployedValue);
+  }
+
+  public void retractControlPanel() {
+    controlPanelSolenoid.set(controlPanelRetractedValue);
+
+  }
+
+  public boolean getControlPanelDeployed() {
+    return (controlPanelSolenoid.get() == controlPanelDeployedValue);
   }
 
   public panelColor getColor() {
@@ -98,18 +112,6 @@ public class ControlPanel extends SubsystemBase {
     }
     return "huh";
 
-  }
-
-  public void deployServo() {
-    deployServo.set(1);
-  }
-
-  public void retractServo() {
-    deployServo.set(0);
-  }
-
-  public double getServo() {
-    return deployServo.get();
   }
 
   @Override

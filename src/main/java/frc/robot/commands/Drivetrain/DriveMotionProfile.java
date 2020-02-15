@@ -44,14 +44,14 @@ public class DriveMotionProfile extends CommandBase {
     public void reload() {
 
         try {
-            drivetrain.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
+            SN_MotionProfile.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
                     SN_MotionProfile.count(leftFilename));
         } catch (IOException e) {
             System.out.println("initBuffer failed :(. Is your file in deploy?");
             e.printStackTrace();
         }
         try {
-            drivetrain.initBuffer(pointsRight, SN_MotionProfile.reader(rightFilename),
+            SN_MotionProfile.initBuffer(pointsRight, SN_MotionProfile.reader(rightFilename),
                     SN_MotionProfile.count(rightFilename));
         } catch (IOException e) {
             System.out.println("initBuffer failed :(. Is your file in deploy?");
