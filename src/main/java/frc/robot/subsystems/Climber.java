@@ -30,10 +30,13 @@ public class Climber extends SubsystemBase {
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
     _config = new TalonFXConfiguration();
 
+    // TODO:  config is never getting referenced, or associated with a Talon. are you missing a talon.configAllSettings(_config)?
     _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
     /* rest of the configs */
     _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband
         .getValue(); /* 0.1 % super small for best low-speed control */
+
+    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
     _config.slot0.kF = RobotPreferences.climberF.getValue();
     _config.slot0.kP = RobotPreferences.climberP.getValue();
     _config.slot0.kI = RobotPreferences.climberI.getValue();
@@ -60,6 +63,7 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // TODO: should update the dashboard for the climber
     // This method will be called once per scheduler run
   }
 }

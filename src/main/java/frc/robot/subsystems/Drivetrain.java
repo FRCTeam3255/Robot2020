@@ -40,6 +40,7 @@ public class Drivetrain extends SubsystemBase {
     /* rest of the configs */
     _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband
         .getValue(); /* 0.1 % super small for best low-speed control */
+    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
     _config.slot0.kF = RobotPreferences.motProfF.getValue();
     _config.slot0.kP = RobotPreferences.motProfP.getValue();
     _config.slot0.kI = RobotPreferences.motProfI.getValue();
@@ -66,17 +67,20 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double speed, double turn) {
+    // TODO: Don't use constants for a deadband. Use prefs with a reload.
     if ((speed > -.2 && speed < .2)) {
       speed = 0;
     }
     if ((turn > -.2 && turn < .2)) {
       turn = 0;
     }
+    // TODO: Don't use constants for motor tuning. Use prefs with a reload. And our motors max at 20% power?!?
     leftMaster.set(ControlMode.PercentOutput, .2 * speed, DemandType.ArbitraryFeedForward, -.2 * turn);
     rightMaster.set(ControlMode.PercentOutput, .2 * speed, DemandType.ArbitraryFeedForward, .2 * turn);
   }
 
   public void driveDistance(double distance) {
+    // TODO: Do you really want distance in feet? Decimal feet can be hard which is why we usually use inches
     leftMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue());
     leftSlave.follow(leftMaster);
     rightMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue());
@@ -88,6 +92,11 @@ public class Drivetrain extends SubsystemBase {
     return leftMaster.getClosedLoopError();
   }
 
+  /*
+    TODO: It appears resetPositionPID is how you stop driveDistance, and resetMotionProfile is how you stop startMotionProfile.
+    Could improve names to make that more clear. Since it would probably be ok to clearMotionProfiles inside of resetPositionPID,
+    why not just rename resetMotionProfile to startArcadeDrive and delete resetPositionPID.
+  */
   public void resetPositionPID() {
     rightMaster.set(ControlMode.PercentOutput, 0.0);
     leftMaster.set(ControlMode.PercentOutput, 0.0);
@@ -111,10 +120,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetEncoderCounts() {
+    // TODO: Did this come from a recipe? See method comment. Why not use leftMaster.setSelectedSensorPosition(0)
     leftMaster.getSensorCollection().setIntegratedSensorPosition(0, 100);
     rightMaster.getSensorCollection().setIntegratedSensorPosition(0, 100);
   }
 
+  /*
+    TODO: None of the code in this method deals with drivetrain. This should be part of SN_MotionProfile class.
+    However, if you move it, you can't call RobotPreferences inside it. But you could have a SN_MotionProfile take an SN_Pref
+  */
   public void initBuffer(final BufferedTrajectoryPointStream bufferedStream, final double[][] profile,
       final int totalCnt) {
 
@@ -156,6 +170,8 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  // TODO: Feels like this should take a MotionProfile class and then access the left and right points
+  // TODO: This is where you can reset PIDs
   public void startMotionProfile(BufferedTrajectoryPointStream pointsLeft, BufferedTrajectoryPointStream pointsRight) {
     leftMaster.startMotionProfile(pointsLeft, 10, ControlMode.MotionProfile);
     leftSlave.follow(leftMaster);
