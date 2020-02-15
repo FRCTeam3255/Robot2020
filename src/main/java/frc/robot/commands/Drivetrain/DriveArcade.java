@@ -35,6 +35,7 @@ public class DriveArcade extends CommandBase {
   @Override
 
   public void execute() {
+    // TODO: The drivetrain is passed in rather than access it from RobotContainer, but then the joystick is accessed from RobotContainer
     drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
   }
 
