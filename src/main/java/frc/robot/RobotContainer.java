@@ -22,8 +22,10 @@ import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
+import frc.robot.commands.Turret.AlignAndShoot;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.RotateTurret;
+import frc.robot.commands.Turret.SetShooterVelocity;
 import frc.robot.commands.Turret.Shoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
@@ -93,13 +95,15 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.btn_Y.whileHeld(new DriveToBall(m_drivetrain, m_vision));
+    drive.btn_Y.whenPressed(new DriveToBall(m_drivetrain, m_vision, m_intake, true, RobotPreferences.ballTimeout,
+        RobotPreferences.ballCount));
     drive.btn_A.whileHeld(new Auto1(m_drivetrain, mot1, mot2, mot3));
 
     manipulator.btn_1.whileHeld(new Shoot(m_turret));
     manipulator.btn_2.whenPressed(new SpinControlPanelCount(m_controlPanel, RobotPreferences.spinCount));
-    manipulator.btn_3.whileHeld(new AlignTurretVision(m_turret, m_vision, RobotPreferences.susanSpeed));
+    manipulator.btn_3.whileHeld(new AlignTurretVision(m_turret, m_vision));
 
+    manipulator.btn_6.whileHeld(new AlignAndShoot(m_intake, m_turret, m_vision, 10));
     manipulator.btn_7.whileHeld(new WinchClimber(m_climber, RobotPreferences.climberWinchSpeed));
     manipulator.btn_8.whileHeld(new DeployClimberManual(m_climber, RobotPreferences.climberUpSpeed));
     manipulator.btn_10.whileHeld(new DeployClimberManual(m_climber, RobotPreferences.climberDownSpeed));

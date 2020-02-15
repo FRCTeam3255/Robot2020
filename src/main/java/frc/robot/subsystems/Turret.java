@@ -66,6 +66,7 @@ public class Turret extends SubsystemBase {
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
+
   }
 
   public void finalShooterGateSetSpeed(double speed) {
@@ -85,20 +86,34 @@ public class Turret extends SubsystemBase {
     hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
 
+  public boolean hoodFinished() {
+    // return Math.abs(hoodTalon.getClosedLoopError()) <=
+    // RobotPreferences.visionAreaTol.getValue();
+    return true;
+  }
+
   public void setHoodSpeed(double speed) {
     hoodTalon.set(ControlMode.Position, speed);
   }
 
   public void setShooterSpeed(double speed) {
-    shooterPIDController.setReference(speed * RobotPreferences.shooterMaxRPM.getValue(), ControlType.kVelocity);
+    shooterMaster.set(speed);
+  }
+
+  public void setShooterVelocity(double velocity) {
+    shooterPIDController.setReference(velocity, ControlType.kVelocity);
   }
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();
   }
 
-  public boolean isShooterSpedUp(double speed) {
-    return (Math.abs(getShooterSpeed() - speed) < RobotPreferences.shooterTolerance.getValue());
+  public boolean isShooterSpedUp(double goalRPM) {
+    return (Math.abs(getShooterSpeed() - goalRPM) < RobotPreferences.shooterTolerance.getValue());
+  }
+
+  public double getShooterError(double goalRPM) {
+    return Math.abs(getShooterSpeed() - goalRPM);
   }
 
   public void resetSusanEncoder() {
@@ -130,6 +145,10 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Hood Encoder", getHoodEncoder());
+    SmartDashboard.putBoolean("Hood Finished", hoodFinished());
     SmartDashboard.putNumber("Hood Err", hoodTalon.getClosedLoopError());
+    SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
+    SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue()));
+    SmartDashboard.putNumber("Shooter Err", getShooterError(RobotPreferences.shooterMaxRPM.getValue()));
   }
 }

@@ -7,6 +7,8 @@
 
 package frcteam3255.robotbase;
 
+import java.util.Arrays;
+
 public class SN_Math {
     /**
      * 
@@ -17,6 +19,7 @@ public class SN_Math {
      * @param outputAtMax - the output value when input = maxInput
      * @return
      */
+
     public static double interpolate(double input, double minInput, double maxInput, double outputAtMin,
             double outputAtMax) {
 

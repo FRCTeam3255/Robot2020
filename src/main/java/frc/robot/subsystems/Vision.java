@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.opencv.core.*;
@@ -22,6 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotPreferences;
+import frcteam3255.robotbase.SN_Math;
 
 public class Vision extends SubsystemBase {
   /**
@@ -86,17 +88,16 @@ public class Vision extends SubsystemBase {
   }
 
   public double getVisionXError() {
-    return (RobotPreferences.visionGoalArea.getValue()
-        - NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
+    return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
+        * RobotPreferences.innerHoleScaler.getValue();
   }
 
   public double getVisionArea() {
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
   }
 
-  public boolean isVisionFinished() {
-    return ((Math.abs(getVisionXError()) < RobotPreferences.visionXTol.getValue())
-        && (Math.abs(getVisionArea()) < RobotPreferences.visionAreaTol.getValue()));
+  public boolean isXFinished() {
+    return ((Math.abs(getVisionXError()) < RobotPreferences.visionXTol.getValue()));
   }
 
   public double getHoodVisionPosition() {
@@ -161,8 +162,8 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("given position",
         RobotPreferences.hoodCountsPerDegree.getValue() * RobotPreferences.hoodVisionP.getValue() * getVisionArea());
     SmartDashboard.putNumber("one over given position", getHoodVisionPosition());
-    SmartDashboard.putBoolean("Vision Finished", isVisionFinished());
     SmartDashboard.putBoolean("Vision Has Target", visionHasTarget());
+    SmartDashboard.putBoolean("Vision X Finished", isXFinished());
 
   }
 }

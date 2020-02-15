@@ -19,13 +19,12 @@ public class AlignTurretVision extends CommandBase {
    */
   private final Turret m_turret;
   private final Vision m_vision;
-  private SN_DoublePreference m_speed;
 
-  public AlignTurretVision(Turret turretSubsystem, Vision visionSubsystem, SN_DoublePreference speed) {
+  public AlignTurretVision(Turret turretSubsystem, Vision visionSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_turret = turretSubsystem;
     m_vision = visionSubsystem;
-    m_speed = speed;
+
     addRequirements(turretSubsystem);
     addRequirements(visionSubsystem);
   }
@@ -41,8 +40,7 @@ public class AlignTurretVision extends CommandBase {
   public void execute() {
     if (m_vision.visionHasTarget()) {
 
-      m_turret
-          .setSusanSpeed(m_speed.getValue() * m_vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
+      m_turret.setSusanSpeed(m_vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
       m_turret.hoodMoveToDegree(m_vision.getHoodVisionPosition());
     }
   }
