@@ -41,6 +41,8 @@ public class Vision extends SubsystemBase {
   List<MatOfPoint> contours;
 
   double xPosition;
+  int camWidth = 160;
+  int camHeight = 120;
 
   Scalar lower = new Scalar(35, 140, 60);
   Scalar upper = new Scalar(35, 140, 60);
@@ -61,10 +63,13 @@ public class Vision extends SubsystemBase {
     camera = CameraServer.getInstance().startAutomaticCapture();
 
     cvSink = CameraServer.getInstance().getVideo();
-    // TODO: consider 320x240 to reduce bandwidth for FMS. Don't need quality for this
+    // TODO: consider 320x240 to reduce bandwidth for FMS. Don't need quality for
+    // this
     // TODO: consider class constants for 640x480
-    sourceStream = CameraServer.getInstance().putVideo("src", 640, 480);
-    outputStream = CameraServer.getInstance().putVideo("filter", 640, 480);
+    // id actually rather do 160 120, as thats what the feed seems to be from the
+    // camera into the sink
+    sourceStream = CameraServer.getInstance().putVideo("src", camWidth, camHeight);
+    outputStream = CameraServer.getInstance().putVideo("filter", camWidth, camHeight);
 
     source = new Mat();
     output = new Mat();
@@ -75,14 +80,16 @@ public class Vision extends SubsystemBase {
   }
 
   public double getX() {
-    // TODO: Don't hardcode 80. Even if not a pref, use a variable because it's probably a function of 640x480
-    return (xPosition - 80);
+    // TODO: Don't hardcode 80. Even if not a pref, use a variable because it's
+    // probably a function of 640x480
+    return (xPosition - (camWidth / 2));
   }
 
   // limelight
   public boolean visionHasTarget() {
     // TODO: Is < 1 always the right check?
-    if ((NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0)) < 1) {
+    // No, but .9 is
+    if ((NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0)) < .9) {
       return false;
     } else {
       return true;
@@ -91,8 +98,12 @@ public class Vision extends SubsystemBase {
 
   public double getVisionXError() {
     // TODO: Likely that scaling by innerHoleScalar is more complex than this logic
+    // yeah, still wrestling with this one. pretty sure that its gonna end up being
+    // err + skew times scalar times whatever side youre on, gonna need to do a grip
+    // pipeline for this
     return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
-        * RobotPreferences.innerHoleScaler.getValue();
+        + NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0)
+            * RobotPreferences.innerHoleScaler.getValue();
   }
 
   public double getVisionArea() {
@@ -105,14 +116,23 @@ public class Vision extends SubsystemBase {
 
   public double getHoodVisionPosition() {
     // TODO: Let's review this math together
+    // ok, this one is solid imm pretty sure
+
+    // position is inverse to the area
     double position = (1 / (RobotPreferences.hoodVisionP.getValue() * 90 * getVisionArea()));
+
+    // hard stop at 90 deg
     position = position * 90;
     if (position > 90) {
       position = 90;
-    } else if (position < 0) {
+
+    }
+    // hard stop at 0 deg
+    else if (position < 0) {
       position = 0;
     }
     return position;
+
   }
 
   @Override
@@ -131,6 +151,7 @@ public class Vision extends SubsystemBase {
               RobotPreferences.vHigh.getValue()),
           circles);
       // TODO: Should the threshold values (100,255) be preferences?
+      // no
       Imgproc.threshold(circles, binary, 100, 255, Imgproc.THRESH_BINARY);
 
       contours = new ArrayList<MatOfPoint>();
@@ -151,6 +172,7 @@ public class Vision extends SubsystemBase {
       Imgproc.drawContours(mask, contours, maxValIdx, new Scalar(255), -1);
 
       // TODO: Let's review this logic together
+      // yeah its yikes
       Moments m = Imgproc.moments(mask, true);
       double x = m.m10 / m.m00;
       xPosition = x;
@@ -164,6 +186,7 @@ public class Vision extends SubsystemBase {
       System.out.println("something went wrong! Is your camera plugged in?");
     }
     // TODO: Let's review the meaning of each of these
+    // we need to redo all of smartdashboard
     SmartDashboard.putNumber("xerrll", getVisionXError());
     SmartDashboard.putNumber("area err", getVisionArea());
     SmartDashboard.putNumber("given position",

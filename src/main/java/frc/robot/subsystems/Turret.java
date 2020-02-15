@@ -36,6 +36,8 @@ public class Turret extends SubsystemBase {
   private CANPIDController shooterPIDController;
 
   public Turret() {
+
+    // TODO: failsafe for losing the encoder.
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
     shooterPIDController = shooterMaster.getPIDController();
@@ -63,6 +65,8 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
     // TODO: Should there be a feed forward for the lazy susan, and/or a
     // setoutputrange?
+    // yeah i dont need a feed forward for this i dont think. simple p loop should
+    // do the trick, according to my testing
 
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
