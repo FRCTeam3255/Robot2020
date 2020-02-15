@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -87,9 +86,13 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean hoodFinished() {
-    // return Math.abs(hoodTalon.getClosedLoopError()) <=
-    // RobotPreferences.visionAreaTol.getValue();
-    return true;
+    return Math.abs(hoodTalon.getClosedLoopError()) <= RobotPreferences.hoodTol.getValue();
+
+  }
+
+  public boolean susanFinished() {
+    return Math.abs(lazySusanTalon.getClosedLoopError()) <= RobotPreferences.susanTol.getValue();
+
   }
 
   public void setHoodSpeed(double speed) {

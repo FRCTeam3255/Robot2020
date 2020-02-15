@@ -15,13 +15,14 @@ public class RotateTurret extends CommandBase {
   /**
    * Creates a new RotateTurret.
    */
-  private final Turret m_turret;
-  private SN_DoublePreference m_speed;
-  public RotateTurret(Turret subsystem, SN_DoublePreference speed) {
+  private final Turret turret;
+  private SN_DoublePreference speed;
+
+  public RotateTurret(Turret a_turret, SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = subsystem;
-    m_speed = speed;
-    addRequirements(subsystem);
+    turret = a_turret;
+    speed = a_speed;
+    addRequirements(a_turret);
   }
 
   // Called when the command is initially scheduled.
@@ -32,13 +33,13 @@ public class RotateTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_turret.setSusanSpeed(m_speed.getValue());
+    turret.setSusanSpeed(speed.getValue());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.setSusanSpeed(0);
+    turret.setSusanSpeed(0);
 
   }
 

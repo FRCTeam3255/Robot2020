@@ -17,53 +17,53 @@ public class SpinControlPanelCount extends CommandBase {
   /**
    * Creates a new SpinControlPanelCount.
    */
-  private final ControlPanel m_controlPanel;
-  private SN_IntPreference m_numRotations;
-  private boolean m_finished;
-  private double m_colorCounter = 0;
-  private panelColor m_initialColor;
-  private panelColor m_currentColor;
+  private final ControlPanel controlPanel;
+  private SN_IntPreference numRotations;
+  private boolean finished;
+  private double colorCounter = 0;
+  private panelColor initialColor;
+  private panelColor currentColor;
 
-  public SpinControlPanelCount(ControlPanel subsystem, SN_IntPreference numRotations) {
+  public SpinControlPanelCount(ControlPanel a_controlPanel, SN_IntPreference a_numRotations) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_numRotations = numRotations;
-    m_controlPanel = subsystem;
-    addRequirements(subsystem);
+    numRotations = a_numRotations;
+    controlPanel = a_controlPanel;
+    addRequirements(a_controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_initialColor = m_controlPanel.getColor();
-    m_currentColor = m_initialColor;
+    initialColor = controlPanel.getColor();
+    currentColor = initialColor;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
-    if((m_currentColor != m_controlPanel.getColor())&&(m_controlPanel.getColor()!=panelColor.none)){
-      m_colorCounter++;
+    controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
+    if ((currentColor != controlPanel.getColor()) && (controlPanel.getColor() != panelColor.none)) {
+      colorCounter++;
     }
-    if(m_controlPanel.getColor()!=panelColor.none){
-      m_currentColor = m_controlPanel.getColor();
+    if (controlPanel.getColor() != panelColor.none) {
+      currentColor = controlPanel.getColor();
     }
-    if(m_numRotations.getValue() == m_colorCounter/8){
-      m_finished = true;
+    if (numRotations.getValue() == colorCounter / 8) {
+      finished = true;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_controlPanel.setSpeed(0);
-    m_finished = false;
-    m_colorCounter=0;
+    controlPanel.setSpeed(0);
+    finished = false;
+    colorCounter = 0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finished;
+    return finished;
   }
 }

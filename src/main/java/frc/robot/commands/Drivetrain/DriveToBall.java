@@ -8,23 +8,21 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
-import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class DriveToBall extends CommandBase {
-  private final Drivetrain m_drivetrain;
-  private final Vision m_vision;
-  private final Intake m_intake;
-  private boolean m_timeout;
+  private final Drivetrain drivetrain;
+  private final Vision vision;
+  private final Intake intake;
+  private boolean timeout;
   private int timer;
   private boolean timedOut = false;
-  private SN_IntPreference m_numTimeout;
-  private SN_IntPreference m_numBalls;
+  private SN_IntPreference numTimeout;
+  private SN_IntPreference numBalls;
   private boolean success;
   private int counted = 0;
   private boolean justCounted = false;
@@ -39,14 +37,14 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
-  public DriveToBall(Drivetrain drivetrain, Vision vision, Intake intake, boolean isTimeout,
-      SN_IntPreference numTimeout, SN_IntPreference numBalls) {
-    m_drivetrain = drivetrain;
-    m_vision = vision;
-    m_timeout = isTimeout;
-    m_numTimeout = numTimeout;
-    m_numBalls = numBalls;
-    m_intake = intake;
+  public DriveToBall(Drivetrain a_drivetrain, Vision a_vision, Intake a_intake, boolean a_isTimeout,
+      SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
+    drivetrain = a_drivetrain;
+    vision = a_vision;
+    timeout = a_isTimeout;
+    numTimeout = a_numTimeout;
+    numBalls = a_numBalls;
+    intake = a_intake;
     addRequirements(drivetrain);
     addRequirements(vision);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -63,17 +61,17 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void execute() {
-    m_drivetrain.arcadeDrive(.75, m_vision.getX() * RobotPreferences.ballP.getValue());
-    if (m_timeout) {
+    drivetrain.arcadeDrive(.75, vision.getX() * RobotPreferences.ballP.getValue());
+    if (timeout) {
       timer++;
 
-      if (timer >= m_numTimeout.getValue()) {
+      if (timer >= numTimeout.getValue()) {
         timedOut = true;
-      } else if (counted >= m_numBalls.getValue()) {
+      } else if (counted >= numBalls.getValue()) {
         success = true;
       }
     }
-    if (m_intake.getCollectionSwitch()) {
+    if (intake.getCollectionSwitch()) {
       if (!justCounted) {
         counted++;
         justCounted = true;

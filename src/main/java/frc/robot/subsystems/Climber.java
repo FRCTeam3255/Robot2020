@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -20,16 +19,13 @@ import frc.robot.RobotPreferences;
 
 public class Climber extends SubsystemBase {
   /**
-   * Creates a new Climber.
-   * climbs with pid, climbs manually
+   * Creates a new Climber. climbs with pid, climbs manually
    */
   private TalonSRX climberTalon;
   private TalonFX winchTalon;
   private TalonFXConfiguration _config;
-  
 
-  public Climber()
-  {
+  public Climber() {
     winchTalon = new TalonFX(RobotMap.WINCH_TALON);
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
     _config = new TalonFXConfiguration();
@@ -46,26 +42,21 @@ public class Climber extends SubsystemBase {
 
   }
 
-
   // methods
 
   // speed can be -1 to +1
-  public void setSpeed(double speed)
-  {
+  public void setSpeed(double speed) {
     climberTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setWinchSpeed(double speed)
-  {
+  public void setWinchSpeed(double speed) {
     winchTalon.set(ControlMode.PercentOutput, speed);
   }
 
   // extend to specific height (in inches)
-  public void extendToHeight(double height)
-  {
-    climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue()*height);
+  public void extendToHeight(double height) {
+    climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue() * height);
   }
-
 
   @Override
   public void periodic() {

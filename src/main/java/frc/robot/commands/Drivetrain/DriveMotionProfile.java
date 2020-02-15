@@ -17,7 +17,7 @@ import frcteam3255.robotbase.SN_MotionProfile;
 
 public class DriveMotionProfile extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final Drivetrain m_drivetrain;
+    private final Drivetrain drivetrain;
 
     /**
      * Creates a new DriveMotionProfile.
@@ -28,15 +28,15 @@ public class DriveMotionProfile extends CommandBase {
     String leftFilename;
     String rightFilename;
 
-    public DriveMotionProfile(Drivetrain subsystem, String leftName, String rightName) {
+    public DriveMotionProfile(Drivetrain a_drivetrain, String a_leftName, String a_rightName) {
         pointsLeft = new BufferedTrajectoryPointStream();
         pointsRight = new BufferedTrajectoryPointStream();
-        leftFilename = leftName;
-        rightFilename = rightName;
+        leftFilename = a_leftName;
+        rightFilename = a_rightName;
 
-        m_drivetrain = subsystem;
+        drivetrain = a_drivetrain;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(a_drivetrain);
         reload();
 
     }
@@ -44,14 +44,14 @@ public class DriveMotionProfile extends CommandBase {
     public void reload() {
 
         try {
-            m_drivetrain.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
+            drivetrain.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
                     SN_MotionProfile.count(leftFilename));
         } catch (IOException e) {
             System.out.println("initBuffer failed :(. Is your file in deploy?");
             e.printStackTrace();
         }
         try {
-            m_drivetrain.initBuffer(pointsRight, SN_MotionProfile.reader(rightFilename),
+            drivetrain.initBuffer(pointsRight, SN_MotionProfile.reader(rightFilename),
                     SN_MotionProfile.count(rightFilename));
         } catch (IOException e) {
             System.out.println("initBuffer failed :(. Is your file in deploy?");
@@ -64,8 +64,8 @@ public class DriveMotionProfile extends CommandBase {
     @Override
     public void initialize() {
 
-        m_drivetrain.resetEncoderCounts();
-        m_drivetrain.startMotionProfile(pointsLeft, pointsRight);
+        drivetrain.resetEncoderCounts();
+        drivetrain.startMotionProfile(pointsLeft, pointsRight);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -77,13 +77,13 @@ public class DriveMotionProfile extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_drivetrain.resetMotionProfile();
+        drivetrain.resetMotionProfile();
 
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_drivetrain.isMotionProfileFinished();
+        return drivetrain.isMotionProfileFinished();
     }
 }

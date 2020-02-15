@@ -15,19 +15,20 @@ public class DeployClimberPosition extends CommandBase {
   /**
    * Creates a new DeployClimberPosition.
    */
-  private final Climber m_climber;
-  private SN_DoublePreference m_position;
-  public DeployClimberPosition(Climber subsystem, SN_DoublePreference position) {
+  private final Climber climber;
+  private SN_DoublePreference position;
+
+  public DeployClimberPosition(Climber a_climber, SN_DoublePreference a_position) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
-    m_position = position;
-    addRequirements(subsystem);
+    climber = a_climber;
+    position = a_position;
+    addRequirements(a_climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.extendToHeight(m_position.getValue());
+    climber.extendToHeight(position.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

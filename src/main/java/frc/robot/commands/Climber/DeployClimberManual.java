@@ -15,13 +15,14 @@ public class DeployClimberManual extends CommandBase {
   /**
    * Creates a new DeployClimberManual.
    */
-  private final Climber m_climber;
-  private SN_DoublePreference m_speed;
-  public DeployClimberManual(Climber subsystem, SN_DoublePreference speed) {
+  private final Climber climber;
+  private SN_DoublePreference speed;
+
+  public DeployClimberManual(Climber a_climber, SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
-    m_speed = speed;
-    addRequirements(subsystem);
+    climber = a_climber;
+    speed = a_speed;
+    addRequirements(a_climber);
   }
 
   // Called when the command is initially scheduled.
@@ -32,14 +33,14 @@ public class DeployClimberManual extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setSpeed(m_speed.getValue());
+    climber.setSpeed(speed.getValue());
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.setSpeed(0);
+    climber.setSpeed(0);
 
   }
 

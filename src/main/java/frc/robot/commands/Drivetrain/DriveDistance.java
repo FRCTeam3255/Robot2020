@@ -8,57 +8,51 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class DriveDistance extends CommandBase
-{
-  private final Drivetrain m_drivetrain;
-  private SN_DoublePreference m_distance;
+public class DriveDistance extends CommandBase {
+  private final Drivetrain drivetrain;
+  private SN_DoublePreference distance;
+
   /**
    * Creates a new DriveDistance.
    **/
 
-  public DriveDistance(Drivetrain subsystem, SN_DoublePreference distance)
-  {
-    m_drivetrain = subsystem;
-    m_distance = distance;
-    addRequirements(subsystem);
+  public DriveDistance(Drivetrain a_drivetrain, SN_DoublePreference a_distance) {
+    drivetrain = a_drivetrain;
+    distance = a_distance;
+    addRequirements(a_drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
-  {
-    m_drivetrain.resetEncoderCounts();
-    m_drivetrain.driveDistance(m_distance.getValue());
+  public void initialize() {
+    drivetrain.resetEncoderCounts();
+    drivetrain.driveDistance(distance.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
 
   @Override
 
-  public void execute() 
-  {
+  public void execute() {
   }
 
   // Called once the command ends or is interrupted.
 
   @Override
 
-  public void end(boolean interrupted)
-  {
-    m_drivetrain.resetMotionProfile();
+  public void end(boolean interrupted) {
+    drivetrain.resetMotionProfile();
   }
 
   // Returns true when the command should end.
 
   @Override
 
-  public boolean isFinished()
-  {
+  public boolean isFinished() {
     return false;
   }
 }

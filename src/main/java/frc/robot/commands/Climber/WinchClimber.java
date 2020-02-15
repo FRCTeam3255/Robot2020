@@ -8,7 +8,6 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Climber;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
@@ -16,13 +15,14 @@ public class WinchClimber extends CommandBase {
   /**
    * Creates a new WinchClimber.
    */
-  private final Climber m_climber;
-  private SN_DoublePreference m_speed;
-  public WinchClimber(Climber subsystem, SN_DoublePreference speed) {
+  private final Climber climber;
+  private SN_DoublePreference speed;
+
+  public WinchClimber(Climber a_climber, SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_climber = subsystem;
-    m_speed = speed;
-    addRequirements(subsystem);
+    climber = a_climber;
+    speed = a_speed;
+    addRequirements(a_climber);
   }
 
   // Called when the command is initially scheduled.
@@ -33,13 +33,13 @@ public class WinchClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climber.setWinchSpeed(m_speed.getValue());
+    climber.setWinchSpeed(speed.getValue());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.setWinchSpeed(0);
+    climber.setWinchSpeed(0);
 
   }
 

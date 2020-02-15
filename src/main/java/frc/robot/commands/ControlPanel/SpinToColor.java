@@ -17,45 +17,45 @@ public class SpinToColor extends CommandBase {
   /**
    * Creates a new SpinToColor.
    */
-  private final ControlPanel m_controlPanel;
-  private panelColor m_initialColor;
-  private panelColor m_goalColor;
-  private double m_speedCoefficient = 1;
-  private boolean m_finished = false;
-  public SpinToColor(ControlPanel subsystem, panelColor goalColor) {
+  private final ControlPanel controlPanel;
+  private panelColor initialColor;
+  private panelColor goalColor;
+  private double speedCoefficient = 1;
+  private boolean finished = false;
+
+  public SpinToColor(ControlPanel a_controlPanel, panelColor a_goalColor) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_goalColor = goalColor;
-    m_controlPanel = subsystem;
-    addRequirements(subsystem);
+    goalColor = a_goalColor;
+    controlPanel = a_controlPanel;
+    addRequirements(a_controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_initialColor = m_controlPanel.getColor();
-    if(m_initialColor == panelColor.red && m_goalColor == panelColor.yellow){
-      m_speedCoefficient = -1;
-    }else if(m_initialColor == panelColor.green && m_goalColor == panelColor.red){
-      m_speedCoefficient = -1;
-    }else if(m_initialColor == panelColor.blue && m_goalColor == panelColor.green){
-      m_speedCoefficient = -1;
-    }else if(m_initialColor == panelColor.yellow && m_goalColor == panelColor.blue){
-      m_speedCoefficient = -1;
-    }else{
-      m_speedCoefficient = 1;
+    initialColor = controlPanel.getColor();
+    if (initialColor == panelColor.red && goalColor == panelColor.yellow) {
+      speedCoefficient = -1;
+    } else if (initialColor == panelColor.green && goalColor == panelColor.red) {
+      speedCoefficient = -1;
+    } else if (initialColor == panelColor.blue && goalColor == panelColor.green) {
+      speedCoefficient = -1;
+    } else if (initialColor == panelColor.yellow && goalColor == panelColor.blue) {
+      speedCoefficient = -1;
+    } else {
+      speedCoefficient = 1;
     }
-    SmartDashboard.putString("init color", m_controlPanel.getColor().toString());
-    SmartDashboard.putNumber("coeff", m_speedCoefficient);
-      m_controlPanel.setSpeed(m_speedCoefficient*RobotPreferences.controlPanelSpinSpeed.getValue());
+    SmartDashboard.putString("init color", controlPanel.getColor().toString());
+    SmartDashboard.putNumber("coeff", speedCoefficient);
+    controlPanel.setSpeed(speedCoefficient * RobotPreferences.controlPanelSpinSpeed.getValue());
 
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!(m_controlPanel.getColor()!=m_goalColor)){
-      m_finished = true;
+    if (!(controlPanel.getColor() != goalColor)) {
+      finished = true;
 
     }
   }
@@ -63,14 +63,14 @@ public class SpinToColor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_controlPanel.setSpeed(0);
-      m_finished = false;
+    controlPanel.setSpeed(0);
+    finished = false;
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finished;
+    return finished;
   }
 }

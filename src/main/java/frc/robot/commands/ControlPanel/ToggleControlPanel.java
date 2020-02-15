@@ -14,21 +14,22 @@ public class ToggleControlPanel extends CommandBase {
   /**
    * Creates a new ToggleControlPanel.
    */
-  private final ControlPanel m_controlPanel;
-  public ToggleControlPanel(ControlPanel subsystem) {
+  private final ControlPanel controlPanel;
+
+  public ToggleControlPanel(ControlPanel a_controlPanel) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_controlPanel = subsystem;
-    addRequirements(subsystem);
+    controlPanel = a_controlPanel;
+    addRequirements(a_controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(m_controlPanel.getServo() <= .1){
-      m_controlPanel.deployServo();
+    if (controlPanel.getServo() <= .1) {
+      controlPanel.deployServo();
     }
-    if(m_controlPanel.getServo() >= .9){
-      m_controlPanel.retractServo();
+    if (controlPanel.getServo() >= .9) {
+      controlPanel.retractServo();
     }
   }
 

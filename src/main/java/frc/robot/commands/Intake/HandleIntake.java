@@ -11,20 +11,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Intake;
-import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class HandleIntake extends CommandBase {
   /**
    * Creates a new HandleIntake.
    */
-  private final Intake m_intake;
-  private boolean collectionAllowed;
+  private final Intake intake;
+  private boolean collectionAllowed = true;
 
-  public HandleIntake(Intake subsystem) {
+  public HandleIntake(Intake a_intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_intake = subsystem;
-    collectionAllowed = true;
-    addRequirements(subsystem);
+    intake = a_intake;
+    addRequirements(a_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -37,25 +35,25 @@ public class HandleIntake extends CommandBase {
   @Override
   public void execute() {
 
-    m_intake.collectorSetSpeed(0);
+    intake.collectorSetSpeed(0);
 
-    if (m_intake.getCollectionSwitch()) { // s1
-      m_intake.turretGateSetSpeed(1); // m1
-      m_intake.initialShooterGateSetSpeed(1); // m2
+    if (intake.getCollectionSwitch()) { // s1
+      intake.turretGateSetSpeed(1); // m1
+      intake.initialShooterGateSetSpeed(1); // m2
     }
-    if (m_intake.getStagedSwitch()) { // s3
-      m_intake.initialShooterGateSetSpeed(0);
+    if (intake.getStagedSwitch()) { // s3
+      intake.initialShooterGateSetSpeed(0);
     }
-    if (m_intake.getBottomSwitch() && m_intake.getStagedSwitch()) { // s2 & s3
-      m_intake.turretGateSetSpeed(0); // m1
+    if (intake.getBottomSwitch() && intake.getStagedSwitch()) { // s2 & s3
+      intake.turretGateSetSpeed(0); // m1
     }
-    if (m_intake.getCollectionSwitch() && m_intake.getStagedSwitch() && m_intake.getBottomSwitch()) {
+    if (intake.getCollectionSwitch() && intake.getStagedSwitch() && intake.getBottomSwitch()) {
       collectionAllowed = false;
     } else {
       collectionAllowed = true;
     }
     if (RobotContainer.manipulator.btn_4.get() && collectionAllowed) {
-      m_intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
+      intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
     }
 
   }

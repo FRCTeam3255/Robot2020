@@ -15,22 +15,22 @@ public class SetShooterVelocity extends CommandBase {
   /**
    * Creates a new SetShooterVelocity.
    */
-  private final Turret m_turret;
-  private final SN_DoublePreference m_speed;
-  private boolean m_instant;
+  private final Turret turret;
+  private final SN_DoublePreference speed;
+  private boolean instant;
 
-  public SetShooterVelocity(final Turret subsystem, final SN_DoublePreference speed, boolean instant) {
+  public SetShooterVelocity(Turret a_turret, SN_DoublePreference a_speed, boolean a_instant) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = subsystem;
-    m_speed = speed;
-    m_instant = instant;
-    addRequirements(subsystem);
+    turret = a_turret;
+    speed = a_speed;
+    instant = a_instant;
+    addRequirements(a_turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_turret.setShooterVelocity(m_speed.getValue());
+    turret.setShooterVelocity(speed.getValue());
 
   }
 
@@ -42,16 +42,16 @@ public class SetShooterVelocity extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-    if (!m_instant) {
-      m_turret.setShooterSpeed(0);
+    if (!instant) {
+      turret.setShooterSpeed(0);
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_instant) {
-      return m_turret.isShooterSpedUp(m_speed.getValue());
+    if (instant) {
+      return turret.isShooterSpedUp(speed.getValue());
     } else {
       return false;
 

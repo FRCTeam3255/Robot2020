@@ -15,25 +15,26 @@ public class RotateControlPanel extends CommandBase {
   /**
    * Creates a new ControlPanelRotate.
    */
-  private SN_DoublePreference m_speed;
-  private final ControlPanel m_controlPanel;
-  public RotateControlPanel(ControlPanel subsystem, SN_DoublePreference speed) {
+  private SN_DoublePreference speed;
+  private final ControlPanel controlPanel;
+
+  public RotateControlPanel(ControlPanel a_controlPanel, SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_speed = speed;
-    m_controlPanel = subsystem;
-    addRequirements(subsystem);
+    speed = a_speed;
+    controlPanel = a_controlPanel;
+    addRequirements(a_controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_controlPanel.setSpeed(m_speed.getValue());
+    controlPanel.setSpeed(speed.getValue());
   }
 
   // Called once the command ends or is interrupted.

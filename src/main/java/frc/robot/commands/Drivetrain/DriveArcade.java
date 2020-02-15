@@ -11,25 +11,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveArcade extends CommandBase
-{
-  private final Drivetrain m_drivetrain;
+public class DriveArcade extends CommandBase {
+  private final Drivetrain drivetrain;
 
   /**
    * Creates a new DriveArcade.
    **/
 
-  public DriveArcade(Drivetrain subsystem)
-  {
-    m_drivetrain = subsystem;
-    addRequirements(subsystem);
+  public DriveArcade(Drivetrain a_drivetrain) {
+    drivetrain = a_drivetrain;
+    addRequirements(a_drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
-  {
+  public void initialize() {
 
   }
 
@@ -37,17 +34,15 @@ public class DriveArcade extends CommandBase
 
   @Override
 
-  public void execute() 
-  {
-    m_drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
+  public void execute() {
+    drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
   }
 
   // Called once the command ends or is interrupted.
 
   @Override
 
-  public void end(boolean interrupted)
-  {
+  public void end(boolean interrupted) {
 
   }
 
@@ -55,8 +50,7 @@ public class DriveArcade extends CommandBase
 
   @Override
 
-  public boolean isFinished()
-  {
+  public boolean isFinished() {
     return false;
   }
 }

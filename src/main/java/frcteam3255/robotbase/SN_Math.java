@@ -7,8 +7,6 @@
 
 package frcteam3255.robotbase;
 
-import java.util.Arrays;
-
 public class SN_Math {
     /**
      * 

@@ -11,39 +11,35 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class AlignAndShoot extends CommandBase {
+public class AlignAndShootToPos extends CommandBase {
     /**
-     * Creates a new AlignAndShoot. Aligns turret within threshold, then spins up
-     * shooter within threshold, then shoots n times
+     * Creates a new AlignAndShootToPos. Aligns turret within threshold, then spins
+     * up shooter within threshold, then shoots n times
      */
     private final Turret turret;
-    private final Vision vision;
     private final Intake intake;
     private int numShotsTodo;
     private int numShots;
     private boolean success = false;
-    private boolean noTarget = false;
-    private boolean aligned = false;
+    private boolean timedOut = false;
     private int timeout = 0;
+    private boolean aligned = false;
     private boolean hasCounted = false;
+    SN_DoublePreference hoodPos;
+    SN_DoublePreference turretPos;
 
-    public enum FinishReason {
-        SUCCESS, NO_TARGET, NOT_FINISHED
-    };
-
-    public FinishReason finishReason = FinishReason.NOT_FINISHED;
-
-    public AlignAndShoot(Intake a_intake, Turret a_turret, Vision a_vision, int a_numShots) {
+    public AlignAndShootToPos(Intake a_intake, Turret a_turret, int a_numShots, SN_DoublePreference a_hoodPos,
+            SN_DoublePreference a_turretPos) {
         // Use addRequirements() here to declare subsystem dependencies.
         turret = a_turret;
-        vision = a_vision;
         intake = a_intake;
+        hoodPos = a_hoodPos;
+        turretPos = a_turretPos;
         numShotsTodo = a_numShots;
-        addRequirements(a_intake);
         addRequirements(a_turret);
-        addRequirements(a_vision);
+        addRequirements(a_intake);
     }
 
     // Called when the command is initially scheduled.
@@ -58,24 +54,25 @@ public class AlignAndShoot extends CommandBase {
 
         if (!aligned) {
 
-            if (timeout > RobotPreferences.visionTimeout.getValue()) {
+            if (timeout > RobotPreferences.toPosTimeout.getValue()) {
 
-                noTarget = true;
+                timedOut = true;
             }
-            if (vision.visionHasTarget() && !(vision.isXFinished() && turret.hoodFinished())) {
-                timeout = 0;
+            if (!(turret.susanFinished() && turret.hoodFinished())) {
 
-                turret.setSusanSpeed(vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-                turret.hoodMoveToDegree(vision.getHoodVisionPosition());
-            } else if (vision.visionHasTarget() && (vision.isXFinished() && turret.hoodFinished())) {
+                turret.susanTurnToDegree(turretPos.getValue());
+                turret.hoodMoveToDegree(hoodPos.getValue());
+            } else if ((turret.susanFinished() && turret.hoodFinished())) {
                 aligned = true;
-            } else {
-                timeout++;
             }
         } else {
 
-            if (turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+            if (timeout > RobotPreferences.toPosTimeout.getValue()) {
 
+                timedOut = true;
+            }
+            if (turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+                timeout = 0;
                 if (numShots >= numShotsTodo) {
                     hasCounted = true;
                     success = true;
@@ -96,6 +93,7 @@ public class AlignAndShoot extends CommandBase {
 
             } else {
                 turret.finalShooterGateSetSpeed(0);
+                timeout++;
             }
 
         }
@@ -106,10 +104,10 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         success = false;
-        noTarget = false;
         aligned = false;
-        timeout = 0;
         hasCounted = false;
+        timedOut = false;
+        timeout = 0;
         numShots = 0;
         turret.setSusanSpeed(0);
         turret.finalShooterGateSetSpeed(0);
@@ -121,20 +119,6 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // // return true if X error and hood are within tolerance
-        if (success) {
-
-            finishReason = FinishReason.SUCCESS;
-
-            return true;
-        }
-
-        // return true if no vision for timeout
-        if (noTarget) {
-
-            finishReason = FinishReason.NO_TARGET;
-            return true;
-        }
-
-        return false;
+        return success || timedOut;
     }
 }

@@ -7,35 +7,54 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
-import frc.robot.commands.Turret.AlignTurretVision;
+import frc.robot.commands.Drivetrain.DriveToBall;
+import frc.robot.commands.Turret.AlignAndShoot;
+import frc.robot.commands.Turret.AlignAndShootToPos;
 import frc.robot.subsystems.Drivetrain;
 
 public class Auto1 extends CommandBase {
-  DriveMotionProfile mot1;
-  DriveMotionProfile mot2;
-  DriveMotionProfile mot3;
+  AlignAndShoot initialLineupAndShoot;
+  DriveMotionProfile failMot;
+  DriveMotionProfile grabBallMot;
+  DriveMotionProfile getBackMot;
+  DriveMotionProfile finalMot;
+
+  AlignAndShootToPos failShoot;
+  AlignAndShoot stage2LineupAndShoot;
+  DriveToBall rendevouzBalls;
+  AlignAndShoot stage3LineupAndShoot;
 
   Command currentCommand;
 
   /**
    * Creates a new Auto1.
    */
-  public Auto1(Drivetrain dt, DriveMotionProfile cmd1, DriveMotionProfile cmd2, DriveMotionProfile cmd3) {
+  public Auto1(Drivetrain a_drivetrain, AlignAndShoot a_initialLineupAndShoot, DriveMotionProfile a_failMot,
+      AlignAndShootToPos a_failShoot, DriveMotionProfile a_grabBallMot, DriveMotionProfile a_getBackMot,
+      AlignAndShoot a_stage2LineupAndShoot, DriveToBall a_rendevouzBalls, DriveMotionProfile a_finalMot,
+      AlignAndShoot a_stage3LineupAndShoot) {
     // Use addRequirements() here to declare subsystem dependencies.
-    mot1 = cmd1;
-    mot2 = cmd2;
-    mot3 = cmd3;
-    addRequirements(dt);
-
+    initialLineupAndShoot = a_initialLineupAndShoot;
+    failMot = a_failMot;
+    failShoot = a_failShoot;
+    grabBallMot = a_grabBallMot;
+    getBackMot = a_getBackMot;
+    stage2LineupAndShoot = a_stage2LineupAndShoot;
+    rendevouzBalls = a_rendevouzBalls;
+    finalMot = a_finalMot;
+    stage3LineupAndShoot = a_stage3LineupAndShoot;
+    addRequirements(a_drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentCommand = mot1;
+    currentCommand = initialLineupAndShoot;
+    SmartDashboard.putString("Auto Command", "initialLineupAndShoot");
 
     currentCommand.initialize();
   }
@@ -50,6 +69,8 @@ public class Auto1 extends CommandBase {
   @Override
   public void end(final boolean interrupted) {
     currentCommand.end(false);
+    SmartDashboard.putString("Auto Command", "Auto Over");
+
   }
 
   void switchCommand(final Command cmd) {
@@ -66,20 +87,79 @@ public class Auto1 extends CommandBase {
     if (currentCommand.isFinished() == false) {
       return false;
     }
-    if (currentCommand == mot1) {
+    if (currentCommand == initialLineupAndShoot) {
       // set currentCommand based on ending status of driveForwardCommand and return
       // true or false
-      switchCommand(mot2);
-      return false;
-    } else if (currentCommand == mot2) {
 
-      switchCommand(mot3);
+      switch (initialLineupAndShoot.finishReason) {
+      case NO_TARGET:
+        SmartDashboard.putString("Auto Command", "failShoot");
+
+        switchCommand(failShoot);
+        return false;
+      case SUCCESS:
+        SmartDashboard.putString("Auto Command", "grabBallMot");
+
+        switchCommand(grabBallMot);
+        return false;
+      case NOT_FINISHED:
+        SmartDashboard.putString("Auto Command", "failShoot");
+
+        switchCommand(failShoot);
+        return false;
+      }
+
+    } else if (currentCommand == failShoot) {
+      SmartDashboard.putString("Auto Command", "failMot");
+
+      switchCommand(failMot);
       return false;
-    } else if (currentCommand == mot3) {
-      // switch(lineupTurretCmd.finishReason) {
-      // case LineupTurretCmd.State.TIMED_OUT:
+    } else if (currentCommand == grabBallMot) {
+      SmartDashboard.putString("Auto Command", "getBackMot");
+
+      switchCommand(getBackMot);
+      return false;
+    } else if (currentCommand == failMot) {
       return true;
-      // }
+    } else if (currentCommand == getBackMot) {
+      SmartDashboard.putString("Auto Command", "stage2LineupAndShoot");
+
+      switchCommand(stage2LineupAndShoot);
+      return false;
+    } else if (currentCommand == stage2LineupAndShoot) {
+
+      switch (stage2LineupAndShoot.finishReason) {
+      case NO_TARGET:
+        return true;
+      case SUCCESS:
+        SmartDashboard.putString("Auto Command", "rendevouzBalls");
+
+        switchCommand(rendevouzBalls);
+        return false;
+      case NOT_FINISHED:
+        return true;
+      }
+    } else if (currentCommand == rendevouzBalls) {
+
+      switch (rendevouzBalls.finishReason) {
+      case TIMED_OUT:
+        return true;
+      case SUCCESS:
+        SmartDashboard.putString("Auto Command", "finalMot");
+
+        switchCommand(finalMot);
+        return false;
+      case NOT_FINISHED:
+        return true;
+      }
+    } else if (currentCommand == finalMot) {
+      SmartDashboard.putString("Auto Command", "stage3LineupAndShoot");
+
+      switchCommand(stage3LineupAndShoot);
+      return false;
+    } else if (currentCommand == stage3LineupAndShoot) {
+      return true;
+
     }
 
     return false;

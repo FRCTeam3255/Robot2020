@@ -15,13 +15,14 @@ public class SetHoodPosition extends CommandBase {
   /**
    * Creates a new SetHoodPosition.
    */
-  private final Turret m_turret;
-  private SN_DoublePreference m_degrees;
-  public SetHoodPosition(Turret subsystem, SN_DoublePreference degrees) {
+  private final Turret turret;
+  private SN_DoublePreference degrees;
+
+  public SetHoodPosition(Turret a_turret, SN_DoublePreference a_degrees) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = subsystem;
-    m_degrees = degrees;
-    addRequirements(subsystem);
+    turret = a_turret;
+    degrees = a_degrees;
+    addRequirements(a_turret);
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +33,7 @@ public class SetHoodPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_turret.hoodMoveToDegree(m_degrees.getValue());
+    turret.hoodMoveToDegree(degrees.getValue());
   }
 
   // Called once the command ends or is interrupted.
