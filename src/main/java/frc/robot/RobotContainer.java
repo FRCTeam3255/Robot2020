@@ -51,6 +51,8 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
+  // TODO: Need a lighting system that uses LEDs to alert driver when they have vision lock on goal or ball
+
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
@@ -76,6 +78,8 @@ public class RobotContainer {
     intake.setDefaultCommand(new HandleIntake(intake));
     motionReload();
     SmartDashboard.putData("Reload Motions", new ReloadMotionProfile());
+    // TODO: We probably need more reload commands on the dashboard
+    // TODO: Need reset encoder buttons on the dashboard
   }
 
   public static void motionReload() {
@@ -85,6 +89,7 @@ public class RobotContainer {
     finalMot.reload();
   }
 
+  // TODO: why have this in RobotContainer since it can be called directly?
   public static void colorReload() {
     controlPanel.reloadColorTargets();
   }
@@ -98,11 +103,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.btn_Y.whenPressed(
         new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount));
+    // TODO: Don't have an autonomous command tied to a button
+    // TODO: Don't create the same command twice. Create it in constrcutor, and then assign it and/or use it in multiple places
     drive.btn_A.whileHeld(new Auto1(drivetrain, new AlignAndShoot(intake, turret, vision, 3), failMot,
         new AlignAndShootToPos(intake, turret, 3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos),
         grabBallMot, getBackMot, new AlignAndShoot(intake, turret, vision, 4),
         new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount),
         finalMot, new AlignAndShoot(intake, turret, vision, 2)));
+    // TODO: Don't have an autonomous command tied to a button
     drive.btn_X.whileHeld(failMot);
     manipulator.btn_1.whileHeld(new Shoot(turret));
     manipulator.btn_2.whenPressed(new SpinControlPanelCount(controlPanel, RobotPreferences.spinCount));
@@ -111,6 +119,61 @@ public class RobotContainer {
     manipulator.btn_7.whileHeld(new WinchClimber(climber, RobotPreferences.climberWinchSpeed));
     manipulator.btn_8.whileHeld(new DeployClimberManual(climber, RobotPreferences.climberUpSpeed));
     manipulator.btn_10.whileHeld(new DeployClimberManual(climber, RobotPreferences.climberDownSpeed));
+
+    /*
+      TODO: Need to have ability to reconfigure button bindings when we enter climb mode, control panel mode, or based on other switchboard switches.
+      This is another reason why it's better to create commands once in constructor, and then reference them in configureButtonBindings.
+    */
+
+    /*
+      TODO: Need the following controls
+        Climber: 
+          extend: manipulator 8 DONE
+          retract: manipulator 10 DONE
+          climb: manipulator 12
+          set position high: manipulator 9 (climb mode)
+          set position medium: manipulator 11 (climb mode)
+          set position low: (don't need this)
+          climb mode on/off: switchboard 10
+
+        Control Panel:
+          deploy: manipulator 2 (toggle)
+          retract: manipulator 2 (toogle)
+          spin manual: manipulator 7/8
+          spin to color: manipulator 6
+          spin number of times: manipulator 5
+
+        DriveTrain:
+          Drive arcade: driveTrain default command DONE
+          drive to ball: driver Y DONE
+          high speed/low speed (default low speed): driver right button
+          Defensive spin move: driver b
+
+        Collector:
+          deploy: smart dashboard
+          retract: (not mechanically possible?)
+          collect manually: manipulator 4 DONE
+          collect until detected: ??
+          reverse spin collector (only for anomoly): ??
+
+        Intake:
+          feed to turret manually: ??
+          feed to turret automatically: default command for intake
+          reverse: (not mechanically possible?)
+
+        Turret:
+          align rotation with vision: manipulator 3
+          align hood with vision: manipulator 3
+          turn turret manually: manipulator 9 and 10 (not climb mode)
+          hood to midrange: manipulator 11 (not climb mode)
+          hood to close shot: manipulator 12 (not climb mode)
+          move hood manually: potentiomter on switchboard??
+          spin up shooter: switchboard 9 (defaults on)
+          spin down shooter: switchboard 9 (same spin up)
+          set shooter speed: (preference only?, if we lose hood motor, speed could be good, but we could drive to position)
+          shoot a ball automatically: trigger
+          shoot a ball manually (doesn't rely on sesnors): trigger with switchboard 7 enabled
+    */
   }
 
   /**
@@ -119,7 +182,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // TODO: Need to have the ability to select different autonomous commands, including do nothing
     return new Auto1(drivetrain, new AlignAndShoot(intake, turret, vision, 3), failMot,
         new AlignAndShootToPos(intake, turret, 3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos),
         grabBallMot, getBackMot, new AlignAndShoot(intake, turret, vision, 4),
