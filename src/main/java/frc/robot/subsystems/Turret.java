@@ -36,6 +36,8 @@ public class Turret extends SubsystemBase {
   private CANPIDController shooterPIDController;
 
   public Turret() {
+
+    // TODO: failsafe for losing the encoder.
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
     shooterPIDController = shooterMaster.getPIDController();
