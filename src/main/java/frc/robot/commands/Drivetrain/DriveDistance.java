@@ -8,29 +8,27 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class DriveDistance extends CommandBase {
-  private final Drivetrain drivetrain;
   private SN_DoublePreference distance;
 
   /**
    * Creates a new DriveDistance.
    **/
 
-  public DriveDistance(Drivetrain a_drivetrain, SN_DoublePreference a_distance) {
-    drivetrain = a_drivetrain;
+  public DriveDistance(SN_DoublePreference a_distance) {
     distance = a_distance;
-    addRequirements(a_drivetrain);
+    addRequirements(RobotContainer.drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.resetEncoderCounts();
-    drivetrain.driveDistance(distance.getValue());
+    RobotContainer.drivetrain.resetEncoderCounts();
+    RobotContainer.drivetrain.driveDistance(distance.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +43,7 @@ public class DriveDistance extends CommandBase {
   @Override
 
   public void end(boolean interrupted) {
-    drivetrain.resetMotionProfile();
+    RobotContainer.drivetrain.resetMotionProfile();
   }
 
   // Returns true when the command should end.

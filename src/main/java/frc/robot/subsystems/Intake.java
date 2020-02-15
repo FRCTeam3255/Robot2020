@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+// import edu.wpi.first.wpilibj.DoubleSolenoid;
+// import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -29,10 +29,10 @@ public class Intake extends SubsystemBase {
   private DigitalInput collectionSwitch;
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
-  private DoubleSolenoid collectorSolenoid;
+  // private DoubleSolenoid collectorSolenoid;
 
-  private static final Value intakeDeployedValue = Value.kReverse;
-  private static final Value intakeRetractedValue = Value.kForward;
+  // private static final Value intakeDeployedValue = Value.kReverse;
+  // private static final Value intakeRetractedValue = Value.kForward;
 
   public Intake() {
     collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
@@ -46,7 +46,8 @@ public class Intake extends SubsystemBase {
     bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
 
-    collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A, RobotMap.COLLECTOR_SOLENOID_B);
+    // collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A,
+    // RobotMap.COLLECTOR_SOLENOID_B);
 
   }
 
@@ -81,18 +82,18 @@ public class Intake extends SubsystemBase {
     initialShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  public void deployCollector() {
-    collectorSolenoid.set(intakeDeployedValue);
-  }
+  // public void deployCollector() {
+  // collectorSolenoid.set(intakeDeployedValue);
+  // }
 
-  public void retractCollector() {
-    collectorSolenoid.set(intakeRetractedValue);
+  // public void retractCollector() {
+  // collectorSolenoid.set(intakeRetractedValue);
 
-  }
+  // }
 
-  public boolean getCollectorDeployed() {
-    return (collectorSolenoid.get() == intakeDeployedValue);
-  }
+  // public boolean getCollectorDeployed() {
+  // return (collectorSolenoid.get() == intakeDeployedValue);
+  // }
 
   @Override
   public void periodic() {

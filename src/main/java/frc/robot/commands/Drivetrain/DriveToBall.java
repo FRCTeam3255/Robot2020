@@ -8,24 +8,19 @@
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Vision;
 import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class DriveToBall extends CommandBase {
-  private final Drivetrain drivetrain;
-  private final Vision vision;
-  private final Intake intake;
   private boolean timeout;
   private int timer;
-  private boolean timedOut = false;
+  private boolean timedOut;
   private SN_IntPreference numTimeout;
   private SN_IntPreference numBalls;
   private boolean success;
-  private int counted = 0;
-  private boolean justCounted = false;
+  private int counted;
+  private boolean justCounted;
 
   public enum FinishReason {
     SUCCESS, TIMED_OUT, NOT_FINISHED
@@ -37,16 +32,11 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
-  public DriveToBall(Drivetrain a_drivetrain, Vision a_vision, Intake a_intake, boolean a_isTimeout,
-      SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
-    drivetrain = a_drivetrain;
-    vision = a_vision;
+  public DriveToBall(boolean a_isTimeout, SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
     timeout = a_isTimeout;
     numTimeout = a_numTimeout;
     numBalls = a_numBalls;
-    intake = a_intake;
-    addRequirements(drivetrain);
-    addRequirements(vision);
+    addRequirements(RobotContainer.drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -54,6 +44,11 @@ public class DriveToBall extends CommandBase {
   @Override
   public void initialize() {
 
+    timedOut = false;
+    success = false;
+    timer = 0;
+    counted = 0;
+    justCounted = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,7 +56,7 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void execute() {
-    drivetrain.arcadeDrive(.75, vision.getX() * RobotPreferences.ballP.getValue());
+    RobotContainer.drivetrain.arcadeDrive(.75, RobotContainer.vision.getX() * RobotPreferences.ballP.getValue());
     if (timeout) {
       timer++;
 
@@ -71,7 +66,7 @@ public class DriveToBall extends CommandBase {
         success = true;
       }
     }
-    if (intake.getCollectionSwitch()) {
+    if (RobotContainer.intake.getCollectionSwitch()) {
       if (!justCounted) {
         counted++;
         justCounted = true;
@@ -86,11 +81,6 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void end(boolean interrupted) {
-    timedOut = false;
-    success = false;
-    timer = 0;
-    counted = 0;
-    justCounted = false;
   }
 
   // Returns true when the command should end.

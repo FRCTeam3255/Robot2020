@@ -14,6 +14,9 @@ import frc.robot.commands.Autonomous.Auto1;
 import frc.robot.commands.Climber.DeployClimberManual;
 import frc.robot.commands.Climber.WinchClimber;
 import frc.robot.commands.ControlPanel.SpinControlPanelCount;
+import frc.robot.commands.ControlPanel.SpinControlPanelManual;
+import frc.robot.commands.ControlPanel.SpinToColor;
+import frc.robot.commands.ControlPanel.ToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.DriveToBall;
@@ -22,13 +25,16 @@ import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignAndShoot;
 import frc.robot.commands.Turret.AlignAndShootToPos;
 import frc.robot.commands.Turret.AlignTurretVision;
-import frc.robot.commands.Turret.Shoot;
+import frc.robot.commands.Turret.RotateTurret;
+import frc.robot.commands.Turret.SetHoodPosition;
+import frc.robot.commands.Turret.ShootAutomatic;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.ControlPanel.panelColor;
 import frcteam3255.robotbase.SN_MotionProfile;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
@@ -52,7 +58,8 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
-  // TODO: Need a lighting system that uses LEDs to alert driver when they have vision lock on goal or ball
+  // TODO: Need a lighting system that uses LEDs to alert driver when they have
+  // vision lock on goal or ball
 
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
@@ -63,6 +70,20 @@ public class RobotContainer {
   public static DriveMotionProfile getBackMot;
   public static DriveMotionProfile finalMot;
 
+  private static ShootAutomatic smartShot;
+  private static ToggleControlPanel toggleControlPanel;
+  private static AlignTurretVision alignTurretVision;
+  private static SpinControlPanelCount spinControlPanelCounts;
+  private static SpinToColor spinToColor;
+  private static DeployClimberManual climberManual;
+  private static WinchClimber winchClimber;
+  private static SpinControlPanelManual controlPanelManual;
+  private static RotateTurret turretManual;
+  private static SetHoodPosition hoodMidRange;
+  private static SetHoodPosition hoodCloseRange;
+  private static Auto1 auto1;
+  private static DriveToBall driveToBall;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -70,15 +91,33 @@ public class RobotContainer {
     // Configure the button bindings
     SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
 
-    failMot = new DriveMotionProfile(drivetrain, "failMot_left.csv", "failMot_right.csv");
-    grabBallMot = new DriveMotionProfile(drivetrain, "grabBallMot_left.csv", "grabBallMot_right.csv");
-    getBackMot = new DriveMotionProfile(drivetrain, "getBackMot_left.csv", "getBackMot_right.csv");
-    finalMot = new DriveMotionProfile(drivetrain, "finalMot_left.csv", "finalMot_right.csv");
+    failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
+    grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
+    getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
+    finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
 
+    smartShot = new ShootAutomatic();
+    toggleControlPanel = new ToggleControlPanel();
+    alignTurretVision = new AlignTurretVision();
+    spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount);
+    // TODO: incorperate fms here
+    spinToColor = new SpinToColor(panelColor.green);
+    climberManual = new DeployClimberManual();
+    winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
+    controlPanelManual = new SpinControlPanelManual();
+    turretManual = new RotateTurret();
+    hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
+    hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
+
+    driveToBall = new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount);
+    auto1 = new Auto1(new AlignAndShoot(3), failMot,
+        new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos), grabBallMot, getBackMot,
+        new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount), finalMot,
+        new AlignAndShoot(2));
     configureButtonBindings();
 
-    drivetrain.setDefaultCommand(new DriveArcade(drivetrain));
-    intake.setDefaultCommand(new HandleIntake(intake));
+    drivetrain.setDefaultCommand(new DriveArcade());
+    intake.setDefaultCommand(new HandleIntake());
     motionReload();
     SmartDashboard.putData("Reload Motions", new ReloadMotionProfile());
     // TODO: We probably need more reload commands on the dashboard
@@ -92,11 +131,6 @@ public class RobotContainer {
     finalMot.reload();
   }
 
-  // TODO: why have this in RobotContainer since it can be called directly?
-  public static void colorReload() {
-    controlPanel.reloadColorTargets();
-  }
-
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -104,79 +138,63 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.btn_Y.whenPressed(
-        new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount));
+    manipulator.btn_1.whileHeld(smartShot);
+    manipulator.btn_2.whileHeld(toggleControlPanel);
+    manipulator.btn_3.whileHeld(alignTurretVision);
+    // button 4 collects ball - found in intakeHandler cmd
+    manipulator.btn_5.whileHeld(spinControlPanelCounts);
+    manipulator.btn_6.whileHeld(spinToColor);
+    manipulator.btn_7.whileHeld(climberManual);
+    manipulator.btn_8.whileHeld(winchClimber);
+    manipulator.btn_9.whileHeld(controlPanelManual);
+    manipulator.btn_10.whileHeld(turretManual);
+    manipulator.btn_11.whileHeld(hoodMidRange);
+    manipulator.btn_12.whileHeld(hoodCloseRange);
+
+    drive.btn_Y.whileHeld(driveToBall);
     // TODO: Don't have an autonomous command tied to a button
-    // TODO: Don't create the same command twice. Create it in constrcutor, and then assign it and/or use it in multiple places
-    drive.btn_A.whileHeld(new Auto1(drivetrain, new AlignAndShoot(intake, turret, vision, 3), failMot,
-        new AlignAndShootToPos(intake, turret, 3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos),
-        grabBallMot, getBackMot, new AlignAndShoot(intake, turret, vision, 4),
-        new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount),
-        finalMot, new AlignAndShoot(intake, turret, vision, 2)));
-    // TODO: Don't have an autonomous command tied to a button
+    // well, I would like to.
+    drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
-    manipulator.btn_1.whileHeld(new Shoot(turret));
-    manipulator.btn_2.whenPressed(new SpinControlPanelCount(controlPanel, RobotPreferences.spinCount));
-    manipulator.btn_3.whileHeld(new AlignTurretVision(turret, vision));
-
-    manipulator.btn_7.whileHeld(new WinchClimber(climber, RobotPreferences.climberWinchSpeed));
-    manipulator.btn_8.whileHeld(new DeployClimberManual(climber, RobotPreferences.climberUpSpeed));
-    manipulator.btn_10.whileHeld(new DeployClimberManual(climber, RobotPreferences.climberDownSpeed));
 
     /*
-      TODO: Need to have ability to reconfigure button bindings when we enter climb mode, control panel mode, or based on other switchboard switches.
-      This is another reason why it's better to create commands once in constructor, and then reference them in configureButtonBindings.
-    */
+     * TODO: MAY need to have ability to reconfigure button bindings when we enter
+     * climb mode, control panel mode, or based on other switchboard switches. This
+     * is another reason why it's better to create commands once in constructor, and
+     * then reference them in configureButtonBindings.
+     */
 
     /*
-      TODO: Need the following controls
-        Climber: 
-          extend: manipulator 8 DONE
-          retract: manipulator 10 DONE
-          climb: manipulator 12
-          set position high: manipulator 9 (climb mode)
-          set position medium: manipulator 11 (climb mode)
-          set position low: (don't need this)
-          climb mode on/off: switchboard 10
-
-        Control Panel:
-          deploy: manipulator 2 (toggle)
-          retract: manipulator 2 (toogle)
-          spin manual: manipulator 7/8
-          spin to color: manipulator 6
-          spin number of times: manipulator 5
-
-        DriveTrain:
-          Drive arcade: driveTrain default command DONE
-          drive to ball: driver Y DONE
-          high speed/low speed (default low speed): driver right button
-          Defensive spin move: driver b
-
-        Collector:
-          deploy: smart dashboard
-          retract: (not mechanically possible?)
-          collect manually: manipulator 4 DONE
-          collect until detected: ??
-          reverse spin collector (only for anomoly): ??
-
-        Intake:
-          feed to turret manually: ??
-          feed to turret automatically: default command for intake
-          reverse: (not mechanically possible?)
-
-        Turret:
-          align rotation with vision: manipulator 3
-          align hood with vision: manipulator 3
-          turn turret manually: manipulator 9 and 10 (not climb mode)
-          hood to midrange: manipulator 11 (not climb mode)
-          hood to close shot: manipulator 12 (not climb mode)
-          move hood manually: potentiomter on switchboard??
-          spin up shooter: switchboard 9 (defaults on)
-          spin down shooter: switchboard 9 (same spin up)
-          set shooter speed: (preference only?, if we lose hood motor, speed could be good, but we could drive to position)
-          shoot a ball automatically: trigger
-          shoot a ball manually (doesn't rely on sesnors): trigger with switchboard 7 enabled
-    */
+     * TODO: Need the following controls Climber: extend: manipulator 8 DONE
+     * retract: manipulator 10 DONE climb: manipulator 12 set position high:
+     * manipulator 9 (climb mode) set position medium: manipulator 11 (climb mode)
+     * set position low: (don't need this) climb mode on/off: switchboard 10
+     * 
+     * Control Panel: deploy: manipulator 2 (toggle) retract: manipulator 2 (toogle)
+     * spin manual: manipulator 7/8 spin to color: manipulator 6 spin number of
+     * times: manipulator 5
+     * 
+     * DriveTrain: Drive arcade: driveTrain default command DONE drive to ball:
+     * driver Y DONE high speed/low speed (default low speed): driver right button
+     * Defensive spin move: driver b
+     * 
+     * Collector: deploy: smart dashboard retract: (not mechanically possible?)
+     * collect manually: manipulator 4 DONE collect until detected: ?? reverse spin
+     * collector (only for anomoly): ??
+     * 
+     * Intake: feed to turret manually: ?? feed to turret automatically: default
+     * command for intake reverse: (not mechanically possible?)
+     * 
+     * Turret: align rotation with vision: manipulator 3 align hood with vision:
+     * manipulator 3 turn turret manually: manipulator 9 and 10 (not climb mode)
+     * hood to midrange: manipulator 11 (not climb mode) hood to close shot:
+     * manipulator 12 (not climb mode) move hood manually: potentiomter on
+     * switchboard?? spin up shooter: switchboard 9 (defaults on) spin down shooter:
+     * switchboard 9 (same spin up) set shooter speed: (preference only?, if we lose
+     * hood motor, speed could be good, but we could drive to position) shoot a ball
+     * automatically: trigger shoot a ball manually (doesn't rely on sesnors):
+     * trigger with switchboard 7 enabled
+     */
   }
 
   /**
@@ -185,11 +203,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // TODO: Need to have the ability to select different autonomous commands, including do nothing
-    return new Auto1(drivetrain, new AlignAndShoot(intake, turret, vision, 3), failMot,
-        new AlignAndShootToPos(intake, turret, 3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos),
-        grabBallMot, getBackMot, new AlignAndShoot(intake, turret, vision, 4),
-        new DriveToBall(drivetrain, vision, intake, true, RobotPreferences.ballTimeout, RobotPreferences.ballCount),
-        finalMot, new AlignAndShoot(intake, turret, vision, 2));
+    // TODO: Need to have the ability to select different autonomous commands,
+    // including do nothing
+    return auto1;
   }
 }

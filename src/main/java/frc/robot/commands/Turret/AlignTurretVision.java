@@ -8,24 +8,18 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
 
 public class AlignTurretVision extends CommandBase {
   /**
    * Creates a new AlignTurretVision.
    */
-  private final Turret turret;
-  private final Vision vision;
 
-  public AlignTurretVision(Turret a_turret, Vision a_vision) {
+  public AlignTurretVision() {
     // Use addRequirements() here to declare subsystem dependencies.
-    turret = a_turret;
-    vision = a_vision;
 
-    addRequirements(a_turret);
-    addRequirements(a_vision);
+    addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
@@ -37,17 +31,18 @@ public class AlignTurretVision extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (vision.visionHasTarget()) {
+    if (RobotContainer.vision.visionHasTarget()) {
 
-      turret.setSusanSpeed(vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-      turret.hoodMoveToDegree(vision.getHoodVisionPosition());
+      RobotContainer.turret
+          .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
+      RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.setSusanSpeed(0);
+    RobotContainer.turret.setSusanSpeed(0);
   }
 
   // Returns true when the command should end.

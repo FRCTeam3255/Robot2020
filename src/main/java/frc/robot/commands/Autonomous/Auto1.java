@@ -10,11 +10,11 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Turret.AlignAndShoot;
 import frc.robot.commands.Turret.AlignAndShootToPos;
-import frc.robot.subsystems.Drivetrain;
 
 public class Auto1 extends CommandBase {
   AlignAndShoot initialLineupAndShoot;
@@ -33,10 +33,9 @@ public class Auto1 extends CommandBase {
   /**
    * Creates a new Auto1.
    */
-  public Auto1(Drivetrain a_drivetrain, AlignAndShoot a_initialLineupAndShoot, DriveMotionProfile a_failMot,
-      AlignAndShootToPos a_failShoot, DriveMotionProfile a_grabBallMot, DriveMotionProfile a_getBackMot,
-      AlignAndShoot a_stage2LineupAndShoot, DriveToBall a_rendevouzBalls, DriveMotionProfile a_finalMot,
-      AlignAndShoot a_stage3LineupAndShoot) {
+  public Auto1(AlignAndShoot a_initialLineupAndShoot, DriveMotionProfile a_failMot, AlignAndShootToPos a_failShoot,
+      DriveMotionProfile a_grabBallMot, DriveMotionProfile a_getBackMot, AlignAndShoot a_stage2LineupAndShoot,
+      DriveToBall a_rendevouzBalls, DriveMotionProfile a_finalMot, AlignAndShoot a_stage3LineupAndShoot) {
     // Use addRequirements() here to declare subsystem dependencies.
     initialLineupAndShoot = a_initialLineupAndShoot;
     failMot = a_failMot;
@@ -47,7 +46,7 @@ public class Auto1 extends CommandBase {
     rendevouzBalls = a_rendevouzBalls;
     finalMot = a_finalMot;
     stage3LineupAndShoot = a_stage3LineupAndShoot;
-    addRequirements(a_drivetrain);
+    addRequirements(RobotContainer.drivetrain);
   }
 
   // Called when the command is initially scheduled.

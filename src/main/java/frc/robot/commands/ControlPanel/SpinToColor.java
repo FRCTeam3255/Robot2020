@@ -7,33 +7,32 @@
 
 package frc.robot.commands.ControlPanel;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
-import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.ControlPanel.panelColor;
 
 public class SpinToColor extends CommandBase {
   /**
    * Creates a new SpinToColor.
    */
-  private final ControlPanel controlPanel;
   private panelColor initialColor;
   private panelColor goalColor;
-  private double speedCoefficient = 1;
-  private boolean finished = false;
+  private double speedCoefficient;
+  private boolean finished;
 
-  public SpinToColor(ControlPanel a_controlPanel, panelColor a_goalColor) {
+  public SpinToColor(panelColor a_goalColor) {
     // Use addRequirements() here to declare subsystem dependencies.
     goalColor = a_goalColor;
-    controlPanel = a_controlPanel;
-    addRequirements(a_controlPanel);
+    addRequirements(RobotContainer.controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initialColor = controlPanel.getColor();
+    finished = false;
+    speedCoefficient = 1;
+    initialColor = RobotContainer.controlPanel.getColor();
     if (initialColor == panelColor.red && goalColor == panelColor.yellow) {
       speedCoefficient = -1;
     } else if (initialColor == panelColor.green && goalColor == panelColor.red) {
@@ -45,16 +44,14 @@ public class SpinToColor extends CommandBase {
     } else {
       speedCoefficient = 1;
     }
-    SmartDashboard.putString("init color", controlPanel.getColor().toString());
-    SmartDashboard.putNumber("coeff", speedCoefficient);
-    controlPanel.setSpeed(speedCoefficient * RobotPreferences.controlPanelSpinSpeed.getValue());
+    RobotContainer.controlPanel.setSpeed(speedCoefficient * RobotPreferences.controlPanelSpinSpeed.getValue());
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!(controlPanel.getColor() != goalColor)) {
+    if (!(RobotContainer.controlPanel.getColor() != goalColor)) {
       finished = true;
 
     }
@@ -63,8 +60,7 @@ public class SpinToColor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    controlPanel.setSpeed(0);
-    finished = false;
+    RobotContainer.controlPanel.setSpeed(0);
 
   }
 

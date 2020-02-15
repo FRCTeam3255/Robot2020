@@ -78,6 +78,9 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
         public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterToleranceSpeed",
                         100);
+        public static final SN_DoublePreference hoodMidRangePos = new SN_DoublePreference("hoodMidRangePos", 50);
+        public static final SN_DoublePreference hoodCloseRangePos = new SN_DoublePreference("hoodCloseRangePos", 50);
+
         // ControlPanel
         public static final SN_IntPreference spinCount = new SN_IntPreference("spinCount", 1);
 

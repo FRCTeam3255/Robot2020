@@ -8,36 +8,33 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
-import frc.robot.subsystems.Turret;
 
 public class Shoot extends CommandBase {
   /**
    * Creates a new Shoot.
    */
-  private final Turret turret;
-
-  public Shoot(Turret a_turret) {
+  public Shoot() {
     // Use addRequirements() here to declare subsystem dependencies.
-    turret = a_turret;
-    addRequirements(a_turret);
+    addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+    RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
-      turret.finalShooterGateSetSpeed(1);
+    if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+      RobotContainer.turret.finalShooterGateSetSpeed(1);
 
     } else {
-      turret.finalShooterGateSetSpeed(0);
+      RobotContainer.turret.finalShooterGateSetSpeed(0);
 
     }
 
@@ -46,8 +43,8 @@ public class Shoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.finalShooterGateSetSpeed(0);
-    turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
+    RobotContainer.turret.finalShooterGateSetSpeed(0);
+    RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
 
   }
 

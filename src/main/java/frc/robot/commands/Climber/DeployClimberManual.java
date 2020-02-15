@@ -8,21 +8,17 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
-import frcteam3255.robotbase.Preferences.SN_DoublePreference;
+import frc.robot.RobotContainer;
 
 public class DeployClimberManual extends CommandBase {
   /**
    * Creates a new DeployClimberManual.
    */
-  private final Climber climber;
-  private SN_DoublePreference speed;
 
-  public DeployClimberManual(Climber a_climber, SN_DoublePreference a_speed) {
+  public DeployClimberManual() {
     // Use addRequirements() here to declare subsystem dependencies.
-    climber = a_climber;
-    speed = a_speed;
-    addRequirements(a_climber);
+
+    addRequirements(RobotContainer.climber);
   }
 
   // Called when the command is initially scheduled.
@@ -33,14 +29,14 @@ public class DeployClimberManual extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.setSpeed(speed.getValue());
+    RobotContainer.climber.setSpeed(RobotContainer.manipulator.getYAxis());
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.setSpeed(0);
+    RobotContainer.climber.setSpeed(0);
 
   }
 

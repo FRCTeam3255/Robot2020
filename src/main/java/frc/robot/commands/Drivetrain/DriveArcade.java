@@ -9,19 +9,15 @@ package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain;
 
 public class DriveArcade extends CommandBase {
-  private final Drivetrain drivetrain;
 
   /**
    * Creates a new DriveArcade.
    **/
 
-  public DriveArcade(Drivetrain a_drivetrain) {
-    drivetrain = a_drivetrain;
-    addRequirements(a_drivetrain);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public DriveArcade() {
+    addRequirements(RobotContainer.drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -35,8 +31,7 @@ public class DriveArcade extends CommandBase {
   @Override
 
   public void execute() {
-    // TODO: The drivetrain is passed in rather than access it from RobotContainer, but then the joystick is accessed from RobotContainer
-    drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
+    RobotContainer.drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
   }
 
   // Called once the command ends or is interrupted.

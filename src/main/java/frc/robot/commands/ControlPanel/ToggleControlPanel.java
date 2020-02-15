@@ -8,27 +8,25 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ControlPanel;
+import frc.robot.RobotContainer;
 
 public class ToggleControlPanel extends CommandBase {
   /**
    * Creates a new ToggleControlPanel.
    */
-  private final ControlPanel controlPanel;
 
-  public ToggleControlPanel(ControlPanel a_controlPanel) {
+  public ToggleControlPanel() {
     // Use addRequirements() here to declare subsystem dependencies.
-    controlPanel = a_controlPanel;
-    addRequirements(a_controlPanel);
+    addRequirements(RobotContainer.controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (controlPanel.getControlPanelDeployed()) {
-      controlPanel.retractControlPanel();
+    if (RobotContainer.controlPanel.getControlPanelDeployed()) {
+      RobotContainer.controlPanel.retractControlPanel();
     } else {
-      controlPanel.deployControlPanel();
+      RobotContainer.controlPanel.deployControlPanel();
     }
   }
 

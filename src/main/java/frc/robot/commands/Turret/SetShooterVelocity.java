@@ -8,29 +8,27 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SetShooterVelocity extends CommandBase {
   /**
    * Creates a new SetShooterVelocity.
    */
-  private final Turret turret;
   private final SN_DoublePreference speed;
   private boolean instant;
 
-  public SetShooterVelocity(Turret a_turret, SN_DoublePreference a_speed, boolean a_instant) {
+  public SetShooterVelocity(SN_DoublePreference a_speed, boolean a_instant) {
     // Use addRequirements() here to declare subsystem dependencies.
-    turret = a_turret;
     speed = a_speed;
     instant = a_instant;
-    addRequirements(a_turret);
+    addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.setShooterVelocity(speed.getValue());
+    RobotContainer.turret.setShooterVelocity(speed.getValue());
 
   }
 
@@ -43,7 +41,7 @@ public class SetShooterVelocity extends CommandBase {
   @Override
   public void end(final boolean interrupted) {
     if (!instant) {
-      turret.setShooterSpeed(0);
+      RobotContainer.turret.setShooterSpeed(0);
     }
   }
 
@@ -51,7 +49,7 @@ public class SetShooterVelocity extends CommandBase {
   @Override
   public boolean isFinished() {
     if (instant) {
-      return turret.isShooterSpedUp(speed.getValue());
+      return RobotContainer.turret.isShooterSpedUp(speed.getValue());
     } else {
       return false;
 
