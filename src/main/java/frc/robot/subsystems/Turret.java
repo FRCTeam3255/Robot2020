@@ -45,7 +45,8 @@ public class Turret extends SubsystemBase {
     shooterSlave.restoreFactoryDefaults();
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
-    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
+    // TODO: These preferences only get called at robot power up. Should have a
+    // reload method and/or reload at PID start
     shooterPIDController.setP(RobotPreferences.shooterP.getValue());
     shooterPIDController.setI(RobotPreferences.shooterI.getValue());
     shooterPIDController.setD(RobotPreferences.shooterD.getValue());
@@ -55,22 +56,23 @@ public class Turret extends SubsystemBase {
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     lazySusanTalon.configFactoryDefault();
     lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
+    // TODO: These preferences only get called at robot power up. Should have a
+    // reload method and/or reload at PID start
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
-    // TODO: Should there be a feed forward for the lazy susan, and/or a setoutputrange?
+    // TODO: Should there be a feed forward for the lazy susan, and/or a
+    // setoutputrange?
 
-    // TODO: This said "fix" before. Why??
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
+    // TODO: These preferences only get called at robot power up. Should have a
+    // reload method and/or reload at PID start
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
     // TODO: Should there be a feed forward for the hood, and/or a setoutputrange?
-
 
     // TODO: need to add limit switches for the hood and turret
     // TODO: Can hood limit switch be wired as safety to the hood talon?

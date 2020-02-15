@@ -30,7 +30,6 @@ public class Intake extends SubsystemBase {
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
   private DoubleSolenoid collectorSolenoid;
-  private boolean isCollectionLegal;
 
   private static final Value intakeDeployedValue = Value.kReverse;
   private static final Value intakeRetractedValue = Value.kForward;
@@ -39,21 +38,26 @@ public class Intake extends SubsystemBase {
     collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
     turretGateTalon = new TalonSRX(RobotMap.TURRET_GATE_TALON);
     initialShooterGateTalon = new TalonSRX(RobotMap.INITIAL_SHOOTER_GATE_TALON);
+    collectorTalon.configFactoryDefault();
+    turretGateTalon.configFactoryDefault();
+    initialShooterGateTalon.configFactoryDefault();
 
     collectionSwitch = new DigitalInput(RobotMap.COLLECTOR_SWITCH);
     bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
 
-    collectorSolenoid = new DoubleSolenoid(RobotMap.INTAKE_SOLENOID_A, RobotMap.INTAKE_SOLENOID_B);
+    collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A, RobotMap.COLLECTOR_SOLENOID_B);
 
   }
 
   public boolean getCollectionSwitch() {
     /*
-      TODO: wiring polarity of each switch (normally opened/normally closed) will determine whether or not to negate
-      the .get() value. Need to determine for each switch whether we want it to fail open or fail closed if a wire gets
-      disconnected. Probably safest to have a switch wiring failure mean the switch is open (so wire normally opened?).
-    */
+     * TODO: wiring polarity of each switch (normally opened/normally closed) will
+     * determine whether or not to negate the .get() value. Need to determine for
+     * each switch whether we want it to fail open or fail closed if a wire gets
+     * disconnected. Probably safest to have a switch wiring failure mean the switch
+     * is open (so wire normally opened?).
+     */
     return !collectionSwitch.get();
   }
 
@@ -88,15 +92,6 @@ public class Intake extends SubsystemBase {
 
   public boolean getCollectorDeployed() {
     return (collectorSolenoid.get() == intakeDeployedValue);
-  }
-
-  // TODO: don't see anything that uses this. why store a variable inside this class?
-  public void setCollectionLegality(boolean legality) {
-    isCollectionLegal = legality;
-  }
-
-  public boolean getCollectionLegality() {
-    return isCollectionLegal;
   }
 
   @Override

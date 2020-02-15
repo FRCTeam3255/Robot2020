@@ -10,8 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -23,31 +23,27 @@ public class Climber extends SubsystemBase {
    */
   private TalonSRX climberTalon;
   private TalonFX winchTalon;
-  private TalonFXConfiguration _config;
+  private TalonSRXConfiguration config;
 
   public Climber() {
     winchTalon = new TalonFX(RobotMap.WINCH_TALON);
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
-    _config = new TalonFXConfiguration();
+    config = new TalonSRXConfiguration();
 
-    // TODO:  config is never getting referenced, or associated with a Talon. are you missing a talon.configAllSettings(_config)?
-    _config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
-    /* rest of the configs */
-    _config.neutralDeadband = RobotPreferences.motProfNeutralDeadband
-        .getValue(); /* 0.1 % super small for best low-speed control */
+    // TODO: These preferences only get called at robot power up. Should have a
+    // reload method and/or reload at PID start
 
-    // TODO: These preferences only get called at robot power up. Should have a reload method and/or reload at PID start
-    _config.slot0.kF = RobotPreferences.climberF.getValue();
-    _config.slot0.kP = RobotPreferences.climberP.getValue();
-    _config.slot0.kI = RobotPreferences.climberI.getValue();
-    _config.slot0.kD = RobotPreferences.climberD.getValue();
-    _config.slot0.integralZone = (int) RobotPreferences.climberIz.getValue();
+    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
+    config.slot0.kF = RobotPreferences.climberF.getValue();
+    config.slot0.kP = RobotPreferences.climberP.getValue();
+    config.slot0.kI = RobotPreferences.climberI.getValue();
+    config.slot0.kD = RobotPreferences.climberD.getValue();
+    config.slot0.integralZone = (int) RobotPreferences.climberIz.getValue();
+    climberTalon.configAllSettings(config);
+    winchTalon.configFactoryDefault();
 
   }
 
-  // methods
-
-  // speed can be -1 to +1
   public void setSpeed(double speed) {
     climberTalon.set(ControlMode.PercentOutput, speed);
   }
@@ -56,14 +52,11 @@ public class Climber extends SubsystemBase {
     winchTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  // extend to specific height (in inches)
   public void extendToHeight(double height) {
     climberTalon.set(ControlMode.Position, RobotPreferences.climberCountsPerInches.getValue() * height);
   }
 
   @Override
   public void periodic() {
-    // TODO: should update the dashboard for the climber
-    // This method will be called once per scheduler run
   }
 }
