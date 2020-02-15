@@ -22,26 +22,31 @@ public class DeployClimberManual extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     climber = a_climber;
     speed = a_speed;
+
+    /*
+      TODO: Don't delete this todo!! Need to discuss. Because addRequirements will call end(true) on any
+      running climber command, but this command is registered twice for the same climber, if set speed 0
+      when interrupted is asynchronous, and executes after the set speed in initialize, we could get stuck. These
+      types of issues have happened in prior WPIlibs.
+    */
     addRequirements(a_climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    climber.setSpeed(speed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.setSpeed(speed.getValue());
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climber.setSpeed(0);
-
   }
 
   // Returns false when the command should end.

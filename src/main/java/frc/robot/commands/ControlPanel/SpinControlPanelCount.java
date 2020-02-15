@@ -36,11 +36,18 @@ public class SpinControlPanelCount extends CommandBase {
   public void initialize() {
     initialColor = controlPanel.getColor();
     currentColor = initialColor;
+    finished = false;
+    colorCounter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
+      TODO: need to review this logic together. You should only change currentColor when the count increases.
+      Also, only call controlPanel.getColor() once, and use it everywhere in the command. When it's spinning during this
+      command, you could get different values from each call.
+    */
     controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
     if ((currentColor != controlPanel.getColor()) && (controlPanel.getColor() != panelColor.none)) {
       colorCounter++;
@@ -48,6 +55,7 @@ public class SpinControlPanelCount extends CommandBase {
     if (controlPanel.getColor() != panelColor.none) {
       currentColor = controlPanel.getColor();
     }
+    // TODO: Delete the finished variable, and move this check to isFinished.
     if (numRotations.getValue() == colorCounter / 8) {
       finished = true;
     }
@@ -57,8 +65,6 @@ public class SpinControlPanelCount extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     controlPanel.setSpeed(0);
-    finished = false;
-    colorCounter = 0;
   }
 
   // Returns true when the command should end.

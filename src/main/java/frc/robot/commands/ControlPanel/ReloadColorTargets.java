@@ -26,6 +26,10 @@ public class ReloadColorTargets extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    /*
+      TODO: why have this in RobotContainer since it can be called directly? It's ok for commands to know about subsystems.
+      There's no difference between this command knowing about RobotContainer, and it knowing about RobotContainer.controlPanel.
+    */
     RobotContainer.colorReload();
   }
 
