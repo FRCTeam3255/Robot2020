@@ -53,6 +53,9 @@ public class ControlPanel extends SubsystemBase {
   }
 
   public void reloadColorTargets() {
+    // TODO: construct the targets in the ControlPanel constructor, then just call
+    // the reload method of each target here
+
     redTarget = new ColorTarget(RobotPreferences.redsRedLow, RobotPreferences.redsRedHigh,
         RobotPreferences.redsGreenLow, RobotPreferences.redsGreenHigh, RobotPreferences.redsBlueLow,
         RobotPreferences.redsBlueHigh);
@@ -126,6 +129,7 @@ public class ControlPanel extends SubsystemBase {
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putString("Color Found", getStringColor(detectedColor));
+    // TODO: what's the purpose of always saying tw 1?
     SmartDashboard.putNumber("tw", 1);
     SmartDashboard.putNumber("IR", IR);
     SmartDashboard.putNumber("Proximity", proximity);

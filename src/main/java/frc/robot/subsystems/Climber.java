@@ -30,6 +30,9 @@ public class Climber extends SubsystemBase {
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
     config = new TalonSRXConfiguration();
 
+    // TODO: These preferences only get called at robot power up. Should have a
+    // reload method and/or reload at PID start
+
     config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
     config.slot0.kF = RobotPreferences.climberF.getValue();
     config.slot0.kP = RobotPreferences.climberP.getValue();

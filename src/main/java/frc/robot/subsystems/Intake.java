@@ -51,6 +51,13 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean getCollectionSwitch() {
+    /*
+     * TODO: wiring polarity of each switch (normally opened/normally closed) will
+     * determine whether or not to negate the .get() value. Need to determine for
+     * each switch whether we want it to fail open or fail closed if a wire gets
+     * disconnected. Probably safest to have a switch wiring failure mean the switch
+     * is open (so wire normally opened?).
+     */
     return !collectionSwitch.get();
   }
 
@@ -89,6 +96,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // TODO: consider adding all other paramaters (speeds and deployment)
     SmartDashboard.putBoolean("Collection Switch", getCollectionSwitch());
     SmartDashboard.putBoolean("Bottom Switch", getBottomSwitch());
     SmartDashboard.putBoolean("Staged Switch", getStagedSwitch());

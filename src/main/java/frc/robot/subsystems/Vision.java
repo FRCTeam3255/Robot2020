@@ -61,6 +61,8 @@ public class Vision extends SubsystemBase {
     camera = CameraServer.getInstance().startAutomaticCapture();
 
     cvSink = CameraServer.getInstance().getVideo();
+    // TODO: consider 320x240 to reduce bandwidth for FMS. Don't need quality for this
+    // TODO: consider class constants for 640x480
     sourceStream = CameraServer.getInstance().putVideo("src", 640, 480);
     outputStream = CameraServer.getInstance().putVideo("filter", 640, 480);
 
@@ -73,11 +75,13 @@ public class Vision extends SubsystemBase {
   }
 
   public double getX() {
+    // TODO: Don't hardcode 80. Even if not a pref, use a variable because it's probably a function of 640x480
     return (xPosition - 80);
   }
 
   // limelight
   public boolean visionHasTarget() {
+    // TODO: Is < 1 always the right check?
     if ((NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0)) < 1) {
       return false;
     } else {
@@ -86,6 +90,7 @@ public class Vision extends SubsystemBase {
   }
 
   public double getVisionXError() {
+    // TODO: Likely that scaling by innerHoleScalar is more complex than this logic
     return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
         * RobotPreferences.innerHoleScaler.getValue();
   }
@@ -99,6 +104,7 @@ public class Vision extends SubsystemBase {
   }
 
   public double getHoodVisionPosition() {
+    // TODO: Let's review this math together
     double position = (1 / (RobotPreferences.hoodVisionP.getValue() * 90 * getVisionArea()));
     position = position * 90;
     if (position > 90) {
@@ -124,6 +130,7 @@ public class Vision extends SubsystemBase {
           new Scalar(RobotPreferences.hHigh.getValue(), RobotPreferences.sHigh.getValue(),
               RobotPreferences.vHigh.getValue()),
           circles);
+      // TODO: Should the threshold values (100,255) be preferences?
       Imgproc.threshold(circles, binary, 100, 255, Imgproc.THRESH_BINARY);
 
       contours = new ArrayList<MatOfPoint>();
@@ -143,6 +150,7 @@ public class Vision extends SubsystemBase {
       mask = new Mat(source.rows(), source.cols(), CvType.CV_8U, Scalar.all(0));
       Imgproc.drawContours(mask, contours, maxValIdx, new Scalar(255), -1);
 
+      // TODO: Let's review this logic together
       Moments m = Imgproc.moments(mask, true);
       double x = m.m10 / m.m00;
       xPosition = x;
@@ -155,6 +163,7 @@ public class Vision extends SubsystemBase {
     } catch (Exception e) {
       System.out.println("something went wrong! Is your camera plugged in?");
     }
+    // TODO: Let's review the meaning of each of these
     SmartDashboard.putNumber("xerrll", getVisionXError());
     SmartDashboard.putNumber("area err", getVisionArea());
     SmartDashboard.putNumber("given position",

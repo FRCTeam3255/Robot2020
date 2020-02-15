@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class ColorTarget {
+    // TODO: (optional) typically, these would be privates. Can use m_ as a convention for member variables rather than a_
     double lowRed;
     double highRed;
     double lowGreen;
