@@ -29,6 +29,7 @@ import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignTurretVision;
+import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootAutomatic;
@@ -80,6 +81,7 @@ public class RobotContainer {
   private static SpinControlPanelManual controlPanelManual;
   private static RotateTurret turretManual;
   private static SetHoodPosition hoodMidRange;
+  private static RotateHood hoodManual;
   private static SetHoodPosition hoodCloseRange;
   private static CollectBall collect;
   private static Auto1 auto1;
@@ -108,6 +110,7 @@ public class RobotContainer {
     turretManual = new RotateTurret();
     hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
     hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
+    hoodManual = new RotateHood();
     collect = new CollectBall();
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
@@ -155,7 +158,8 @@ public class RobotContainer {
     manipulator.btn_8.whileHeld(winchClimber);
     manipulator.btn_9.whileHeld(controlPanelManual);
     manipulator.btn_10.whileHeld(turretManual);
-    manipulator.btn_11.whileHeld(hoodMidRange);
+    // manipulator.btn_11.whileHeld(hoodMidRange);
+    manipulator.btn_11.whileHeld(hoodManual);
     manipulator.btn_12.whileHeld(hoodCloseRange);
 
     drive.btn_Y.whileHeld(driveToBall);

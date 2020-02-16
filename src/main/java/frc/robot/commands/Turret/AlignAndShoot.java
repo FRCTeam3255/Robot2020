@@ -94,6 +94,7 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         RobotContainer.turret.setSusanSpeed(0);
+        RobotContainer.turret.setHoodSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
 
         RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
