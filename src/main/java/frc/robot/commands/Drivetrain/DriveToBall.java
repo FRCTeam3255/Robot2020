@@ -13,7 +13,7 @@ import frc.robot.RobotPreferences;
 import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class DriveToBall extends CommandBase {
-  private boolean timeout;
+  private boolean timeoutsEnabled;
   private int timer;
   private boolean timedOut;
   private SN_IntPreference numTimeout;
@@ -32,8 +32,8 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
-  public DriveToBall(boolean a_isTimeout, SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
-    timeout = a_isTimeout;
+  public DriveToBall(boolean a_timeoutsEnabled, SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
+    timeoutsEnabled = a_timeoutsEnabled;
     numTimeout = a_numTimeout;
     numBalls = a_numBalls;
     addRequirements(RobotContainer.drivetrain);
@@ -57,7 +57,7 @@ public class DriveToBall extends CommandBase {
 
   public void execute() {
     RobotContainer.drivetrain.arcadeDrive(.75, RobotContainer.vision.getX() * RobotPreferences.ballP.getValue());
-    if (timeout) {
+    if (timeoutsEnabled) {
       timer++;
 
       if (timer >= numTimeout.getValue()) {

@@ -19,14 +19,25 @@ public class DriveMotionProfile extends CommandBase {
 
     SN_MotionProfile profile;
 
+    /*
+     * TODO: A SN_MotionProfile constructor should take two filenames, and then
+     * internally, it can deal with initBuffer, etc. This class will take the two
+     * filenames and create the SN_MotionProfile internally.
+     */
     public DriveMotionProfile(String a_leftName, String a_rightName) {
 
         profile = new SN_MotionProfile(a_leftName, a_rightName);
         addRequirements(RobotContainer.drivetrain);
-        reload();
 
+        // TODO: The SN_MotionProfile constructor, will internally call it's reload
+        // method, so not needed here
+        reload();
     }
 
+    /*
+     * TODO: Once the SN_MotionProfile objects have their own reload methods, this
+     * method can just call the reload method of the SN_MotionProfile class.
+     */
     public void reload() {
         profile.reload();
     }
