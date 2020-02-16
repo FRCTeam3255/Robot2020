@@ -5,38 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Drivetrain;
+package frc.robot.commands.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frcteam3255.robotbase.SN_MotionProfile;
 
-public class DriveMotionProfile extends CommandBase {
-
+public class ConfigureTalons extends CommandBase {
     /**
-     * Creates a new DriveMotionProfile.
+     * Creates a new ConfigureTalons.
      */
 
-    SN_MotionProfile profile;
-
-    public DriveMotionProfile(String a_leftName, String a_rightName) {
-
-        profile = new SN_MotionProfile(a_leftName, a_rightName);
-        addRequirements(RobotContainer.drivetrain);
-        reload();
-
-    }
-
-    public void reload() {
-        profile.reload();
+    public ConfigureTalons() {
+        // Use addRequirements() here to declare subsystem dependencies.
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        RobotContainer.drivetrain.configure();
+        RobotContainer.turret.configure();
 
-        RobotContainer.drivetrain.resetEncoderCounts();
-        RobotContainer.drivetrain.startMotionProfile(profile.pointsLeft, profile.pointsRight);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -48,13 +36,12 @@ public class DriveMotionProfile extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.drivetrain.resetMotionProfile();
 
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.drivetrain.isMotionProfileFinished();
+        return true;
     }
 }
