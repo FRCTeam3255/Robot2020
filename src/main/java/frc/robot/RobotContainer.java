@@ -26,6 +26,7 @@ import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
+import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignAndShoot;
 import frc.robot.commands.Turret.AlignAndShootToPos;
@@ -83,6 +84,7 @@ public class RobotContainer {
   private static RotateTurret turretManual;
   private static SetHoodPosition hoodMidRange;
   private static SetHoodPosition hoodCloseRange;
+  private static CollectBall collect;
   private static Auto1 auto1;
   private static DriveToBall driveToBall;
 
@@ -93,7 +95,6 @@ public class RobotContainer {
     // Configure the button bindings
     // TODO: This only gets called at construction. Would be called in start motion
     // profile.
-    SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
 
     // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
@@ -113,12 +114,12 @@ public class RobotContainer {
     turretManual = new RotateTurret();
     hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
     hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
+    collect = new CollectBall();
 
-    driveToBall = new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount);
+    driveToBall = new DriveToBall(false, RobotPreferences.ballCount);
     auto1 = new Auto1(new AlignAndShoot(3), failMot,
         new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos), grabBallMot, getBackMot,
-        new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount), finalMot,
-        new AlignAndShoot(2));
+        new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballCount), finalMot, new AlignAndShoot(2));
 
     // map buttons to commands
     configureButtonBindings();
@@ -155,7 +156,7 @@ public class RobotContainer {
     manipulator.btn_1.whileHeld(smartShot);
     manipulator.btn_2.whileHeld(toggleControlPanel);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    // button 4 collects ball - found in intakeHandler cmd
+    manipulator.btn_4.whileHeld(collect);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whileHeld(climberManual);
