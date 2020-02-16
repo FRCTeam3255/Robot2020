@@ -27,6 +27,10 @@ public class DriveMotionProfile extends CommandBase {
     String leftFilename;
     String rightFilename;
 
+    /*
+     TODO: A SN_MotionProfile constructor should take two filenames, and then internally, it can deal with initBuffer, etc.
+     This class will take the two filenames and create the SN_MotionProfile internally.
+    */
     public DriveMotionProfile(String a_leftName, String a_rightName) {
         pointsLeft = new BufferedTrajectoryPointStream();
         pointsRight = new BufferedTrajectoryPointStream();
@@ -34,12 +38,16 @@ public class DriveMotionProfile extends CommandBase {
         rightFilename = a_rightName;
 
         addRequirements(RobotContainer.drivetrain);
-        reload();
 
+        // TODO: The SN_MotionProfile constructor, will internally call it's reload method, so not needed here
+        reload();
     }
 
+    /*
+        TODO: Once the SN_MotionProfile objects have their own reload methods, this method can just call the reload method
+        of the SN_MotionProfile class.
+    */
     public void reload() {
-
         try {
             SN_MotionProfile.initBuffer(pointsLeft, SN_MotionProfile.reader(leftFilename),
                     SN_MotionProfile.count(leftFilename));
@@ -62,6 +70,7 @@ public class DriveMotionProfile extends CommandBase {
     public void initialize() {
 
         RobotContainer.drivetrain.resetEncoderCounts();
+        // TODO: startMotionProfile should take an SN_MotionProfile object, and internally get the left and right points
         RobotContainer.drivetrain.startMotionProfile(pointsLeft, pointsRight);
     }
 
