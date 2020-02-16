@@ -32,6 +32,7 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
+  // TODO: need to change this to a timed command
   public DriveToBall(boolean a_timeoutsEnabled, SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
     timeoutsEnabled = a_timeoutsEnabled;
     numTimeout = a_numTimeout;
@@ -66,6 +67,10 @@ public class DriveToBall extends CommandBase {
         success = true;
       }
     }
+    /*
+      TODO: This logic needs to look for a rising edge. So you don't cache justCounted, instead you see if the current switch
+      position is different than the prior switch position, and going from not closed to closed means a new ball is detected.
+    */
     if (RobotContainer.intake.getCollectionSwitch()) {
       if (!justCounted) {
         counted++;
@@ -88,6 +93,8 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public boolean isFinished() {
+    // TODO: checking for timedout or success should be done here, not setting variables in execute.
+    
     // // return true if X error and hood are within tolerance
     if (timedOut) {
 
