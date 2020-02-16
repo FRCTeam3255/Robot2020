@@ -45,6 +45,9 @@ public class Turret extends SubsystemBase {
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
     shooterPIDController = shooterMaster.getPIDController();
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
+    lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
+    hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
+
     configure();
   }
 
@@ -61,14 +64,12 @@ public class Turret extends SubsystemBase {
     shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
     shooterPIDController.setOutputRange(-1.0, 1.0);
 
-    lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     lazySusanTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.susanP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.susanI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.susanD.getValue());
 
-    hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());

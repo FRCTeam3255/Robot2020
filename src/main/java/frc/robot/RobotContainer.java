@@ -28,8 +28,6 @@ import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
-import frc.robot.commands.Turret.AlignAndShoot;
-import frc.robot.commands.Turret.AlignAndShootToPos;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
@@ -41,7 +39,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.ControlPanel.panelColor;
-import frcteam3255.robotbase.SN_MotionProfile;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import frcteam3255.robotbase.Joystick.SN_SwitchboardStick;
@@ -92,9 +89,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    // TODO: This only gets called at construction. Would be called in start motion
-    // profile.
 
     // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
@@ -116,10 +110,8 @@ public class RobotContainer {
     hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
     collect = new CollectBall();
 
-    driveToBall = new DriveToBall(false, RobotPreferences.ballCount);
-    auto1 = new Auto1(new AlignAndShoot(3), failMot,
-        new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos), grabBallMot, getBackMot,
-        new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballCount), finalMot, new AlignAndShoot(2));
+    driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
+    auto1 = new Auto1();
 
     // map buttons to commands
     configureButtonBindings();

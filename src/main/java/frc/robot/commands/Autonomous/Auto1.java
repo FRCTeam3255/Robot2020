@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Turret.AlignAndShoot;
@@ -33,20 +34,20 @@ public class Auto1 extends CommandBase {
   /**
    * Creates a new Auto1.
    */
-  public Auto1(AlignAndShoot a_initialLineupAndShoot, DriveMotionProfile a_failMot, AlignAndShootToPos a_failShoot,
-      DriveMotionProfile a_grabBallMot, DriveMotionProfile a_getBackMot, AlignAndShoot a_stage2LineupAndShoot,
-      DriveToBall a_rendevouzBalls, DriveMotionProfile a_finalMot, AlignAndShoot a_stage3LineupAndShoot) {
+  public Auto1() {
     // Use addRequirements() here to declare subsystem dependencies.
-    initialLineupAndShoot = a_initialLineupAndShoot;
-    failMot = a_failMot;
-    failShoot = a_failShoot;
-    grabBallMot = a_grabBallMot;
-    getBackMot = a_getBackMot;
-    stage2LineupAndShoot = a_stage2LineupAndShoot;
-    rendevouzBalls = a_rendevouzBalls;
-    finalMot = a_finalMot;
-    stage3LineupAndShoot = a_stage3LineupAndShoot;
+
+    initialLineupAndShoot = new AlignAndShoot(3);
+    failMot = RobotContainer.failMot;
+    failShoot = new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos);
+    grabBallMot = RobotContainer.grabBallMot;
+    getBackMot = RobotContainer.getBackMot;
+    stage2LineupAndShoot = new AlignAndShoot(4);
+    rendevouzBalls = new DriveToBall(true, 5, RobotPreferences.ballCount);
+    finalMot = RobotContainer.finalMot;
+    stage3LineupAndShoot = new AlignAndShoot(2);
     addRequirements(RobotContainer.drivetrain);
+    addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Drivetrain;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -17,6 +18,8 @@ public class DriveToBall extends CommandBase {
   private int counted;
   private boolean priorSwitch;
   private boolean autoEnabled;
+  private Timer timer = new Timer();
+  private double duration;
 
   public enum FinishReason {
     SUCCESS, TIMED_OUT, NOT_FINISHED
@@ -28,7 +31,8 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
-  public DriveToBall(boolean a_autoEnabled, SN_IntPreference a_numBalls) {
+  public DriveToBall(boolean a_autoEnabled, double a_duration, SN_IntPreference a_numBalls) {
+    duration = a_duration;
     autoEnabled = a_autoEnabled;
     numBalls = a_numBalls;
     addRequirements(RobotContainer.drivetrain);
@@ -38,6 +42,9 @@ public class DriveToBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    timer.reset();
+    timer.start();
     priorSwitch = RobotContainer.intake.getCollectionSwitch();
     counted = 0;
   }
@@ -62,11 +69,9 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void end(boolean interrupted) {
+    timer.stop();
     // only way to tell if .withtimeout() is timed out is through interrupted
-    if (interrupted) {
 
-      finishReason = FinishReason.TIMED_OUT;
-    }
   }
 
   // Returns true when the command should end.
@@ -74,6 +79,12 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public boolean isFinished() {
+
+    if (timer.hasPeriodPassed(duration)) {
+
+      finishReason = FinishReason.TIMED_OUT;
+      return true;
+    }
     if (autoEnabled && (counted >= numBalls.getValue())) {
 
       finishReason = FinishReason.SUCCESS;

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -19,11 +20,9 @@ public class AlignAndShootToPos extends CommandBase {
      */
     private int numShotsTodo;
     private int numShots;
-    private boolean success;
-    private boolean timedOut;
-    private int timeout;
     private boolean aligned;
     private boolean hasCounted;
+    private Timer timer;
     SN_DoublePreference hoodPos;
     SN_DoublePreference turretPos;
 
@@ -39,12 +38,11 @@ public class AlignAndShootToPos extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        success = false;
         aligned = false;
         hasCounted = false;
-        timedOut = false;
-        timeout = 0;
         numShots = 0;
+        timer.reset();
+        timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
     }
 
@@ -54,10 +52,8 @@ public class AlignAndShootToPos extends CommandBase {
 
         if (!aligned) {
 
-            if (timeout > RobotPreferences.toPosTimeout.getValue()) {
-
-                timedOut = true;
-            }
+            timer.reset();
+            timer.start();
             if (!(RobotContainer.turret.susanFinished() && RobotContainer.turret.hoodFinished())) {
 
                 RobotContainer.turret.susanTurnToDegree(turretPos.getValue());
@@ -67,17 +63,10 @@ public class AlignAndShootToPos extends CommandBase {
             }
         } else {
 
-            if (timeout > RobotPreferences.toPosTimeout.getValue()) {
-
-                timedOut = true;
-            }
             if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
-                timeout = 0;
-                if (numShots >= numShotsTodo) {
-                    hasCounted = true;
-                    success = true;
 
-                }
+                timer.reset();
+                timer.start();
                 if (!hasCounted) {
                     RobotContainer.turret.finalShooterGateSetSpeed(1);
 
@@ -93,7 +82,7 @@ public class AlignAndShootToPos extends CommandBase {
 
             } else {
                 RobotContainer.turret.finalShooterGateSetSpeed(0);
-                timeout++;
+
             }
 
         }
@@ -112,7 +101,12 @@ public class AlignAndShootToPos extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // // return true if X error and hood are within tolerance
-        return success || timedOut;
+        if (timer.hasPeriodPassed(RobotPreferences.toPosTimeout.getValue())) {
+            return true;
+        }
+        if (numShots >= numShotsTodo) {
+            return true;
+        }
+        return false;
     }
 }
