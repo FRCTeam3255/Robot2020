@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Autonomous.Auto1;
 import frc.robot.commands.Climber.DeployClimberManual;
 import frc.robot.commands.Climber.WinchClimber;
+import frc.robot.commands.Config.ConfigureTalons;
+import frc.robot.commands.Config.ResetDriveEncoder;
+import frc.robot.commands.Config.ResetHoodEncoder;
+import frc.robot.commands.Config.ResetSusanEncoder;
+import frc.robot.commands.ControlPanel.ReloadColorTargets;
 import frc.robot.commands.ControlPanel.SpinControlPanelCount;
 import frc.robot.commands.ControlPanel.SpinControlPanelManual;
 import frc.robot.commands.ControlPanel.SpinToColor;
@@ -86,7 +91,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    // TODO: This only gets called at construction. Would be called in start motion profile.
+    // TODO: This only gets called at construction. Would be called in start motion
+    // profile.
     SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
 
     // create motion profiles
@@ -113,10 +119,9 @@ public class RobotContainer {
         new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos), grabBallMot, getBackMot,
         new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount), finalMot,
         new AlignAndShoot(2));
-    
+
     // map buttons to commands
     configureButtonBindings();
-
 
     // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
@@ -125,8 +130,12 @@ public class RobotContainer {
     motionReload();
 
     SmartDashboard.putData("Reload Motions", new ReloadMotionProfile());
-    // TODO: We probably need more reload commands on the dashboard
-    // TODO: Need reset encoder buttons on the dashboard
+    SmartDashboard.putData("Reload Colors", new ReloadColorTargets());
+    SmartDashboard.putData("Reload Talons", new ConfigureTalons());
+    SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncoder());
+    SmartDashboard.putData("Reset Hood Encoders", new ResetHoodEncoder());
+    SmartDashboard.putData("Reset Susan Encoders", new ResetSusanEncoder());
+
   }
 
   public static void motionReload() {
@@ -157,48 +166,9 @@ public class RobotContainer {
     manipulator.btn_12.whileHeld(hoodCloseRange);
 
     drive.btn_Y.whileHeld(driveToBall);
-    // TODO: Use the switchboard to have a mode for testing autonomous. It can remap button bindings.
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
 
-    /*
-     * TODO: MAY need to have ability to reconfigure button bindings when we enter
-     * climb mode, control panel mode, or based on other switchboard switches. This
-     * is another reason why it's better to create commands once in constructor, and
-     * then reference them in configureButtonBindings.
-     */
-
-    /*
-     * TODO: Need the following controls Climber: extend: manipulator 8 DONE
-     * retract: manipulator 10 DONE climb: manipulator 12 set position high:
-     * manipulator 9 (climb mode) set position medium: manipulator 11 (climb mode)
-     * set position low: (don't need this) climb mode on/off: switchboard 10
-     * 
-     * Control Panel: deploy: manipulator 2 (toggle) retract: manipulator 2 (toogle)
-     * spin manual: manipulator 7/8 spin to color: manipulator 6 spin number of
-     * times: manipulator 5
-     * 
-     * DriveTrain: Drive arcade: driveTrain default command DONE drive to ball:
-     * driver Y DONE high speed/low speed (default low speed): driver right button
-     * Defensive spin move: driver b
-     * 
-     * Collector: deploy: smart dashboard retract: (not mechanically possible?)
-     * collect manually: manipulator 4 DONE collect until detected: ?? reverse spin
-     * collector (only for anomoly): ??
-     * 
-     * Intake: feed to turret manually: ?? feed to turret automatically: default
-     * command for intake reverse: (not mechanically possible?)
-     * 
-     * Turret: align rotation with vision: manipulator 3 align hood with vision:
-     * manipulator 3 turn turret manually: manipulator 9 and 10 (not climb mode)
-     * hood to midrange: manipulator 11 (not climb mode) hood to close shot:
-     * manipulator 12 (not climb mode) move hood manually: potentiomter on
-     * switchboard?? spin up shooter: switchboard 9 (defaults on) spin down shooter:
-     * switchboard 9 (same spin up) set shooter speed: (preference only?, if we lose
-     * hood motor, speed could be good, but we could drive to position) shoot a ball
-     * automatically: trigger shoot a ball manually (doesn't rely on sesnors):
-     * trigger with switchboard 7 enabled
-     */
   }
 
   /**

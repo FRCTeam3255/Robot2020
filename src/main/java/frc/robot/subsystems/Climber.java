@@ -8,10 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -23,23 +21,11 @@ public class Climber extends SubsystemBase {
    */
   private TalonSRX climberTalon;
   private TalonFX winchTalon;
-  private TalonSRXConfiguration config;
 
   public Climber() {
     winchTalon = new TalonFX(RobotMap.WINCH_TALON);
     climberTalon = new TalonSRX(RobotMap.CLIMBER_TALON);
-    config = new TalonSRXConfiguration();
-
-    // TODO: These preferences only get called at robot power up. Should have a
-    // reload method and/or reload at PID start
-
-    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
-    config.slot0.kF = RobotPreferences.climberF.getValue();
-    config.slot0.kP = RobotPreferences.climberP.getValue();
-    config.slot0.kI = RobotPreferences.climberI.getValue();
-    config.slot0.kD = RobotPreferences.climberD.getValue();
-    config.slot0.integralZone = (int) RobotPreferences.climberIz.getValue();
-    climberTalon.configAllSettings(config);
+    climberTalon.configFactoryDefault();
     winchTalon.configFactoryDefault();
 
   }

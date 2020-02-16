@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.ColorTarget;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
-import frc.robot.commands.ControlPanel.ReloadColorTargets;
 
 public class ControlPanel extends SubsystemBase {
   private TalonFX spinner;
@@ -51,7 +51,6 @@ public class ControlPanel extends SubsystemBase {
     yellowTarget = new ColorTarget(RobotPreferences.yellowsRedLow, RobotPreferences.yellowsRedHigh,
         RobotPreferences.yellowsGreenLow, RobotPreferences.yellowsGreenHigh, RobotPreferences.yellowsBlueLow,
         RobotPreferences.yellowsBlueHigh);
-    SmartDashboard.putData("Reload Colors", new ReloadColorTargets());
     reloadColorTargets();
 
   }

@@ -36,8 +36,12 @@ public class RobotPreferences {
         public static final SN_DoublePreference motProfF = new SN_DoublePreference("motProfF", 1023.0 / 6800.0);
         public static final SN_DoublePreference motProfIz = new SN_DoublePreference("motProfIz", 400);
         public static final SN_DoublePreference motProfPeakOut = new SN_DoublePreference("motProfPeakOut", 1.0);
-        public static final SN_DoublePreference driveDistance = new SN_DoublePreference("driveDistance", 5.0);
-        public static final SN_DoublePreference driveDistance2 = new SN_DoublePreference("driveDistance2", -5.0);
+        public static final SN_DoublePreference drivetrainTurnDeadband = new SN_DoublePreference(
+                        "drivetrainTurnDeadband", .2);
+        public static final SN_DoublePreference drivetrainDeadband = new SN_DoublePreference("drivetrainDeadband", .2);
+        public static final SN_DoublePreference drivetrainSpeed = new SN_DoublePreference("drivetrainSpeed", .5);
+        public static final SN_DoublePreference drivetrainTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
+                        .5);
         public static final SN_IntPreference ballTimeout = new SN_IntPreference("ballTimeout", 20);
         // Climber
         public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference(

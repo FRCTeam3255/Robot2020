@@ -32,23 +32,29 @@ public class Turret extends SubsystemBase {
   private TalonSRX finalShooterGateTalon;
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
+  private double hardstopTol = 3;
+  private double hoodMaxDegree = 90;
+  private double hoodMinDegree = 0;
+  private double susanMinDegree = -90;
+  private double susanMaxDegree = 90;
 
   private CANPIDController shooterPIDController;
 
   public Turret() {
-
-    // TODO: failsafe for losing the encoder.
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
     shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
     shooterPIDController = shooterMaster.getPIDController();
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
+    configure();
+  }
+
+  public void configure() {
 
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
-    // TODO: These preferences only get called at robot power up. Should have a
-    // reload method and/or reload at PID start
+
     shooterPIDController.setP(RobotPreferences.shooterP.getValue());
     shooterPIDController.setI(RobotPreferences.shooterI.getValue());
     shooterPIDController.setD(RobotPreferences.shooterD.getValue());
@@ -57,29 +63,17 @@ public class Turret extends SubsystemBase {
 
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     lazySusanTalon.configFactoryDefault();
-    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    // TODO: These preferences only get called at robot power up. Should have a
-    // reload method and/or reload at PID start
-    lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
-    lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
-    lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
-    // TODO: Should there be a feed forward for the lazy susan, and/or a
-    // setoutputrange?
-    // yeah i dont need a feed forward for this i dont think. simple p loop should
-    // do the trick, according to my testing
+    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    hoodTalon.config_kP(0, RobotPreferences.susanP.getValue());
+    hoodTalon.config_kI(0, RobotPreferences.susanI.getValue());
+    hoodTalon.config_kD(0, RobotPreferences.susanD.getValue());
 
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    // TODO: These preferences only get called at robot power up. Should have a
-    // reload method and/or reload at PID start
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
-    // TODO: Should there be a feed forward for the hood, and/or a setoutputrange?
-
-    // TODO: need to add limit switches for the hood and turret
-    // TODO: Can hood limit switch be wired as safety to the hood talon?
   }
 
   public void finalShooterGateSetSpeed(double speed) {
@@ -90,17 +84,28 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
   }
 
-  public void setSusanSpeed(double speed) {
+  public void setSusanSpeed(double a_speed) {
+    double speed = a_speed;
+    if ((getSusanPosition() - hardstopTol < susanMinDegree) && speed < 0) {
+      speed = 0;
+    } else if ((getSusanPosition() + hardstopTol > susanMaxDegree) && speed > 0) {
+      speed = 0;
+    }
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  public void hoodMoveToDegree(double degree) {
+  public void hoodMoveToDegree(double a_degree) {
+    double degree = a_degree;
+    if (degree < hoodMinDegree) {
+      degree = hoodMinDegree;
+    } else if (degree > hoodMaxDegree) {
+      degree = hoodMaxDegree;
+    }
     hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
 
   public boolean hoodFinished() {
     return Math.abs(hoodTalon.getClosedLoopError()) <= RobotPreferences.hoodTol.getValue();
-
   }
 
   public boolean susanFinished() {
@@ -108,7 +113,13 @@ public class Turret extends SubsystemBase {
 
   }
 
-  public void setHoodSpeed(double speed) {
+  public void setHoodSpeed(double a_speed) {
+    double speed = a_speed;
+    if ((getHoodPosition() - hardstopTol < hoodMinDegree) && speed < 0) {
+      speed = 0;
+    } else if ((getHoodPosition() + hardstopTol > hoodMaxDegree) && speed > 0) {
+      speed = 0;
+    }
     hoodTalon.set(ControlMode.Position, speed);
   }
 
@@ -133,12 +144,12 @@ public class Turret extends SubsystemBase {
   }
 
   public void resetSusanEncoder() {
-    lazySusanTalon.getSensorCollection().setQuadraturePosition(0, 100);
+    lazySusanTalon.setSelectedSensorPosition(0);
 
   }
 
   public void resetHoodEncoder() {
-    hoodTalon.getSensorCollection().setQuadraturePosition(0, 100);
+    hoodTalon.setSelectedSensorPosition(0);
   }
 
   public double getHoodEncoder() {
@@ -164,8 +175,9 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("Hood Finished", hoodFinished());
     SmartDashboard.putNumber("Hood Err", hoodTalon.getClosedLoopError());
     SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
+    SmartDashboard.putNumber("Susan Position", getSusanPosition());
+    SmartDashboard.putNumber("Hood Position", getHoodPosition());
     SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue()));
-    SmartDashboard.putNumber("Shooter Err", getShooterError(RobotPreferences.shooterMaxRPM.getValue()));
-    // TODO: Add hood and susan position
+
   }
 }

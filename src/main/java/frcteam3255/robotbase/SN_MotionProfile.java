@@ -11,6 +11,37 @@ import edu.wpi.first.wpilibj.Filesystem;
 /*SN motion profile contains the functions necessary to take a CSV file put in deploy and load it into
 TalonSRX motion profiling*/
 public class SN_MotionProfile {
+	public BufferedTrajectoryPointStream pointsLeft;
+	public BufferedTrajectoryPointStream pointsRight;
+
+	String leftFilename;
+	String rightFilename;
+
+	public SN_MotionProfile(String a_leftName, String a_rightName) {
+		pointsLeft = new BufferedTrajectoryPointStream();
+		pointsRight = new BufferedTrajectoryPointStream();
+		leftFilename = a_leftName;
+		rightFilename = a_rightName;
+		reload();
+
+	}
+
+	public void reload() {
+
+		try {
+			initBuffer(pointsLeft, reader(leftFilename), SN_MotionProfile.count(leftFilename));
+		} catch (IOException e) {
+			System.out.println("initBuffer failed :(. Is your file in deploy?");
+			e.printStackTrace();
+		}
+		try {
+			initBuffer(pointsRight, reader(rightFilename), SN_MotionProfile.count(rightFilename));
+		} catch (IOException e) {
+			System.out.println("initBuffer failed :(. Is your file in deploy?");
+			e.printStackTrace();
+		}
+
+	}
 
 	static double sensorUnitsPerTick = 600;
 
