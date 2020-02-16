@@ -15,7 +15,8 @@ public class HandleIntake extends CommandBase {
   /**
    * Creates a new HandleIntake.
    */
-  private boolean collectionAllowed;
+  double initialGateSpeed;
+  double turretGateSpeed;
 
   public HandleIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,35 +26,29 @@ public class HandleIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    collectionAllowed = true;
+    turretGateSpeed = 0;
+    initialGateSpeed = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    RobotContainer.intake.collectorSetSpeed(0);
-
     if (RobotContainer.intake.getCollectionSwitch()) { // s1
-      RobotContainer.intake.turretGateSetSpeed(1); // m1
-      RobotContainer.intake.initialShooterGateSetSpeed(1); // m2
+      turretGateSpeed = 1;
+      initialGateSpeed = 1;
     }
     if (RobotContainer.intake.getStagedSwitch()) { // s3
-      RobotContainer.intake.initialShooterGateSetSpeed(0);
+
+      initialGateSpeed = 0;
     }
     if (RobotContainer.intake.getBottomSwitch() && RobotContainer.intake.getStagedSwitch()) { // s2 & s3
-      RobotContainer.intake.turretGateSetSpeed(0); // m1
-    }
-    if (RobotContainer.intake.getCollectionSwitch() && RobotContainer.intake.getStagedSwitch()
-        && RobotContainer.intake.getBottomSwitch()) {
-      collectionAllowed = false;
-    } else {
-      collectionAllowed = true;
-    }
-    if (RobotContainer.manipulator.btn_4.get() && collectionAllowed) {
-      RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
+      turretGateSpeed = 0;
+
     }
 
+    RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue()); // m1
+    RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue()); // m2
   }
 
   // Called once the command ends or is interrupted.

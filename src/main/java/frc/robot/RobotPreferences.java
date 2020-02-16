@@ -24,6 +24,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference sHigh = new SN_DoublePreference("sHigh", 255);
         public static final SN_DoublePreference vHigh = new SN_DoublePreference("vHigh", 255);
         public static final SN_IntPreference ballCount = new SN_IntPreference("ballCount", 2);
+        public static final SN_DoublePreference ballSpeed = new SN_DoublePreference("ballSpeed", .75);
 
         // Drivetrain
         public static final SN_IntPreference motProfSensorUnitsPerFt = new SN_IntPreference("motProfSensorUnitsPerFt",
@@ -42,7 +43,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference drivetrainSpeed = new SN_DoublePreference("drivetrainSpeed", .5);
         public static final SN_DoublePreference drivetrainTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
                         .5);
-        public static final SN_IntPreference ballTimeout = new SN_IntPreference("ballTimeout", 20);
+        public static final SN_DoublePreference ballTimeout = new SN_DoublePreference("ballTimeout", 5);
         // Climber
         public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference(
                         "climberCountsPerInches", 400);
@@ -90,6 +91,8 @@ public class RobotPreferences {
 
         // Intake
         public static final SN_DoublePreference collectorSpeed = new SN_DoublePreference("collectorSpeed", .6);
+        public static final SN_DoublePreference turretGateSpeed = new SN_DoublePreference("turretGateSpeed", 1);
+        public static final SN_DoublePreference initialGateSpeed = new SN_DoublePreference("initialGateSpeed", 1);
         // reds
         public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", .2);
         public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", .6);

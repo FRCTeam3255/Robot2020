@@ -38,7 +38,8 @@ public class SetHoodPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // TODO: Need to reset hood to percent output mode and set speed to zero
+    RobotContainer.turret.setHoodSpeed(0);
+
   }
 
   // Returns true when the command should end.

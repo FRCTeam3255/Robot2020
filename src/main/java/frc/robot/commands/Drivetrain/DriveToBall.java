@@ -7,20 +7,19 @@
 
 package frc.robot.commands.Drivetrain;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class DriveToBall extends CommandBase {
-  private boolean timeoutsEnabled;
-  private int timer;
-  private boolean timedOut;
-  private SN_IntPreference numTimeout;
   private SN_IntPreference numBalls;
-  private boolean success;
   private int counted;
-  private boolean justCounted;
+  private boolean priorSwitch;
+  private boolean autoEnabled;
+  private Timer timer = new Timer();
+  private double duration;
 
   public enum FinishReason {
     SUCCESS, TIMED_OUT, NOT_FINISHED
@@ -32,10 +31,9 @@ public class DriveToBall extends CommandBase {
    * Creates a new DriveToBall.
    **/
 
-  // TODO: need to change this to a timed command
-  public DriveToBall(boolean a_timeoutsEnabled, SN_IntPreference a_numTimeout, SN_IntPreference a_numBalls) {
-    timeoutsEnabled = a_timeoutsEnabled;
-    numTimeout = a_numTimeout;
+  public DriveToBall(boolean a_autoEnabled, double a_duration, SN_IntPreference a_numBalls) {
+    duration = a_duration;
+    autoEnabled = a_autoEnabled;
     numBalls = a_numBalls;
     addRequirements(RobotContainer.drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,11 +43,10 @@ public class DriveToBall extends CommandBase {
   @Override
   public void initialize() {
 
-    timedOut = false;
-    success = false;
-    timer = 0;
+    timer.reset();
+    timer.start();
+    priorSwitch = RobotContainer.intake.getCollectionSwitch();
     counted = 0;
-    justCounted = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,27 +54,13 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void execute() {
-    RobotContainer.drivetrain.arcadeDrive(.75, RobotContainer.vision.getX() * RobotPreferences.ballP.getValue());
-    if (timeoutsEnabled) {
-      timer++;
+    RobotContainer.drivetrain.arcadeDrive(RobotPreferences.ballSpeed.getValue(),
+        RobotContainer.vision.getX() * RobotPreferences.ballP.getValue());
 
-      if (timer >= numTimeout.getValue()) {
-        timedOut = true;
-      } else if (counted >= numBalls.getValue()) {
-        success = true;
-      }
-    }
-    /*
-      TODO: This logic needs to look for a rising edge. So you don't cache justCounted, instead you see if the current switch
-      position is different than the prior switch position, and going from not closed to closed means a new ball is detected.
-    */
-    if (RobotContainer.intake.getCollectionSwitch()) {
-      if (!justCounted) {
-        counted++;
-        justCounted = true;
-      }
-    } else {
-      justCounted = false;
+    if (RobotContainer.intake.getCollectionSwitch() != priorSwitch) {
+
+      counted++;
+      priorSwitch = RobotContainer.intake.getCollectionSwitch();
     }
   }
 
@@ -86,6 +69,9 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public void end(boolean interrupted) {
+    timer.stop();
+    // only way to tell if .withtimeout() is timed out is through interrupted
+
   }
 
   // Returns true when the command should end.
@@ -93,18 +79,13 @@ public class DriveToBall extends CommandBase {
   @Override
 
   public boolean isFinished() {
-    // TODO: checking for timedout or success should be done here, not setting variables in execute.
-    
-    // // return true if X error and hood are within tolerance
-    if (timedOut) {
+
+    if (timer.hasPeriodPassed(duration)) {
 
       finishReason = FinishReason.TIMED_OUT;
-
       return true;
     }
-
-    // return true if no vision for timeout
-    if (success) {
+    if (autoEnabled && (counted >= numBalls.getValue())) {
 
       finishReason = FinishReason.SUCCESS;
       return true;

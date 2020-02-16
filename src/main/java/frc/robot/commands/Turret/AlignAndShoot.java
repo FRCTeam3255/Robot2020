@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -18,10 +19,8 @@ public class AlignAndShoot extends CommandBase {
      */
     private int numShotsTodo;
     private int numShots;
-    private boolean success;
-    private boolean noTarget;
+    private Timer timer = new Timer();
     private boolean aligned;
-    private int timeout;
     private boolean hasCounted;
 
     public enum FinishReason {
@@ -41,12 +40,11 @@ public class AlignAndShoot extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        success = false;
-        noTarget = false;
         aligned = false;
-        timeout = 0;
         hasCounted = false;
         numShots = 0;
+        timer.reset();
+        timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
     }
 
@@ -55,14 +53,11 @@ public class AlignAndShoot extends CommandBase {
     public void execute() {
 
         if (!aligned) {
-
-            if (timeout > RobotPreferences.visionTimeout.getValue()) {
-
-                noTarget = true;
-            }
             if (RobotContainer.vision.visionHasTarget()
                     && !(RobotContainer.vision.isXFinished() && RobotContainer.turret.hoodFinished())) {
-                timeout = 0;
+
+                timer.reset();
+                timer.start();
 
                 RobotContainer.turret.setSusanSpeed(
                         RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
@@ -70,18 +65,11 @@ public class AlignAndShoot extends CommandBase {
             } else if (RobotContainer.vision.visionHasTarget()
                     && (RobotContainer.vision.isXFinished() && RobotContainer.turret.hoodFinished())) {
                 aligned = true;
-            } else {
-                timeout++;
             }
         } else {
-
+            timer.stop();
             if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
 
-                if (numShots >= numShotsTodo) {
-                    hasCounted = true;
-                    success = true;
-
-                }
                 if (!hasCounted) {
                     RobotContainer.turret.finalShooterGateSetSpeed(1);
 
@@ -107,6 +95,7 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         RobotContainer.turret.setSusanSpeed(0);
+        RobotContainer.turret.setHoodSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
 
         RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
@@ -116,7 +105,7 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // // return true if X error and hood are within tolerance
-        if (success) {
+        if (numShots >= numShotsTodo) {
 
             finishReason = FinishReason.SUCCESS;
 
@@ -124,7 +113,7 @@ public class AlignAndShoot extends CommandBase {
         }
 
         // return true if no vision for timeout
-        if (noTarget) {
+        if (timer.hasPeriodPassed(RobotPreferences.visionTimeout.getValue())) {
 
             finishReason = FinishReason.NO_TARGET;
             return true;
