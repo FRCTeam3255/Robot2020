@@ -16,15 +16,6 @@ public class DeployClimberManual extends CommandBase {
    */
 
   public DeployClimberManual() {
-    // Use addRequirements() here to declare subsystem dependencies.
-
-    /*
-     * TODO: Don't delete this todo!! Need to discuss. Because addRequirements will
-     * call end(true) on any running climber command, but this command is registered
-     * twice for the same climber, if set speed 0 when interrupted is asynchronous,
-     * and executes after the set speed in initialize, we could get stuck. These
-     * types of issues have happened in prior WPIlibs.
-     */
     addRequirements(RobotContainer.climber);
   }
 

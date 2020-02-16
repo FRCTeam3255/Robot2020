@@ -58,9 +58,6 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
-  // TODO: Need a lighting system that uses LEDs to alert driver when they have
-  // vision lock on goal or ball
-
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
@@ -89,18 +86,20 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    // TODO: This only gets called at construction. Would be called in start motion profile.
     SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
 
+    // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
 
+    // create commands
     smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount);
-    // TODO: incorperate fms here
     spinToColor = new SpinToColor(panelColor.green);
     climberManual = new DeployClimberManual();
     winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
@@ -114,11 +113,17 @@ public class RobotContainer {
         new AlignAndShootToPos(3, RobotPreferences.failHoodPos, RobotPreferences.failHoodPos), grabBallMot, getBackMot,
         new AlignAndShoot(4), new DriveToBall(true, RobotPreferences.ballTimeout, RobotPreferences.ballCount), finalMot,
         new AlignAndShoot(2));
+    
+    // map buttons to commands
     configureButtonBindings();
 
+
+    // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
     intake.setDefaultCommand(new HandleIntake());
+
     motionReload();
+
     SmartDashboard.putData("Reload Motions", new ReloadMotionProfile());
     // TODO: We probably need more reload commands on the dashboard
     // TODO: Need reset encoder buttons on the dashboard
@@ -152,8 +157,7 @@ public class RobotContainer {
     manipulator.btn_12.whileHeld(hoodCloseRange);
 
     drive.btn_Y.whileHeld(driveToBall);
-    // TODO: Don't have an autonomous command tied to a button
-    // well, I would like to.
+    // TODO: Use the switchboard to have a mode for testing autonomous. It can remap button bindings.
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
 

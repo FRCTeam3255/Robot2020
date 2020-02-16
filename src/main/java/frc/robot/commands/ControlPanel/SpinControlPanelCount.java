@@ -19,8 +19,7 @@ public class SpinControlPanelCount extends CommandBase {
    */
   private SN_IntPreference numRotations;
   private double colorCounter = 0;
-  private panelColor initialColor;
-  private panelColor currentColor;
+  private panelColor priorColor;
 
   public SpinControlPanelCount(SN_IntPreference a_numRotations) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,29 +30,19 @@ public class SpinControlPanelCount extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initialColor = RobotContainer.controlPanel.getColor();
-    currentColor = initialColor;
+    priorColor = RobotContainer.controlPanel.getColor();
     colorCounter = 0;
+    RobotContainer.controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*
-     * TODO: need to review this logic together. You should only change currentColor
-     * when the count increases. Also, only call controlPanel.getColor() once, and
-     * use it everywhere in the command. When it's spinning during this command, you
-     * could get different values from each call.
-     */
-    RobotContainer.controlPanel.setSpeed(RobotPreferences.controlPanelSpinSpeed.getValue());
-    if ((currentColor != RobotContainer.controlPanel.getColor())
-        && (RobotContainer.controlPanel.getColor() != panelColor.none)) {
+    panelColor color = RobotContainer.controlPanel.getColor();
+    if ((priorColor != color) && (color != panelColor.none)) {
       colorCounter++;
+      priorColor = color;
     }
-    if (RobotContainer.controlPanel.getColor() != panelColor.none) {
-      currentColor = RobotContainer.controlPanel.getColor();
-    }
-
   }
 
   // Called once the command ends or is interrupted.
