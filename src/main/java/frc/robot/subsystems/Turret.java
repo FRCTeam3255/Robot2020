@@ -75,6 +75,7 @@ public class Turret extends SubsystemBase {
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
+    hoodTalon.setInverted(true);
   }
 
   public void finalShooterGateSetSpeed(double speed) {
@@ -87,11 +88,12 @@ public class Turret extends SubsystemBase {
 
   public void setSusanSpeed(double a_speed) {
     double speed = a_speed;
-    if ((getSusanPosition() - hardstopTol < susanMinDegree) && speed < 0) {
-      speed = 0;
-    } else if ((getSusanPosition() + hardstopTol > susanMaxDegree) && speed > 0) {
-      speed = 0;
-    }
+    // if ((getSusanPosition() - hardstopTol < susanMinDegree) && speed < 0) {
+    // speed = 0;
+    // } else if ((getSusanPosition() + hardstopTol > susanMaxDegree) && speed > 0)
+    // {
+    // speed = 0;
+    // }
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
@@ -116,12 +118,12 @@ public class Turret extends SubsystemBase {
 
   public void setHoodSpeed(double a_speed) {
     double speed = a_speed;
-    if ((getHoodPosition() - hardstopTol < hoodMinDegree) && speed < 0) {
-      speed = 0;
-    } else if ((getHoodPosition() + hardstopTol > hoodMaxDegree) && speed > 0) {
-      speed = 0;
-    }
-    hoodTalon.set(ControlMode.Position, speed);
+    // if ((getHoodPosition() - hardstopTol < hoodMinDegree) && speed < 0) {
+    // speed = 0;
+    // } else if ((getHoodPosition() + hardstopTol > hoodMaxDegree) && speed > 0) {
+    // speed = 0;
+    // }
+    hoodTalon.set(ControlMode.PercentOutput, speed);
   }
 
   public void setShooterSpeed(double speed) {

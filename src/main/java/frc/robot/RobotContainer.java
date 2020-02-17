@@ -80,7 +80,7 @@ public class RobotContainer {
   private static WinchClimber winchClimber;
   private static SpinControlPanelManual controlPanelManual;
   private static RotateTurret turretManual;
-  private static SetHoodPosition hoodMidRange;
+  // private static SetHoodPosition hoodMidRange;
   private static RotateHood hoodManual;
   private static SetHoodPosition hoodCloseRange;
   private static CollectBall collect;
@@ -108,7 +108,7 @@ public class RobotContainer {
     winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
     controlPanelManual = new SpinControlPanelManual();
     turretManual = new RotateTurret();
-    hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
+    // hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
     hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
     hoodManual = new RotateHood();
     collect = new CollectBall();

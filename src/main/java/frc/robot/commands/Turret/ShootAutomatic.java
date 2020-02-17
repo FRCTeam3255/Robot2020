@@ -35,7 +35,7 @@ public class ShootAutomatic extends CommandBase {
 
         if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
 
-            RobotContainer.turret.finalShooterGateSetSpeed(1);
+            RobotContainer.turret.finalShooterGateSetSpeed(-1);
 
         } else {
             RobotContainer.turret.finalShooterGateSetSpeed(0);

@@ -91,8 +91,8 @@ public class RobotPreferences {
 
         // Intake
         public static final SN_DoublePreference collectorSpeed = new SN_DoublePreference("collectorSpeed", .6);
-        public static final SN_DoublePreference turretGateSpeed = new SN_DoublePreference("turretGateSpeed", 1);
-        public static final SN_DoublePreference initialGateSpeed = new SN_DoublePreference("initialGateSpeed", 1);
+        public static final SN_DoublePreference turretGateSpeed = new SN_DoublePreference("turretGateSpeed", .4);
+        public static final SN_DoublePreference initialGateSpeed = new SN_DoublePreference("initialGateSpeed", .4);
         // reds
         public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", .2);
         public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", .6);

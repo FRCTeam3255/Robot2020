@@ -34,21 +34,23 @@ public class HandleIntake extends CommandBase {
   @Override
   public void execute() {
 
-    if (RobotContainer.intake.getCollectionSwitch()) { // s1
+    if (RobotContainer.intake.getCollectionSwitch()) {
       turretGateSpeed = 1;
       initialGateSpeed = 1;
+
     }
-    if (RobotContainer.intake.getStagedSwitch()) { // s3
+
+    if (RobotContainer.intake.getStagedSwitch()) {
+
+      turretGateSpeed = 0;
+    }
+    if (RobotContainer.intake.getBottomSwitch()) {
 
       initialGateSpeed = 0;
     }
-    if (RobotContainer.intake.getBottomSwitch() && RobotContainer.intake.getStagedSwitch()) { // s2 & s3
-      turretGateSpeed = 0;
-
-    }
 
     RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue()); // m1
-    RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue()); // m2
+    RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());
   }
 
   // Called once the command ends or is interrupted.
