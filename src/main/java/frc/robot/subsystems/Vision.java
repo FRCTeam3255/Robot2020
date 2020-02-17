@@ -101,9 +101,7 @@ public class Vision extends SubsystemBase {
     // yeah, still wrestling with this one. pretty sure that its gonna end up being
     // err + skew times scalar times whatever side youre on, gonna need to do a grip
     // pipeline for this
-    return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
-        + NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0)
-            * RobotPreferences.innerHoleScaler.getValue();
+    return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
   }
 
   public double getVisionArea() {

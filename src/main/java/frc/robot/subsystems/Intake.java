@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput collectionSwitch;
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
+  private double collectorSpeed;
   // private DoubleSolenoid collectorSolenoid;
 
   // private static final Value intakeDeployedValue = Value.kReverse;
@@ -71,7 +72,12 @@ public class Intake extends SubsystemBase {
   }
 
   public void collectorSetSpeed(double speed) {
+    collectorSpeed = speed;
     collectorTalon.set(ControlMode.PercentOutput, speed);
+  }
+
+  public boolean isCollectorRunning() {
+    return Math.abs(collectorSpeed) > 0.01;
   }
 
   public void turretGateSetSpeed(double speed) {
