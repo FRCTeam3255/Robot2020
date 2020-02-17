@@ -34,7 +34,7 @@ public class HandleIntake extends CommandBase {
   @Override
   public void execute() {
 
-    if (RobotContainer.intake.getCollectionSwitch()) {
+    if (RobotContainer.intake.isCollectorRunning()) {
       turretGateSpeed = 1;
       initialGateSpeed = 1;
 

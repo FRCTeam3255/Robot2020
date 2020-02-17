@@ -29,7 +29,7 @@ public class RotateHood extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.setHoodSpeed(RobotContainer.manipulator.getY());
+    RobotContainer.turret.setHoodSpeed(-RobotContainer.manipulator.getY());
 
   }
 

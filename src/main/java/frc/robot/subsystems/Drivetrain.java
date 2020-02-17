@@ -36,6 +36,7 @@ public class Drivetrain extends SubsystemBase {
     rightSlave = new TalonFX(RobotMap.DRIVETRAIN_RIGHT_SLAVE);
     config = new TalonFXConfiguration();
     configure();
+    configureRamps();
   }
 
   public void configure() {
@@ -68,7 +69,18 @@ public class Drivetrain extends SubsystemBase {
     rightSlave.setInverted(false);
     leftMaster.setInverted(true);
     leftSlave.setInverted(true);
+  }
 
+  public void configureRamps() {
+
+    leftMaster.configOpenloopRamp(RobotPreferences.drivetrainRampTime.getValue());
+    leftSlave.configOpenloopRamp(RobotPreferences.drivetrainRampTime.getValue());
+    rightMaster.configOpenloopRamp(RobotPreferences.drivetrainRampTime.getValue());
+    rightSlave.configOpenloopRamp(RobotPreferences.drivetrainRampTime.getValue());
+  }
+
+  public void arcadeDriveInit() {
+    configureRamps();
   }
 
   public void arcadeDrive(double a_speed, double a_turn) {
@@ -95,6 +107,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void driveDistance(double distance) {
+    configure();
     leftMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue() / 12);
     rightMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue() / 12);
 
@@ -126,6 +139,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void startMotionProfile(BufferedTrajectoryPointStream pointsLeft, BufferedTrajectoryPointStream pointsRight) {
+    configure();
+
     leftMaster.startMotionProfile(pointsLeft, 10, ControlMode.MotionProfile);
     rightMaster.startMotionProfile(pointsRight, 10, ControlMode.MotionProfile);
   }

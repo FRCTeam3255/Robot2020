@@ -29,6 +29,7 @@ public class SetShooterVelocity extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.turret.setShooterVelocity(speed.getValue());
+    RobotContainer.turret.shooterVelocity();
 
   }
 
@@ -41,7 +42,6 @@ public class SetShooterVelocity extends CommandBase {
   @Override
   public void end(final boolean interrupted) {
     if (!instant) {
-      RobotContainer.turret.setShooterSpeed(0);
     }
   }
 
@@ -50,13 +50,14 @@ public class SetShooterVelocity extends CommandBase {
   public boolean isFinished() {
     if (instant) {
       /*
-        TODO: Seems like we should check to see if the velocity is what we set it to.
-        speed.getvalue could have changed between when we set it, and when we get it.
-        I think the shooter shouldn't have to be passed a goalSpeed. I bet you can find out from the
-        talon what the setpoint was, rather than having to provide the setpoint again.
-        Since there is no method, just cache the variable and check against that.
-      */
-      return RobotContainer.turret.isShooterSpedUp(speed.getValue());
+       * TODO: Seems like we should check to see if the velocity is what we set it to.
+       * speed.getvalue could have changed between when we set it, and when we get it.
+       * I think the shooter shouldn't have to be passed a goalSpeed. I bet you can
+       * find out from the talon what the setpoint was, rather than having to provide
+       * the setpoint again. Since there is no method, just cache the variable and
+       * check against that.
+       */
+      return RobotContainer.turret.isShooterSpedUp();
     } else {
       return false;
 

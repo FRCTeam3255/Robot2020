@@ -32,8 +32,8 @@ public class Turret extends SubsystemBase {
   private TalonSRX finalShooterGateTalon;
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
-  private double hardstopTol = 3;
   private CANPIDController shooterPIDController;
+  private double goalVelocity = 0;
 
   public Turret() {
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
@@ -42,11 +42,12 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
-
-    configure();
+    configureShooter();
+    configureLazySusan();
+    configureHood();
   }
 
-  public void configure() {
+  public void configureShooter() {
 
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
@@ -58,7 +59,9 @@ public class Turret extends SubsystemBase {
     shooterPIDController.setD(RobotPreferences.shooterD.getValue());
     shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
     shooterPIDController.setOutputRange(-1.0, 1.0);
+  }
 
+  public void configureLazySusan() {
     lazySusanTalon.configFactoryDefault();
     lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
@@ -67,6 +70,10 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.configPeakOutputForward(RobotPreferences.susanMaxSpeed.getValue());
     lazySusanTalon.configPeakOutputReverse(-RobotPreferences.susanMaxSpeed.getValue());
 
+  }
+
+  public void configureHood() {
+
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
@@ -74,8 +81,6 @@ public class Turret extends SubsystemBase {
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
     hoodTalon.configPeakOutputForward(RobotPreferences.hoodMaxSpeed.getValue());
     hoodTalon.configPeakOutputReverse(-RobotPreferences.hoodMaxSpeed.getValue());
-    hoodTalon.setInverted(false);
-    hoodTalon.setSensorPhase(false);
   }
 
   public void finalShooterGateSetSpeed(double speed) {
@@ -88,6 +93,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void susanTurnToDegree(double degree) {
+    configureLazySusan();
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
   }
 
@@ -103,6 +109,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void hoodMoveToDegree(double a_degree) {
+    configureHood();
     double degree = a_degree;
     if (degree < RobotPreferences.hoodMinDegree.getValue()) {
       degree = RobotPreferences.hoodMinDegree.getValue();
@@ -135,16 +142,21 @@ public class Turret extends SubsystemBase {
     shooterMaster.set(speed);
   }
 
-  public void setShooterVelocity(double velocity) {
-    shooterPIDController.setReference(velocity, ControlType.kVelocity);
+  public void setShooterVelocity(double rpm) {
+    goalVelocity = rpm;
+  }
+
+  public void shooterVelocity() {
+    configureShooter();
+    shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
   }
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();
   }
 
-  public boolean isShooterSpedUp(double goalRPM) {
-    return (Math.abs(getShooterSpeed() - goalRPM) < RobotPreferences.shooterTolerance.getValue());
+  public boolean isShooterSpedUp() {
+    return (Math.abs(getShooterSpeed() - goalVelocity) < RobotPreferences.shooterTolerance.getValue());
   }
 
   public double getShooterError(double goalRPM) {
@@ -193,7 +205,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
     SmartDashboard.putNumber("Hood Position", getHoodPosition());
-    SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue()));
+    SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp());
 
   }
 }

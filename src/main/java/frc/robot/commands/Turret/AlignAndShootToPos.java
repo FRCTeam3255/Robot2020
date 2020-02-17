@@ -49,6 +49,8 @@ public class AlignAndShootToPos extends CommandBase {
         timer.reset();
         timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+        RobotContainer.turret.shooterVelocity();
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +70,7 @@ public class AlignAndShootToPos extends CommandBase {
             }
         } else {
 
-            if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+            if (RobotContainer.turret.isShooterSpedUp()) {
 
                 timer.reset();
                 timer.start();

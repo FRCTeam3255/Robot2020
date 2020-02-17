@@ -41,8 +41,8 @@ public class Vision extends SubsystemBase {
   List<MatOfPoint> contours;
 
   double xPosition;
-  int camWidth = 160;
-  int camHeight = 120;
+  int camWidth = 320;
+  int camHeight = 240;
 
   Scalar lower = new Scalar(35, 140, 60);
   Scalar upper = new Scalar(35, 140, 60);
@@ -181,7 +181,7 @@ public class Vision extends SubsystemBase {
       sourceStream.putFrame(source);
       outputStream.putFrame(mask);
     } catch (Exception e) {
-      System.out.println("something went wrong! Is your camera plugged in?");
+      // System.out.println("something went wrong! Is your camera plugged in?");
     }
     // TODO: Let's review the meaning of each of these
     // we need to redo all of smartdashboard

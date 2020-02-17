@@ -33,6 +33,7 @@ import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootAutomatic;
+import frc.robot.commands.Turret.ShooterTimeout;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -83,6 +84,9 @@ public class RobotContainer {
   // private static SetHoodPosition hoodMidRange;
   private static RotateHood hoodManual;
   private static SetHoodPosition hoodCloseRange;
+  private static SetHoodPosition hoodClose;
+  private static SetHoodPosition hoodMed;
+  private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Auto1 auto1;
   private static DriveToBall driveToBall;
@@ -108,8 +112,9 @@ public class RobotContainer {
     winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
     controlPanelManual = new SpinControlPanelManual();
     turretManual = new RotateTurret();
-    // hoodMidRange = new SetHoodPosition(RobotPreferences.hoodMidRangePos);
-    hoodCloseRange = new SetHoodPosition(RobotPreferences.hoodCloseRangePos);
+    hoodFar = new SetHoodPosition(RobotPreferences.hoodFar, RobotPreferences.shooterMaxRPM);
+    hoodMed = new SetHoodPosition(RobotPreferences.hoodMed, RobotPreferences.shooterMaxRPM);
+    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterLowRPM);
     hoodManual = new RotateHood();
     collect = new CollectBall();
 
@@ -122,6 +127,7 @@ public class RobotContainer {
     // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
     intake.setDefaultCommand(new HandleIntake());
+    turret.setDefaultCommand(new ShooterTimeout());
 
     motionReload();
 
@@ -155,13 +161,15 @@ public class RobotContainer {
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     // manipulator.btn_7.whileHeld(climberManual);
-    manipulator.btn_7.whileHeld(new SetHoodPosition(RobotPreferences.hoodTestDegree));
+    manipulator.btn_7.whileHeld(hoodFar);
     manipulator.btn_8.whileHeld(winchClimber);
-    manipulator.btn_9.whileHeld(controlPanelManual);
+    manipulator.btn_7.whileHeld(hoodMed);
+
+    // manipulator.btn_9.whileHeld(controlPanelManual);
     manipulator.btn_10.whileHeld(turretManual);
     // manipulator.btn_11.whileHeld(hoodMidRange);
     manipulator.btn_11.whileHeld(hoodManual);
-    manipulator.btn_12.whileHeld(hoodCloseRange);
+    manipulator.btn_12.whileHeld(hoodClose);
 
     // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);

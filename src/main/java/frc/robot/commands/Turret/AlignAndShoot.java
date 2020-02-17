@@ -46,6 +46,9 @@ public class AlignAndShoot extends CommandBase {
         timer.reset();
         timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+        RobotContainer.turret.shooterVelocity();
+        ;
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +71,7 @@ public class AlignAndShoot extends CommandBase {
             }
         } else {
             timer.stop();
-            if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+            if (RobotContainer.turret.isShooterSpedUp()) {
 
                 if (!hasCounted) {
                     RobotContainer.turret.finalShooterGateSetSpeed(1);
@@ -98,7 +101,6 @@ public class AlignAndShoot extends CommandBase {
         RobotContainer.turret.setHoodSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
 
-        RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
     }
 
     // Returns true when the command should end.

@@ -7,44 +7,53 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class Shoot extends CommandBase {
   /**
    * Creates a new Shoot.
    */
+  private Timer timer = new Timer();
+  private SN_DoublePreference rpm;
+  private boolean empty;
+
   public Shoot() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+    empty = false;
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
-      RobotContainer.turret.finalShooterGateSetSpeed(1);
+    if (!empty) {
+      if (RobotContainer.intake.getStagedSwitch()) {
+        RobotContainer.turret.finalShooterGateSetSpeed(-1);
+      } else {
+        empty = true;
+        timer.reset();
+        timer.start();
 
-    } else {
-      RobotContainer.turret.finalShooterGateSetSpeed(0);
+      }
 
     }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.turret.finalShooterGateSetSpeed(0);
-    RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
 
   }
 
@@ -52,6 +61,6 @@ public class Shoot extends CommandBase {
   @Override
   public boolean isFinished() {
     // return ! intake.getStagedSwitch();
-    return false;
+    return timer.hasPeriodPassed(RobotPreferences.shootDelay.getValue());
   }
 }

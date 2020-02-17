@@ -19,7 +19,7 @@ public class AlignTurretVision extends CommandBase {
   public AlignTurretVision() {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    addRequirements(RobotContainer.turret);
+    // addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +36,7 @@ public class AlignTurretVision extends CommandBase {
 
       RobotContainer.turret
           .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-      RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
+      // RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
     } else {
 
       RobotContainer.turret.setHoodSpeed(0);
