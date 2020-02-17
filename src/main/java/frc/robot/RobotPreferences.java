@@ -39,10 +39,13 @@ public class RobotPreferences {
         public static final SN_DoublePreference motProfPeakOut = new SN_DoublePreference("motProfPeakOut", 1.0);
         public static final SN_DoublePreference drivetrainTurnDeadband = new SN_DoublePreference(
                         "drivetrainTurnDeadband", .2);
-        public static final SN_DoublePreference drivetrainDeadband = new SN_DoublePreference("drivetrainDeadband", .2);
-        public static final SN_DoublePreference drivetrainSpeed = new SN_DoublePreference("drivetrainSpeed", .5);
-        public static final SN_DoublePreference drivetrainTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
-                        .5);
+        public static final SN_DoublePreference drivetrainDeadband = new SN_DoublePreference("drivetrainDeadband", 0);
+        public static final SN_DoublePreference drivetrainHighSpeed = new SN_DoublePreference("drivetrainSpeed", 1);
+        public static final SN_DoublePreference drivetrainHighTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
+                        1);
+        public static final SN_DoublePreference drivetrainLowSpeed = new SN_DoublePreference("drivetrainSpeed", .2);
+        public static final SN_DoublePreference drivetrainLowTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
+                        .2);
         public static final SN_DoublePreference ballTimeout = new SN_DoublePreference("ballTimeout", 5);
         // Climber
         public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference(
@@ -64,10 +67,15 @@ public class RobotPreferences {
                         84);
         public static final SN_DoublePreference hoodCountsPerDegree = new SN_DoublePreference("hoodCountsPerDegree",
                         87);
+        public static final SN_DoublePreference hoodTestDegree = new SN_DoublePreference("hoodTestDegree", 40);
         public static final SN_DoublePreference susanVisionP = new SN_DoublePreference("susanVisionP", 0.02);
         public static final SN_DoublePreference susanSpeedBackwards = new SN_DoublePreference("susanSpeedBackwards",
                         -0.2);
         public static final SN_DoublePreference hoodVisionP = new SN_DoublePreference("hoodVisionP", 90 / 20);
+        public static final SN_DoublePreference susanMaxSpeed = new SN_DoublePreference("susanMaxSpeed", 0.6);
+        public static final SN_DoublePreference hoodMaxSpeed = new SN_DoublePreference("hoodMaxSpeed", 0.8);
+        public static final SN_DoublePreference hoodMinDegree = new SN_DoublePreference("hoodMinDegree", 10);
+        public static final SN_DoublePreference hoodMaxDegree = new SN_DoublePreference("hoodMaxDegree", 80);
         public static final SN_DoublePreference susanP = new SN_DoublePreference("susanP", 0.2);
         public static final SN_DoublePreference susanI = new SN_DoublePreference("susanI", 0);
         public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
@@ -76,7 +84,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 1e-6);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
         public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 0);
-        public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", .3);
+        public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", .03);
         public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 0);
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
         public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);

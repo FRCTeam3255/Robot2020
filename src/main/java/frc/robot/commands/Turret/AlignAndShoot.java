@@ -22,13 +22,11 @@ public class AlignAndShoot extends CommandBase {
     private Timer timer = new Timer();
     private boolean aligned;
     private boolean hasCounted;
+    public FinishReason finishReason = FinishReason.NOT_FINISHED;
 
     public enum FinishReason {
         SUCCESS, NO_TARGET, NOT_FINISHED
     };
-
-    // TODO: Need to always set finishReason to NOT_FINISHED in initialize. True for all such commands.
-    public FinishReason finishReason = FinishReason.NOT_FINISHED;
 
     public AlignAndShoot(int a_numShots) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -40,6 +38,8 @@ public class AlignAndShoot extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        finishReason = FinishReason.NOT_FINISHED;
+
         aligned = false;
         hasCounted = false;
         numShots = 0;

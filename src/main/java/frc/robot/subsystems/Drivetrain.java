@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 
@@ -70,7 +71,9 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
-  public void arcadeDrive(double speed, double turn) {
+  public void arcadeDrive(double a_speed, double a_turn) {
+    double speed = a_speed;
+    double turn = a_turn;
     if ((speed > -RobotPreferences.drivetrainDeadband.getValue()
         && speed < RobotPreferences.drivetrainDeadband.getValue())) {
       speed = 0;
@@ -79,10 +82,16 @@ public class Drivetrain extends SubsystemBase {
         && turn < RobotPreferences.drivetrainTurnDeadband.getValue())) {
       turn = 0;
     }
-    leftMaster.set(ControlMode.PercentOutput, RobotPreferences.drivetrainSpeed.getValue() * speed,
-        DemandType.ArbitraryFeedForward, -RobotPreferences.drivetrainTurnSpeed.getValue() * turn);
-    rightMaster.set(ControlMode.PercentOutput, RobotPreferences.drivetrainSpeed.getValue() * speed,
-        DemandType.ArbitraryFeedForward, RobotPreferences.drivetrainTurnSpeed.getValue() * turn);
+    if (RobotContainer.drive.getRawButton(6)) {
+      speed = speed * RobotPreferences.drivetrainHighSpeed.getValue();
+      turn = turn * RobotPreferences.drivetrainHighTurnSpeed.getValue();
+    } else {
+      speed = speed * RobotPreferences.drivetrainLowSpeed.getValue();
+      turn = turn * RobotPreferences.drivetrainLowTurnSpeed.getValue();
+
+    }
+    leftMaster.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, -turn);
+    rightMaster.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, turn);
   }
 
   public void driveDistance(double distance) {

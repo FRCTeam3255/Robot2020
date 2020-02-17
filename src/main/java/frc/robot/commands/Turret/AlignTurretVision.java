@@ -25,6 +25,7 @@ public class AlignTurretVision extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.turret.configHoodP();
 
   }
 
@@ -36,6 +37,10 @@ public class AlignTurretVision extends CommandBase {
       RobotContainer.turret
           .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
       RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
+    } else {
+
+      RobotContainer.turret.setHoodSpeed(0);
+      RobotContainer.turret.setSusanSpeed(0);
     }
   }
 

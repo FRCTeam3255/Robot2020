@@ -33,11 +33,6 @@ public class Turret extends SubsystemBase {
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
   private double hardstopTol = 3;
-  private double hoodMaxDegree = 90;
-  private double hoodMinDegree = 0;
-  private double susanMinDegree = -90;
-  private double susanMaxDegree = 90;
-
   private CANPIDController shooterPIDController;
 
   public Turret() {
@@ -65,21 +60,31 @@ public class Turret extends SubsystemBase {
     shooterPIDController.setOutputRange(-1.0, 1.0);
 
     lazySusanTalon.configFactoryDefault();
-    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    hoodTalon.config_kP(0, RobotPreferences.susanP.getValue());
-    hoodTalon.config_kI(0, RobotPreferences.susanI.getValue());
-    hoodTalon.config_kD(0, RobotPreferences.susanD.getValue());
+    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
+    lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
+    lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
+    lazySusanTalon.configPeakOutputForward(RobotPreferences.susanMaxSpeed.getValue());
+    lazySusanTalon.configPeakOutputReverse(-RobotPreferences.susanMaxSpeed.getValue());
 
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
-    hoodTalon.setInverted(true);
+    hoodTalon.configPeakOutputForward(RobotPreferences.hoodMaxSpeed.getValue());
+    hoodTalon.configPeakOutputReverse(-RobotPreferences.hoodMaxSpeed.getValue());
+    hoodTalon.setInverted(false);
+    hoodTalon.setSensorPhase(false);
   }
 
   public void finalShooterGateSetSpeed(double speed) {
     finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void configHoodP() {
+    lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
+
   }
 
   public void susanTurnToDegree(double degree) {
@@ -99,20 +104,20 @@ public class Turret extends SubsystemBase {
 
   public void hoodMoveToDegree(double a_degree) {
     double degree = a_degree;
-    if (degree < hoodMinDegree) {
-      degree = hoodMinDegree;
-    } else if (degree > hoodMaxDegree) {
-      degree = hoodMaxDegree;
+    if (degree < RobotPreferences.hoodMinDegree.getValue()) {
+      degree = RobotPreferences.hoodMinDegree.getValue();
+    } else if (degree > RobotPreferences.hoodMaxDegree.getValue()) {
+      degree = RobotPreferences.hoodMaxDegree.getValue();
     }
     hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
 
   public boolean hoodFinished() {
-    return Math.abs(hoodTalon.getClosedLoopError()) <= RobotPreferences.hoodTol.getValue();
+    return Math.abs(getHoodError()) <= RobotPreferences.hoodTol.getValue();
   }
 
   public boolean susanFinished() {
-    return Math.abs(lazySusanTalon.getClosedLoopError()) <= RobotPreferences.susanTol.getValue();
+    return Math.abs(getSusanError()) <= RobotPreferences.susanTol.getValue();
 
   }
 
@@ -159,6 +164,14 @@ public class Turret extends SubsystemBase {
     return hoodTalon.getSelectedSensorPosition();
   }
 
+  public double getHoodError() {
+    return hoodTalon.getClosedLoopError() / RobotPreferences.hoodCountsPerDegree.getValue();
+  }
+
+  public double getSusanError() {
+    return lazySusanTalon.getClosedLoopError() / RobotPreferences.susanCountsPerDegree.getValue();
+  }
+
   public double getSusanEncoder() {
     return lazySusanTalon.getSelectedSensorPosition();
   }
@@ -176,7 +189,7 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Hood Encoder", getHoodEncoder());
     SmartDashboard.putBoolean("Hood Finished", hoodFinished());
-    SmartDashboard.putNumber("Hood Err", hoodTalon.getClosedLoopError());
+    SmartDashboard.putNumber("Hood Err", getHoodError());
     SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
     SmartDashboard.putNumber("Hood Position", getHoodPosition());

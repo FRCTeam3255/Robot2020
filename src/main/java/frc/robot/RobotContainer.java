@@ -154,7 +154,8 @@ public class RobotContainer {
     manipulator.btn_4.whileHeld(collect);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
-    manipulator.btn_7.whileHeld(climberManual);
+    // manipulator.btn_7.whileHeld(climberManual);
+    manipulator.btn_7.whileHeld(new SetHoodPosition(RobotPreferences.hoodTestDegree));
     manipulator.btn_8.whileHeld(winchClimber);
     manipulator.btn_9.whileHeld(controlPanelManual);
     manipulator.btn_10.whileHeld(turretManual);
@@ -162,6 +163,7 @@ public class RobotContainer {
     manipulator.btn_11.whileHeld(hoodManual);
     manipulator.btn_12.whileHeld(hoodCloseRange);
 
+    // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);

@@ -27,6 +27,7 @@ public class SetHoodPosition extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.turret.hoodMoveToDegree(degrees.getValue());
+    RobotContainer.turret.configHoodP();
 
   }
 
