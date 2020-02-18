@@ -25,6 +25,11 @@ public class AlignAndShootToPos extends CommandBase {
     private Timer timer;
     SN_DoublePreference hoodPos;
     SN_DoublePreference turretPos;
+    public FinishReason finishReason = FinishReason.NOT_FINISHED;
+
+    public enum FinishReason {
+        SUCCESS, NO_TARGET, NOT_FINISHED
+    };
 
     public AlignAndShootToPos(int a_numShots, SN_DoublePreference a_hoodPos, SN_DoublePreference a_turretPos) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -44,6 +49,8 @@ public class AlignAndShootToPos extends CommandBase {
         timer.reset();
         timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+        RobotContainer.turret.shooterVelocity();
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -63,7 +70,7 @@ public class AlignAndShootToPos extends CommandBase {
             }
         } else {
 
-            if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+            if (RobotContainer.turret.isShooterSpedUp()) {
 
                 timer.reset();
                 timer.start();
@@ -103,9 +110,12 @@ public class AlignAndShootToPos extends CommandBase {
     @Override
     public boolean isFinished() {
         if (timer.hasPeriodPassed(RobotPreferences.toPosTimeout.getValue())) {
+            finishReason = FinishReason.NO_TARGET;
             return true;
+
         }
         if (numShots >= numShotsTodo) {
+            finishReason = FinishReason.SUCCESS;
             return true;
         }
         return false;

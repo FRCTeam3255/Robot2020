@@ -41,12 +41,18 @@ public class HandleIntake extends CommandBase {
     }
 
     if (RobotContainer.intake.getStagedSwitch()) {
+      initialGateSpeed = 0;
+
+    }
+    if (RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
 
       turretGateSpeed = 0;
-    }
-    if (RobotContainer.intake.getBottomSwitch()) {
 
-      initialGateSpeed = 0;
+    }
+    if (!RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
+
+      turretGateSpeed = 1;
+      initialGateSpeed = 1;
     }
 
     RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue()); // m1

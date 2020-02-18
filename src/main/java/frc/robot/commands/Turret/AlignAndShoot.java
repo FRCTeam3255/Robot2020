@@ -22,13 +22,11 @@ public class AlignAndShoot extends CommandBase {
     private Timer timer = new Timer();
     private boolean aligned;
     private boolean hasCounted;
+    public FinishReason finishReason = FinishReason.NOT_FINISHED;
 
     public enum FinishReason {
         SUCCESS, NO_TARGET, NOT_FINISHED
     };
-
-    // TODO: Need to always set finishReason to NOT_FINISHED in initialize. True for all such commands.
-    public FinishReason finishReason = FinishReason.NOT_FINISHED;
 
     public AlignAndShoot(int a_numShots) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -40,12 +38,17 @@ public class AlignAndShoot extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        finishReason = FinishReason.NOT_FINISHED;
+
         aligned = false;
         hasCounted = false;
         numShots = 0;
         timer.reset();
         timer.start();
         RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+        RobotContainer.turret.shooterVelocity();
+        ;
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +71,7 @@ public class AlignAndShoot extends CommandBase {
             }
         } else {
             timer.stop();
-            if (RobotContainer.turret.isShooterSpedUp(RobotPreferences.shooterMaxRPM.getValue())) {
+            if (RobotContainer.turret.isShooterSpedUp()) {
 
                 if (!hasCounted) {
                     RobotContainer.turret.finalShooterGateSetSpeed(1);
@@ -98,7 +101,6 @@ public class AlignAndShoot extends CommandBase {
         RobotContainer.turret.setHoodSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
 
-        RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
     }
 
     // Returns true when the command should end.
