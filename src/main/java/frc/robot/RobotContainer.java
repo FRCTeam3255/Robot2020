@@ -153,6 +153,7 @@ public class RobotContainer {
     manipulator.btn_3.whileHeld(alignTurretVision);
     manipulator.btn_4.whileHeld(collect);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
+    // TODO: can save buttons by having control panel mode button be based on a switchboard mode. Or just move to switchboard!
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whileHeld(climberManual);
     manipulator.btn_8.whileHeld(winchClimber);

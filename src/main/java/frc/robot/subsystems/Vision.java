@@ -193,5 +193,13 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putBoolean("Vision Has Target", visionHasTarget());
     SmartDashboard.putBoolean("Vision X Finished", isXFinished());
 
+    /*
+      TODO: Idea for three SmartDashbord booleans:
+        visionHasTarget DONE
+        isXFinished DONE
+        isHoodAligned (would this go here or elsewhere?)
+
+        Dashboard buttons can be used as "borders" for the camera view so they light up when aligned
+    */
   }
 }
