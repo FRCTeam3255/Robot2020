@@ -33,6 +33,7 @@ public class Turret extends SubsystemBase {
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
   private CANPIDController shooterPIDController;
+  // TODO: Need to consider if this should init to zero or not. Requires moving hood to get to non-zero. What is starting config?
   private double goalVelocity = 0;
 
   public Turret() {

@@ -39,7 +39,7 @@ public class NudgeHood extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setHoodSpeed(0);
+    // RobotContainer.turret.setHoodSpeed(0);
   }
 
   // Returns true when the command should end.
