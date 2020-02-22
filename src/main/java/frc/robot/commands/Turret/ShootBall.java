@@ -65,6 +65,7 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.turret.finalShooterGateSetSpeed(0);
 
     state = stateType.STAGING;
     RobotContainer.turret.setShooterVelocity();
