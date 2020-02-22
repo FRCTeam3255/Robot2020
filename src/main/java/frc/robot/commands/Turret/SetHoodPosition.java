@@ -28,10 +28,9 @@ public class SetHoodPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    RobotContainer.turret.hoodMoveToDegree(degrees.getValue());
     RobotContainer.turret.configHoodP();
-    RobotContainer.turret.setShooterVelocity(velocity.getValue());
+    RobotContainer.turret.hoodMoveToDegree(degrees.getValue());
+    // RobotContainer.turret.setShooterVelocity(velocity.getValue());
 
   }
 
@@ -43,7 +42,6 @@ public class SetHoodPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setHoodSpeed(0);
 
   }
 

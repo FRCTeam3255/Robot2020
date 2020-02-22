@@ -31,23 +31,27 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     empty = false;
+    // RobotContainer.turret.setShooterSpeefd();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!empty) {
-      if (RobotContainer.intake.getStagedSwitch()) {
-        RobotContainer.turret.finalShooterGateSetSpeed(-1);
-      } else {
-        empty = true;
-        timer.reset();
-        timer.start();
+    if (RobotContainer.turret.isShooterSpedUp()) {
+      if (!empty) {
+        if (RobotContainer.intake.getStagedSwitch()) {
+          RobotContainer.turret.finalShooterGateSetSpeed(-1);
+        } else {
+          empty = true;
+          timer.reset();
+          timer.start();
+
+        }
 
       }
-
     }
+
   }
 
   // Called once the command ends or is interrupted.

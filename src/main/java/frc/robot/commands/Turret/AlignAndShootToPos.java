@@ -48,8 +48,8 @@ public class AlignAndShootToPos extends CommandBase {
         numShots = 0;
         timer.reset();
         timer.start();
-        RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
-        RobotContainer.turret.shooterVelocity();
+        // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
+        // RobotContainer.turret.shooterVelocity();
 
     }
 
@@ -103,7 +103,7 @@ public class AlignAndShootToPos extends CommandBase {
         RobotContainer.turret.setSusanSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
 
-        RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
+        // RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
     }
 
     // Returns true when the command should end.

@@ -23,6 +23,7 @@ public class RotateTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.turret.configureLazySusan();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

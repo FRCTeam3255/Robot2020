@@ -32,8 +32,11 @@ import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
+// import frc.robot.commands.Turret.SetShooterSpeed;
 import frc.robot.commands.Turret.ShootAutomatic;
+import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShooterTimeout;
+import frc.robot.commands.Turret.SpeedUpShot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -86,6 +89,8 @@ public class RobotContainer {
   private static SetHoodPosition hoodCloseRange;
   private static SetHoodPosition hoodClose;
   private static SetHoodPosition hoodMed;
+  private static SpeedUpShot speedUpShot;
+  private static ShootBall shoot;
   private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Auto1 auto1;
@@ -103,6 +108,8 @@ public class RobotContainer {
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
 
     // create commands
+    shoot = new ShootBall();
+    speedUpShot = new SpeedUpShot();
     smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
@@ -122,12 +129,17 @@ public class RobotContainer {
     auto1 = new Auto1();
 
     // map buttons to commands
-    configureButtonBindings();
+
+    if (switchBoard.btn_9.get()) {
+      configureButtonBindingsModeA();
+    } else {
+      configureButtonBindingsModeB();
+    }
 
     // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
     intake.setDefaultCommand(new HandleIntake());
-    turret.setDefaultCommand(new ShooterTimeout());
+    // turret.setDefaultCommand(new ShooterTimeout());
 
     motionReload();
 
@@ -140,6 +152,11 @@ public class RobotContainer {
 
   }
 
+  public static boolean getModeBtn() {
+    // return switchBoard.btn_9.get();
+    return true;
+  }
+
   public static void motionReload() {
     failMot.reload();
     grabBallMot.reload();
@@ -150,31 +167,66 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * ({@link edu.wpi.first./wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
-    manipulator.btn_1.whileHeld(smartShot);
+  public static void configureButtonBindingsModeA() {
+
+    manipulator.btn_1.whileHeld(shoot);
     manipulator.btn_2.whileHeld(toggleControlPanel);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whileHeld(collect);
+    drive.btn_LBump.whileHeld(collect);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     // manipulator.btn_7.whileHeld(climberManual);
-    manipulator.btn_7.whileHeld(hoodFar);
-    manipulator.btn_8.whileHeld(winchClimber);
-    manipulator.btn_7.whileHeld(hoodMed);
+    manipulator.btn_7.whenPressed(hoodFar);
+    // manipulator.btn_8.whileHeld(winchClimber);
+    manipulator.btn_8.whileHeld(controlPanelManual);
 
-    // manipulator.btn_9.whileHeld(controlPanelManual);
+    manipulator.btn_9.whileHeld(hoodMed);
+
     manipulator.btn_10.whileHeld(turretManual);
-    // manipulator.btn_11.whileHeld(hoodMidRange);
     manipulator.btn_11.whileHeld(hoodManual);
-    manipulator.btn_12.whileHeld(hoodClose);
+
+    manipulator.btn_12.whileHeld(toggleControlPanel);
+    // manipulator.btn_11.whileHeld(hoodMidRange);
+    // manipulator.btn_12.whileHeld(new SetShooterSpeed(true));
+    // manipulator.btn_11.whileHeld(new SetShooterSpeed(false));
 
     // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
+    SmartDashboard.putString("mode", "owo");
+
+  }
+
+  public static void configureButtonBindingsModeB() {
+
+    manipulator.btn_1.whileHeld(shoot);
+    manipulator.btn_2.whileHeld(speedUpShot);
+    manipulator.btn_3.whileHeld(alignTurretVision);
+    drive.btn_LBump.whileHeld(collect);
+    manipulator.btn_5.whileHeld(spinControlPanelCounts);
+    manipulator.btn_6.whileHeld(spinToColor);
+    // manipulator.btn_7.whileHeld(climberManual);
+    manipulator.btn_7.whenPressed(hoodFar);
+    // manipulator.btn_8.whileHeld(winchClimber);
+    manipulator.btn_9.whileHeld(hoodMed);
+
+    manipulator.btn_8.whileHeld(controlPanelManual);
+    manipulator.btn_10.whileHeld(turretManual);
+    manipulator.btn_11.whileHeld(hoodManual);
+    manipulator.btn_12.whileHeld(toggleControlPanel);
+    // manipulator.btn_11.whileHeld(hoodMidRange);
+    // manipulator.btn_12.whileHeld(new SetShooterSpeed(true));
+    // manipulator.btn_11.whileHeld(new SetShooterSpeed(false));
+
+    // drive stuff in arcade drive command
+    drive.btn_Y.whileHeld(driveToBall);
+    drive.btn_A.whileHeld(auto1);
+    drive.btn_X.whileHeld(failMot);
+    SmartDashboard.putString("mode", "owo");
 
   }
 

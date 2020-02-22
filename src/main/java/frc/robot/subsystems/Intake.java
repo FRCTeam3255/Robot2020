@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
   private double collectorSpeed;
+  private Servo stepServo;
   // private DoubleSolenoid collectorSolenoid;
 
   // private static final Value intakeDeployedValue = Value.kReverse;
@@ -39,6 +41,7 @@ public class Intake extends SubsystemBase {
     collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
     turretGateTalon = new TalonSRX(RobotMap.TURRET_GATE_TALON);
     initialShooterGateTalon = new TalonSRX(RobotMap.INITIAL_SHOOTER_GATE_TALON);
+    stepServo = new Servo(RobotMap.STEP_SERVO);
     collectorTalon.configFactoryDefault();
     turretGateTalon.configFactoryDefault();
     initialShooterGateTalon.configFactoryDefault();
@@ -65,6 +68,10 @@ public class Intake extends SubsystemBase {
 
   public boolean getBottomSwitch() {
     return !bottomSwitch.get();
+  }
+
+  public void setServoPos(double pos) {
+    stepServo.setPosition(pos);
   }
 
   public boolean getStagedSwitch() {

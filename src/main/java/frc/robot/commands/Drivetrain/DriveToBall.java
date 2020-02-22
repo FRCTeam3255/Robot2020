@@ -47,6 +47,7 @@ public class DriveToBall extends CommandBase {
     timer.start();
     priorSwitch = RobotContainer.intake.getCollectionSwitch();
     counted = 0;
+    RobotContainer.vision.setUsingVision(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -70,6 +71,8 @@ public class DriveToBall extends CommandBase {
 
   public void end(boolean interrupted) {
     timer.stop();
+    RobotContainer.vision.setUsingVision(false);
+
     // only way to tell if .withtimeout() is timed out is through interrupted
 
   }

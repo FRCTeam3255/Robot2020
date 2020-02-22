@@ -11,9 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,40 +24,41 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
 
-  private CANSparkMax shooterMaster;
-  private CANSparkMax shooterSlave;
+  private CANSparkMax shooterA;
+  private CANSparkMax shooterB;
   private CANEncoder shooterEnocder;
   private TalonSRX finalShooterGateTalon;
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
-  private CANPIDController shooterPIDController;
+  // private CANPIDController shooterPIDController;
   private double goalVelocity = 0;
 
   public Turret() {
-    shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
-    shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
-    shooterPIDController = shooterMaster.getPIDController();
+    shooterA = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
+    shooterB = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
+    // shooterPIDController = shooterA.getPIDController();
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
-    configureShooter();
+    // configureShooter();
+    shooterEnocder = shooterA.getEncoder();
+
     configureLazySusan();
     configureHood();
   }
 
-  public void configureShooter() {
+  // public void configureShooter() {
 
-    shooterMaster.restoreFactoryDefaults();
-    shooterSlave.restoreFactoryDefaults();
-    shooterSlave.follow(shooterMaster);
-    shooterEnocder = shooterMaster.getEncoder();
+  // shooterMaster.restoreFactoryDefaults();
+  // shooterSlave.restoreFactoryDefaults();
+  // // shooterSlave.follow(shooterMaster);
 
-    shooterPIDController.setP(RobotPreferences.shooterP.getValue());
-    shooterPIDController.setI(RobotPreferences.shooterI.getValue());
-    shooterPIDController.setD(RobotPreferences.shooterD.getValue());
-    shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
-    shooterPIDController.setOutputRange(-1.0, 1.0);
-  }
+  // shooterPIDController.setP(RobotPreferences.shooterP.getValue());
+  // shooterPIDController.setI(RobotPreferences.shooterI.getValue());
+  // shooterPIDController.setD(RobotPreferences.shooterD.getValue());
+  // shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
+  // shooterPIDController.setOutputRange(-1.0, 1.0);
+  // }
 
   public void configureLazySusan() {
     lazySusanTalon.configFactoryDefault();
@@ -139,24 +138,30 @@ public class Turret extends SubsystemBase {
   }
 
   public void setShooterSpeed(double speed) {
-    shooterMaster.set(speed);
+    shooterA.set(speed);
+    shooterB.set(speed);
   }
 
-  public void setShooterVelocity(double rpm) {
-    goalVelocity = rpm;
+  public double shooterACurrent() {
+    return shooterA.getOutputCurrent();
   }
 
-  public void shooterVelocity() {
-    configureShooter();
-    shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+  public double shooterBCurrent() {
+    return shooterB.getOutputCurrent();
   }
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();
   }
 
+  public void setGoalVelocity(double a_goal) {
+    goalVelocity = a_goal;
+  }
+
   public boolean isShooterSpedUp() {
-    return (Math.abs(getShooterSpeed() - goalVelocity) < RobotPreferences.shooterTolerance.getValue());
+    // return (Math.abs(getShooterSpeed() - goalVelocity) <
+    // RobotPreferences.shooterTolerance.getValue());
+    return getShooterSpeed() > goalVelocity;
   }
 
   public double getShooterError(double goalRPM) {
@@ -205,6 +210,8 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
     SmartDashboard.putNumber("Hood Position", getHoodPosition());
+    SmartDashboard.putNumber("Shooter B Current", shooterBCurrent());
+    SmartDashboard.putNumber("Shooter A Current", shooterACurrent());
     SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp());
 
   }

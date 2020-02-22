@@ -5,49 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Drivetrain;
+package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class DriveArcade extends CommandBase {
-
+public class SpeedUpShot extends CommandBase {
   /**
-   * Creates a new DriveArcade.
-   **/
+   * Creates a new SpeedUpShot.
+   */
 
-  public DriveArcade() {
-    addRequirements(RobotContainer.drivetrain);
+  public SpeedUpShot() {
+    // Use addRequirements() here to declare subsystem dependencies.
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.drivetrain.arcadeDriveInit();
+    // RobotContainer.turret.setShooterSpeefd();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-
   @Override
-
   public void execute() {
-    RobotContainer.drivetrain.arcadeDrive(-RobotContainer.drive.getArcadeMove(),
-        RobotContainer.drive.getArcadeRotate());
+
   }
 
   // Called once the command ends or is interrupted.
-
   @Override
-
   public void end(boolean interrupted) {
 
   }
 
   // Returns true when the command should end.
-
   @Override
-
   public boolean isFinished() {
+    // return ! intake.getStagedSwitch();
     return false;
   }
 }

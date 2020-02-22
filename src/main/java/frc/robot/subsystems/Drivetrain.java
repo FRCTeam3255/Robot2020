@@ -26,6 +26,7 @@ public class Drivetrain extends SubsystemBase {
   private TalonFX leftSlave;
   private TalonFX rightMaster;
   private TalonFX rightSlave;
+  private boolean pastSwitchboard;
 
   private TalonFXConfiguration config;
 
@@ -37,6 +38,7 @@ public class Drivetrain extends SubsystemBase {
     config = new TalonFXConfiguration();
     configure();
     configureRamps();
+    pastSwitchboard = RobotContainer.getModeBtn();
   }
 
   public void configure() {
@@ -153,6 +155,18 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // button binding changes in drivetrain because i didnt wanna touch robot.java
+    // D:.
+
+    if (pastSwitchboard != RobotContainer.getModeBtn()) {
+      if (RobotContainer.getModeBtn()) {
+        RobotContainer.configureButtonBindingsModeA();
+      } else {
+        RobotContainer.configureButtonBindingsModeB();
+
+      }
+      pastSwitchboard = RobotContainer.getModeBtn();
+    }
     SmartDashboard.putNumber("Drivetrain Left Encoder", getLeftEncoderCount());
     SmartDashboard.putNumber("Drivetrain Right Encoder", getRightEncoderCount());
     SmartDashboard.putBoolean("Motion Finished", isMotionProfileFinished());

@@ -40,7 +40,8 @@ public class Vision extends SubsystemBase {
   Mat heirarchy;
   List<MatOfPoint> contours;
 
-  double xPosition;
+  private boolean isUsingVision = false;
+  double xPosition = 0;
   int camWidth = 320;
   int camHeight = 240;
 
@@ -79,10 +80,14 @@ public class Vision extends SubsystemBase {
 
   }
 
+  public void setUsingVision(boolean a_vision) {
+    isUsingVision = a_vision;
+  }
+
   public double getX() {
     // TODO: Don't hardcode 80. Even if not a pref, use a variable because it's
     // probably a function of 640x480
-    return (xPosition - (camWidth / 2));
+    return (xPosition - (80));
   }
 
   // limelight
@@ -136,52 +141,54 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
 
-    cvSink.grabFrame(source);
-    try {
+    if (isUsingVision) {
+      try {
+        cvSink.grabFrame(source);
 
-      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2HSV); // ! [houghcircles]
-      // Core.inRange(source, lower, upper, output);
+        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2HSV); // ! [houghcircles]
+        // Core.inRange(source, lower, upper, output);
 
-      Core.inRange(output,
-          new Scalar(RobotPreferences.hLow.getValue(), RobotPreferences.sLow.getValue(),
-              RobotPreferences.vLow.getValue()),
-          new Scalar(RobotPreferences.hHigh.getValue(), RobotPreferences.sHigh.getValue(),
-              RobotPreferences.vHigh.getValue()),
-          circles);
-      // TODO: Should the threshold values (100,255) be preferences?
-      // no
-      Imgproc.threshold(circles, binary, 100, 255, Imgproc.THRESH_BINARY);
+        Core.inRange(output,
+            new Scalar(RobotPreferences.hLow.getValue(), RobotPreferences.sLow.getValue(),
+                RobotPreferences.vLow.getValue()),
+            new Scalar(RobotPreferences.hHigh.getValue(), RobotPreferences.sHigh.getValue(),
+                RobotPreferences.vHigh.getValue()),
+            circles);
+        // TODO: Should the threshold values (100,255) be preferences?
+        // no
+        Imgproc.threshold(circles, binary, 100, 255, Imgproc.THRESH_BINARY);
 
-      contours = new ArrayList<MatOfPoint>();
-      Imgproc.findContours(binary, contours, heirarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+        contours = new ArrayList<MatOfPoint>();
+        Imgproc.findContours(binary, contours, heirarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
 
-      double maxVal = 0;
-      int maxValIdx = 0;
+        double maxVal = 0;
+        int maxValIdx = 0;
 
-      for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++) {
-        double contourArea = Imgproc.contourArea(contours.get(contourIdx));
-        if (maxVal < contourArea) {
-          maxVal = contourArea;
-          maxValIdx = contourIdx;
+        for (int contourIdx = 0; contourIdx < contours.size(); contourIdx++) {
+          double contourArea = Imgproc.contourArea(contours.get(contourIdx));
+          if (maxVal < contourArea) {
+            maxVal = contourArea;
+            maxValIdx = contourIdx;
+          }
         }
+
+        mask = new Mat(source.rows(), source.cols(), CvType.CV_8U, Scalar.all(0));
+        Imgproc.drawContours(mask, contours, maxValIdx, new Scalar(255), -1);
+
+        // TODO: Let's review this logic together
+        // yeah its yikes
+        Moments m = Imgproc.moments(mask, true);
+        double x = m.m10 / m.m00;
+        xPosition = x;
+        double y = m.m01 / m.m00;
+        Point point = new Point(x, y);
+        Imgproc.circle(source, point, 5, new Scalar(255, 0, 255), 3, 8, 0);
+        SmartDashboard.putNumber("x", getX());
+        sourceStream.putFrame(source);
+        outputStream.putFrame(mask);
+      } catch (Exception e) {
+        // System.out.println("something went wrong! Is your camera plugged in?");
       }
-
-      mask = new Mat(source.rows(), source.cols(), CvType.CV_8U, Scalar.all(0));
-      Imgproc.drawContours(mask, contours, maxValIdx, new Scalar(255), -1);
-
-      // TODO: Let's review this logic together
-      // yeah its yikes
-      Moments m = Imgproc.moments(mask, true);
-      double x = m.m10 / m.m00;
-      xPosition = x;
-      double y = m.m01 / m.m00;
-      Point point = new Point(x, y);
-      Imgproc.circle(source, point, 5, new Scalar(255, 0, 255), 3, 8, 0);
-      SmartDashboard.putNumber("x", getX());
-      sourceStream.putFrame(source);
-      outputStream.putFrame(mask);
-    } catch (Exception e) {
-      // System.out.println("something went wrong! Is your camera plugged in?");
     }
     // TODO: Let's review the meaning of each of these
     // we need to redo all of smartdashboard

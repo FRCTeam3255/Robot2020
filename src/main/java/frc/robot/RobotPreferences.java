@@ -24,7 +24,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference sHigh = new SN_DoublePreference("sHigh", 255);
         public static final SN_DoublePreference vHigh = new SN_DoublePreference("vHigh", 255);
         public static final SN_IntPreference ballCount = new SN_IntPreference("ballCount", 2);
-        public static final SN_DoublePreference ballSpeed = new SN_DoublePreference("ballSpeed", .75);
+        public static final SN_DoublePreference ballSpeed = new SN_DoublePreference("ballSpeed", .5);
 
         // Drivetrain
         public static final SN_IntPreference motProfSensorUnitsPerFt = new SN_IntPreference("motProfSensorUnitsPerFt",
@@ -40,10 +40,12 @@ public class RobotPreferences {
         public static final SN_DoublePreference drivetrainTurnDeadband = new SN_DoublePreference(
                         "drivetrainTurnDeadband", .2);
         public static final SN_DoublePreference drivetrainDeadband = new SN_DoublePreference("drivetrainDeadband", 0);
-        public static final SN_DoublePreference drivetrainHighSpeed = new SN_DoublePreference("drivetrainSpeed", 1);
+        public static final SN_DoublePreference drivetrainHighSpeed = new SN_DoublePreference("drivetrainHighSpeed", 1);
         public static final SN_DoublePreference drivetrainHighTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
                         1);
-        public static final SN_DoublePreference drivetrainLowSpeed = new SN_DoublePreference("drivetrainSpeed", .2);
+        public static final SN_DoublePreference drivetrainLowSpeed = new SN_DoublePreference("drivetrainLowSpeed", .4);
+        public static final SN_DoublePreference drivetrainTurnLowSpeed = new SN_DoublePreference(
+                        "drivetrainTurnLowSpeed", .2);
         public static final SN_DoublePreference drivetrainRampTime = new SN_DoublePreference("drivetrainRampTime", 0);
         public static final SN_DoublePreference drivetrainLowTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
                         .2);
@@ -84,7 +86,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterMaxRPM = new SN_DoublePreference("shooterMaxRPM", 5000);
         public static final SN_DoublePreference shooterLowRPM = new SN_DoublePreference("shooterLowRPM", 1000);
         public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 10e-5);
-        public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 1e-6);
+        public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 10e-6);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
         public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 0);
         public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", .03);
@@ -103,9 +105,11 @@ public class RobotPreferences {
         public static final SN_IntPreference spinCount = new SN_IntPreference("spinCount", 1);
 
         // Intake
+        public static final SN_DoublePreference servoPosRetract = new SN_DoublePreference("servoPosRetract", 0);
+        public static final SN_DoublePreference servoPosDeploy = new SN_DoublePreference("servoPosDeploy", 1);
         public static final SN_DoublePreference collectorSpeed = new SN_DoublePreference("collectorSpeed", .6);
-        public static final SN_DoublePreference turretGateSpeed = new SN_DoublePreference("turretGateSpeed", .4);
-        public static final SN_DoublePreference initialGateSpeed = new SN_DoublePreference("initialGateSpeed", .4);
+        public static final SN_DoublePreference turretGateSpeed = new SN_DoublePreference("turretGateSpeed", 1);
+        public static final SN_DoublePreference initialGateSpeed = new SN_DoublePreference("initialGateSpeed", 1);
         // reds
         public static final SN_DoublePreference redsRedLow = new SN_DoublePreference("redsRedLow", .2);
         public static final SN_DoublePreference redsRedHigh = new SN_DoublePreference("redsRedHigh", .6);
