@@ -8,7 +8,6 @@
 package frc.robot.commands.Config;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 
 public class ConfigureTalons extends CommandBase {
     /**
