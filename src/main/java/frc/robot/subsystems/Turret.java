@@ -61,6 +61,7 @@ public class Turret extends SubsystemBase {
   // }
 
   public void configureLazySusan() {
+    // TODO: Move things that aren't PID prefs into constructor
     lazySusanTalon.configFactoryDefault();
     lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
@@ -72,7 +73,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void configureHood() {
-
+    // TODO: Move things that aren't PID prefs into constructor
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
@@ -86,11 +87,14 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
+  // TODO: Delete this routine. It's not hood, and instead configureHood or
+  // configureLazySusan should be used.
   public void configHoodP() {
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
 
   }
 
+  // TODO: change name to turnSusanToDegree
   public void susanTurnToDegree(double degree) {
     configureLazySusan();
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
@@ -107,6 +111,7 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
+  // TODO: change name to moveHoodToDegree
   public void hoodMoveToDegree(double a_degree) {
     configureHood();
     double degree = a_degree;
@@ -142,13 +147,16 @@ public class Turret extends SubsystemBase {
     shooterB.set(speed);
   }
 
-  public double shooterACurrent() {
-    return shooterA.getOutputCurrent();
-  }
+  // TODO: rename to setShooterSetpoint
+  // public void setShooterVelocity(double rpm) {
+  // goalVelocity = rpm;
+  // }
 
-  public double shooterBCurrent() {
-    return shooterB.getOutputCurrent();
-  }
+  // TODO: rename to setShooterVelocity
+  // public void shooterVelocity() {
+  // configureShooter();
+  // shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+  // }
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();
@@ -210,8 +218,6 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
     SmartDashboard.putNumber("Hood Position", getHoodPosition());
-    SmartDashboard.putNumber("Shooter B Current", shooterBCurrent());
-    SmartDashboard.putNumber("Shooter A Current", shooterACurrent());
     SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp());
 
   }

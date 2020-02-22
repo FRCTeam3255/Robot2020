@@ -129,12 +129,7 @@ public class RobotContainer {
     auto1 = new Auto1();
 
     // map buttons to commands
-
-    if (switchBoard.btn_9.get()) {
-      configureButtonBindingsModeA();
-    } else {
-      configureButtonBindingsModeB();
-    }
+    configureButtonBindings();
 
     // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
@@ -170,38 +165,8 @@ public class RobotContainer {
    * ({@link edu.wpi.first./wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  public static void configureButtonBindingsModeA() {
 
-    manipulator.btn_1.whileHeld(shoot);
-    manipulator.btn_2.whileHeld(toggleControlPanel);
-    manipulator.btn_3.whileHeld(alignTurretVision);
-    drive.btn_LBump.whileHeld(collect);
-    manipulator.btn_5.whileHeld(spinControlPanelCounts);
-    manipulator.btn_6.whileHeld(spinToColor);
-    // manipulator.btn_7.whileHeld(climberManual);
-    manipulator.btn_7.whenPressed(hoodFar);
-    // manipulator.btn_8.whileHeld(winchClimber);
-    manipulator.btn_8.whileHeld(controlPanelManual);
-
-    manipulator.btn_9.whileHeld(hoodMed);
-
-    manipulator.btn_10.whileHeld(turretManual);
-    manipulator.btn_11.whileHeld(hoodManual);
-
-    manipulator.btn_12.whileHeld(toggleControlPanel);
-    // manipulator.btn_11.whileHeld(hoodMidRange);
-    // manipulator.btn_12.whileHeld(new SetShooterSpeed(true));
-    // manipulator.btn_11.whileHeld(new SetShooterSpeed(false));
-
-    // drive stuff in arcade drive command
-    drive.btn_Y.whileHeld(driveToBall);
-    drive.btn_A.whileHeld(auto1);
-    drive.btn_X.whileHeld(failMot);
-    SmartDashboard.putString("mode", "owo");
-
-  }
-
-  public static void configureButtonBindingsModeB() {
+  public static void configureButtonBindings() {
 
     manipulator.btn_1.whileHeld(shoot);
     manipulator.btn_2.whileHeld(speedUpShot);
@@ -226,8 +191,22 @@ public class RobotContainer {
     drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
-    SmartDashboard.putString("mode", "owo");
+    drive.btn_LBump.whileHeld(collect);
 
+    /*
+     * TODO: for mappings
+     * 
+     * NOT IN ENDGAME ============== need 6 hood locations middle trench - m7 front
+     * trench - m9 initialization line - m11 close - m12 against wall (low target) -
+     * m10 against wall (high target) - m8 hat up - bumps hood back (lower degree)
+     * to shoot higher hat down - bumps hood forward (higher degree) to shoot lower
+     * shoot - m1 manual turret - m2 + twist turret (not hood) vision - m3 toggle
+     * control panel - m4 stage 1 - spin # of times - m5 stage 2 - spin to color -
+     * m6 spin control panel right - hat right spin control panel left - hat left
+     * 
+     * IN ENDGAME ========== climber deploy - m2 + forward stick climber retract -
+     * m2 + backward stick winch - m3
+     */
   }
 
   /**
