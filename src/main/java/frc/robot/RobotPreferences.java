@@ -85,8 +85,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
         public static final SN_DoublePreference shooterMaxRPM = new SN_DoublePreference("shooterMaxRPM", 5000);
         public static final SN_DoublePreference shooterCloseRPM = new SN_DoublePreference("shooterCloseRPM", 4000);
-        public static final SN_DoublePreference shooterCloseLowRPM = new SN_DoublePreference("shooterCloseLowRPM", 1000);
-        public static final SN_DoublePreference shooterCloseHighRPM = new SN_DoublePreference("shooterCloseHighRPM", 3500);
+        public static final SN_DoublePreference shooterWallLowRPM = new SN_DoublePreference("shooterWallLowRPM", 1000);
+        public static final SN_DoublePreference shooterWallHighRPM = new SN_DoublePreference("shooterWallHighRPM", 3500);
         public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 1E-4);
         public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 0);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
