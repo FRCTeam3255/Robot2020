@@ -68,6 +68,8 @@ public class ShootBall extends CommandBase {
 
     state = stateType.STAGING;
     RobotContainer.turret.setShooterVelocity();
+    RobotContainer.intake.turretGateSetSpeed(1 * RobotPreferences.turretGateSpeed.getValue());
+    RobotContainer.intake.initialShooterGateSetSpeed(1 * RobotPreferences.initialGateSpeed.getValue());
     timer.reset();
     timer.start();
     // RobotContainer.turret.setShooterSpeefd();
@@ -89,19 +91,16 @@ public class ShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+
     if(state == stateType.STAGING){
-      if(!RobotContainer.intake.getStagedSwitch() || !timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())){
-        RobotContainer.intake.turretGateSetSpeed(1 * RobotPreferences.turretGateSpeed.getValue());
-        RobotContainer.intake.initialShooterGateSetSpeed(1 * RobotPreferences.initialGateSpeed.getValue());
-      }else{
+      if(RobotContainer.intake.getStagedSwitch() || timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())){
         timer.reset();
         timer.start();
         RobotContainer.intake.turretGateSetSpeed(0);
         RobotContainer.intake.initialShooterGateSetSpeed(0);
         state= stateType.SPINNING;
-
       }
-
     }
     else if(state == stateType.SPINNING){
       if(RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())){
