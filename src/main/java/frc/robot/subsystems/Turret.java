@@ -168,9 +168,8 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isShooterSpedUp() {
-    // return (Math.abs(getShooterSpeed() - goalVelocity) <
-    // RobotPreferences.shooterTolerance.getValue());
-    return getShooterSpeed() > goalVelocity;
+    return (Math.abs(getShooterSpeed() - goalVelocity) < RobotPreferences.shooterTolerance.getValue());
+    // return getShooterSpeed() > goalVelocity;
   }
 
   public double getShooterError(double goalRPM) {

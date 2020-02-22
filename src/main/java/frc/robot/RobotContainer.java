@@ -141,7 +141,7 @@ public class RobotContainer {
     hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
     hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterMaxRPM);
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterCloseLowRPM);
-    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterCloseLowRPM);
+    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterCloseHighRPM);
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
     auto1 = new Auto1();
@@ -191,7 +191,7 @@ public class RobotContainer {
     manipulator.btn_1.whileHeld(shoot);
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whileHeld(toggleControlPanel);
+    manipulator.btn_4.whenPressed(toggleControlPanel);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
