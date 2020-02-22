@@ -52,12 +52,13 @@ public class ShootBall extends CommandBase {
   private Timer timer = new Timer();
 
   private enum stateType{
-    SPINNING, SHOOTING, NONE
+    SPINNING, SHOOTING, STAGING, NONE
   };
   private stateType state = stateType.NONE;
   public ShootBall() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.intake);
 
   }
 
@@ -65,7 +66,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void initialize() {
 
-    state = stateType.SPINNING;
+    state = stateType.STAGING;
     RobotContainer.turret.setShooterVelocity();
     timer.reset();
     timer.start();
@@ -88,7 +89,21 @@ public class ShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(state == stateType.SPINNING){
+    if(state == stateType.STAGING){
+      if(!RobotContainer.intake.getStagedSwitch() || !timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())){
+        RobotContainer.intake.turretGateSetSpeed(1 * RobotPreferences.turretGateSpeed.getValue());
+        RobotContainer.intake.initialShooterGateSetSpeed(1 * RobotPreferences.initialGateSpeed.getValue());
+      }else{
+        timer.reset();
+        timer.start();
+        RobotContainer.intake.turretGateSetSpeed(0);
+        RobotContainer.intake.initialShooterGateSetSpeed(0);
+        state= stateType.SPINNING;
+
+      }
+
+    }
+    else if(state == stateType.SPINNING){
       if(RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())){
         state = stateType.SHOOTING;
         RobotContainer.turret.finalShooterGateSetSpeed(-1);
