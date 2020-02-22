@@ -85,6 +85,9 @@ public class ShootBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.turret.setShooterSpeed(0);
+    RobotContainer.turret.finalShooterGateSetSpeed(0);
+    RobotContainer.intake.turretGateSetSpeed(0);
+    RobotContainer.intake.initialShooterGateSetSpeed(0);
 
   }
 
