@@ -31,7 +31,7 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     empty = false;
-    // RobotContainer.turret.setShooterSpeefd();
+    RobotContainer.turret.setShooterVelocity();
 
   }
 

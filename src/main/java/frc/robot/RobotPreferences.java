@@ -84,7 +84,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference susanI = new SN_DoublePreference("susanI", 0);
         public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
         public static final SN_DoublePreference shooterMaxRPM = new SN_DoublePreference("shooterMaxRPM", 5000);
-        public static final SN_DoublePreference shooterLowRPM = new SN_DoublePreference("shooterLowRPM", 1000);
+        public static final SN_DoublePreference shooterCloseLowRPM = new SN_DoublePreference("shooterCloseLowRPM", 1000);
+        public static final SN_DoublePreference shooterCloseHighRPM = new SN_DoublePreference("shooterCloseHighRPM", 3500);
         public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 10e-5);
         public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 10e-6);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
@@ -96,13 +97,24 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
         public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterToleranceSpeed",
                         100);
-        public static final SN_DoublePreference hoodFar = new SN_DoublePreference("hoodFar", 68);
-        public static final SN_DoublePreference hoodMed = new SN_DoublePreference("hoodMed", 62);
+
+        // Hood positions
+        public static final SN_DoublePreference nudgeHoodUp = new SN_DoublePreference("nudgeHoodUp", 2);
+        public static final SN_DoublePreference nudgeHoodDown = new SN_DoublePreference("nudgeHoodDown", -2);
+        public static final SN_DoublePreference hoodMiddleTrench = new SN_DoublePreference("hoodMiddleTrench", 68);
+        public static final SN_DoublePreference hoodFrontTrench = new SN_DoublePreference("hoodFrontTrench", 68);
+        public static final SN_DoublePreference hoodInitialization = new SN_DoublePreference("hoodInitialization", 68);
         public static final SN_DoublePreference hoodClose = new SN_DoublePreference("hoodClose", 10);
+        public static final SN_DoublePreference hoodWallLow = new SN_DoublePreference("hoodWallLow", 68);
+        public static final SN_DoublePreference hoodWallHigh = new SN_DoublePreference("hoodWallHigh", 62);
+
+
         public static final SN_DoublePreference shooterTimeout = new SN_DoublePreference("shooterTimeout", 5);
 
         // ControlPanel
         public static final SN_IntPreference spinCount = new SN_IntPreference("spinCount", 1);
+        public static final SN_DoublePreference spinSpeedRight = new SN_DoublePreference("spinSpeedRight", 1);
+        public static final SN_DoublePreference spinSpeedLeft = new SN_DoublePreference("spinSpeedLeft", -1);
 
         // Intake
         public static final SN_DoublePreference servoPosRetract = new SN_DoublePreference("servoPosRetract", 0);

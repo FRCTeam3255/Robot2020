@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,41 +26,42 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
 
-  private CANSparkMax shooterA;
-  private CANSparkMax shooterB;
+  private CANSparkMax shooterMaster;
+  private CANSparkMax shooterSlave;
   private CANEncoder shooterEnocder;
   private TalonSRX finalShooterGateTalon;
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
-  // private CANPIDController shooterPIDController;
+  private CANPIDController shooterPIDController;
   private double goalVelocity = 0;
 
   public Turret() {
-    shooterA = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
-    shooterB = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
-    // shooterPIDController = shooterA.getPIDController();
+    shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
+    shooterSlave = new CANSparkMax(RobotMap.SHOOTER_BACK_SPARK, MotorType.kBrushless);
+    shooterPIDController = shooterMaster.getPIDController();
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
-    // configureShooter();
-    shooterEnocder = shooterA.getEncoder();
+    
+    shooterMaster.restoreFactoryDefaults();
+    shooterSlave.restoreFactoryDefaults();
+    shooterSlave.follow(shooterMaster);
+    shooterEnocder = shooterMaster.getEncoder();
 
+    configureShooter();
+  
     configureLazySusan();
     configureHood();
   }
 
-  // public void configureShooter() {
+  public void configureShooter() {
 
-  // shooterMaster.restoreFactoryDefaults();
-  // shooterSlave.restoreFactoryDefaults();
-  // // shooterSlave.follow(shooterMaster);
-
-  // shooterPIDController.setP(RobotPreferences.shooterP.getValue());
-  // shooterPIDController.setI(RobotPreferences.shooterI.getValue());
-  // shooterPIDController.setD(RobotPreferences.shooterD.getValue());
-  // shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
-  // shooterPIDController.setOutputRange(-1.0, 1.0);
-  // }
+  shooterPIDController.setP(RobotPreferences.shooterP.getValue());
+  shooterPIDController.setI(RobotPreferences.shooterI.getValue());
+  shooterPIDController.setD(RobotPreferences.shooterD.getValue());
+  shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
+  shooterPIDController.setOutputRange(-1.0, 1.0);
+  }
 
   public void configureLazySusan() {
     // TODO: Move things that aren't PID prefs into constructor
@@ -123,6 +126,16 @@ public class Turret extends SubsystemBase {
     hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
 
+  public void setShooterSetpoint(double setpoint){
+  goalVelocity = setpoint;
+
+  }
+  public void setShooterVelocity() {
+  configureShooter();
+  shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+  }
+
+
   public boolean hoodFinished() {
     return Math.abs(getHoodError()) <= RobotPreferences.hoodTol.getValue();
   }
@@ -143,20 +156,8 @@ public class Turret extends SubsystemBase {
   }
 
   public void setShooterSpeed(double speed) {
-    shooterA.set(speed);
-    shooterB.set(speed);
+    shooterMaster.set(speed);
   }
-
-  // TODO: rename to setShooterSetpoint
-  // public void setShooterVelocity(double rpm) {
-  // goalVelocity = rpm;
-  // }
-
-  // TODO: rename to setShooterVelocity
-  // public void shooterVelocity() {
-  // configureShooter();
-  // shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
-  // }
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();

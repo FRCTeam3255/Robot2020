@@ -29,6 +29,7 @@ import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignTurretVision;
+import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
@@ -36,7 +37,6 @@ import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootAutomatic;
 import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShooterTimeout;
-import frc.robot.commands.Turret.SpeedUpShot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -82,20 +82,26 @@ public class RobotContainer {
   private static SpinToColor spinToColor;
   private static DeployClimberManual climberManual;
   private static WinchClimber winchClimber;
-  private static SpinControlPanelManual controlPanelManual;
+  private static SpinControlPanelManual controlPanelLeft;
+  private static SpinControlPanelManual controlPanelRight;
   private static RotateTurret turretManual;
-  // private static SetHoodPosition hoodMidRange;
   private static RotateHood hoodManual;
-  private static SetHoodPosition hoodCloseRange;
-  private static SetHoodPosition hoodClose;
-  private static SetHoodPosition hoodMed;
-  private static SpeedUpShot speedUpShot;
   private static ShootBall shoot;
   private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Auto1 auto1;
   private static DriveToBall driveToBall;
+  private static NudgeHood nudgeHoodUp;
+  private static NudgeHood nudgeHoodDown;
 
+
+  //finsihed
+  private static SetHoodPosition hoodMiddleTrench;
+  private static SetHoodPosition hoodFrontTrench;
+  private static SetHoodPosition hoodInitialization;
+  private static SetHoodPosition hoodClose;
+  private static SetHoodPosition hoodWallLow;
+  private static SetHoodPosition hoodWallHigh;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -109,7 +115,6 @@ public class RobotContainer {
 
     // create commands
     shoot = new ShootBall();
-    speedUpShot = new SpeedUpShot();
     smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
@@ -117,13 +122,20 @@ public class RobotContainer {
     spinToColor = new SpinToColor(panelColor.green);
     climberManual = new DeployClimberManual();
     winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
-    controlPanelManual = new SpinControlPanelManual();
+    controlPanelLeft = new SpinControlPanelManual(RobotPreferences.spinSpeedLeft);
+    controlPanelRight = new SpinControlPanelManual(RobotPreferences.spinSpeedRight);
     turretManual = new RotateTurret();
-    hoodFar = new SetHoodPosition(RobotPreferences.hoodFar, RobotPreferences.shooterMaxRPM);
-    hoodMed = new SetHoodPosition(RobotPreferences.hoodMed, RobotPreferences.shooterMaxRPM);
-    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterLowRPM);
     hoodManual = new RotateHood();
     collect = new CollectBall();
+    nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
+    nudgeHoodDown = new NudgeHood(RobotPreferences.nudgeHoodDown);
+
+    hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM);
+    hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM);
+    hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
+    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterMaxRPM);
+    hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterCloseLowRPM);
+    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterCloseLowRPM);
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
     auto1 = new Auto1();
@@ -167,25 +179,22 @@ public class RobotContainer {
    */
 
   public static void configureButtonBindings() {
-
     manipulator.btn_1.whileHeld(shoot);
-    manipulator.btn_2.whileHeld(speedUpShot);
+    manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    drive.btn_LBump.whileHeld(collect);
+    manipulator.btn_4.whileHeld(toggleControlPanel);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
-    // manipulator.btn_7.whileHeld(climberManual);
-    manipulator.btn_7.whenPressed(hoodFar);
-    // manipulator.btn_8.whileHeld(winchClimber);
-    manipulator.btn_9.whileHeld(hoodMed);
-
-    manipulator.btn_8.whileHeld(controlPanelManual);
-    manipulator.btn_10.whileHeld(turretManual);
-    manipulator.btn_11.whileHeld(hoodManual);
-    manipulator.btn_12.whileHeld(toggleControlPanel);
-    // manipulator.btn_11.whileHeld(hoodMidRange);
-    // manipulator.btn_12.whileHeld(new SetShooterSpeed(true));
-    // manipulator.btn_11.whileHeld(new SetShooterSpeed(false));
+    manipulator.btn_7.whenPressed(hoodMiddleTrench);
+    manipulator.btn_8.whenPressed(hoodWallHigh);
+    manipulator.btn_9.whenPressed(hoodFrontTrench);
+    manipulator.btn_10.whenPressed(hoodWallLow);
+    manipulator.btn_11.whenPressed(hoodInitialization);
+    manipulator.btn_12.whenPressed(hoodClose);
+    manipulator.POV_North.whenPressed(nudgeHoodUp);
+    manipulator.POV_East.whileHeld(controlPanelRight);
+    manipulator.POV_South.whenPressed(nudgeHoodDown);
+    manipulator.POV_West.whileHeld(controlPanelLeft);
 
     // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);
@@ -196,16 +205,20 @@ public class RobotContainer {
     /*
      * TODO: for mappings
      * 
-     * NOT IN ENDGAME ============== need 6 hood locations middle trench - m7 front
-     * trench - m9 initialization line - m11 close - m12 against wall (low target) -
-     * m10 against wall (high target) - m8 hat up - bumps hood back (lower degree)
-     * to shoot higher hat down - bumps hood forward (higher degree) to shoot lower
-     * shoot - m1 manual turret - m2 + twist turret (not hood) vision - m3 toggle
-     * control panel - m4 stage 1 - spin # of times - m5 stage 2 - spin to color -
-     * m6 spin control panel right - hat right spin control panel left - hat left
      * 
-     * IN ENDGAME ========== climber deploy - m2 + forward stick climber retract -
-     * m2 + backward stick winch - m3
+     * hat up - bumps hood back (lower degree) to shoot higher
+     * hat down - bumps hood forward (higher degree) to shoot lower
+     * 
+     * stage 1 - spin # of times - m5
+     * stage 2 - spin to color - m6
+     * spin control panel right - hat right
+     * spin control panel left - hat left
+     * 
+     * IN ENDGAME
+     * ==========
+     * climber deploy - m2 + forward stick
+     * climber retract - m2 + backward stick
+     * winch - m3
      */
   }
 

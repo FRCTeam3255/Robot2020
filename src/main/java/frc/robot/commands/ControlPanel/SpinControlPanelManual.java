@@ -9,26 +9,28 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SpinControlPanelManual extends CommandBase {
   /**
    * Creates a new SpinControlPanelCount.
    */
-
-  public SpinControlPanelManual() {
+  SN_DoublePreference speed;
+  public SpinControlPanelManual(SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    speed = a_speed;
     addRequirements(RobotContainer.controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.controlPanel.setSpeed(speed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.controlPanel.setSpeed(RobotContainer.manipulator.getTwistAxis());
 
   }
 
