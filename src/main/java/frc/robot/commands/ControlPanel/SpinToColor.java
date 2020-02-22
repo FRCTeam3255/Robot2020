@@ -7,6 +7,7 @@
 
 package frc.robot.commands.ControlPanel;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -20,13 +21,11 @@ public class SpinToColor extends CommandBase {
   private panelColor goalColor;
   private double speedCoefficient;
   private boolean finished;
+  String gameData;
 
-  // TODO: don't pass in the color, have the goal color read from the FMS in
-  // initialize
-  public SpinToColor(panelColor a_goalColor) {
+  public SpinToColor() {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    goalColor = a_goalColor;
     addRequirements(RobotContainer.controlPanel);
   }
 
@@ -35,7 +34,37 @@ public class SpinToColor extends CommandBase {
   public void initialize() {
     finished = false;
     speedCoefficient = 1;
-    initialColor = RobotContainer.controlPanel.getColor();
+
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    if (gameData.length() > 0) {
+      switch (gameData.charAt(0)) {
+      case 'B':
+        // Blue case code
+        initialColor = panelColor.blue;
+
+        break;
+      case 'G':
+        // Green case code
+        initialColor = panelColor.green;
+
+        break;
+      case 'R':
+        // Red case code
+
+        break;
+      case 'Y':
+        // Yellow case code
+        initialColor = panelColor.yellow;
+
+        break;
+      default:
+        // This is corrupt data
+        finished = true;
+        break;
+      }
+    } else {
+      // Code for no data received yet
+    }
     /*
      * TODO: Will need to verify that motor polarity spins the intended direction
      * for this optimization to work. Comment of what the heck this logic was trying
