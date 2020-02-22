@@ -7,12 +7,18 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 // import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
+public class ShootBall extends CommandBase {
+  /**
+   * Creates a new ShootBall.
+   */
+  
 /*
   TODO: Logic for shoot ball needs to be:
     initialize()
@@ -42,10 +48,12 @@ import frc.robot.RobotPreferences;
     end()
       set shooter speed to 0
 */
-public class ShootBall extends CommandBase {
-  /**
-   * Creates a new ShootBall.
-   */
+  private Timer timer = new Timer();
+
+  private enum stateType{
+    SPINNING, SHOOTING, NONE
+  };
+  private stateType state = stateType.NONE;
   public ShootBall() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
@@ -56,7 +64,10 @@ public class ShootBall extends CommandBase {
   @Override
   public void initialize() {
 
+    state = stateType.SPINNING;
     RobotContainer.turret.setShooterVelocity();
+    timer.reset();
+    timer.start();
     // RobotContainer.turret.setShooterSpeefd();
 
   }
@@ -64,20 +75,11 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (RobotContainer.turret.isShooterSpedUp()) {
-      RobotContainer.turret.finalShooterGateSetSpeed(-1);
-
-    } else {
-      RobotContainer.turret.finalShooterGateSetSpeed(0);
-
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.finalShooterGateSetSpeed(0);
     RobotContainer.turret.setShooterSpeed(0);
 
   }
@@ -85,7 +87,24 @@ public class ShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return ! intake.getStagedSwitch();
+    if(state == stateType.SPINNING){
+      if(RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())){
+        state = stateType.SHOOTING;
+        RobotContainer.turret.finalShooterGateSetSpeed(-1);
+        timer.reset();
+        timer.start();
+      }
+    }else if(state == stateType.SHOOTING){
+      if(timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())){
+        RobotContainer.turret.finalShooterGateSetSpeed(0);
+        if(RobotContainer.switchBoard.getRawButton(7)){
+          initialize();
+        }else{
+          return true;
+        }
+
+      }
+    }
     return false;
   }
 }
