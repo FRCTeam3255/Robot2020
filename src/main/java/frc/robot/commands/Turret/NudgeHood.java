@@ -27,7 +27,7 @@ public class NudgeHood extends CommandBase {
   @Override
   public void initialize() {
 
-    RobotContainer.turret.hoodMoveToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
+    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
 
   }
 

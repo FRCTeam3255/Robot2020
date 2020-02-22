@@ -9,7 +9,6 @@ package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
 
 public class ShootAutomatic extends CommandBase {
     /**
@@ -29,7 +28,7 @@ public class ShootAutomatic extends CommandBase {
         // RobotContainer.turret.configureShooter();
         // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
         // RobotContainer.turret.shooterVelocity();
-        RobotContainer.turret.hoodMoveToDegree(RobotContainer.turret.getHoodPosition());
+        RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
     }
 
     // Called every time the scheduler runs while the command is scheduled.

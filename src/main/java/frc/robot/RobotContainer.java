@@ -32,20 +32,18 @@ import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
-import frc.robot.commands.Turret.RotateHood;
+// import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
 // import frc.robot.commands.Turret.SetShooterSpeed;
-import frc.robot.commands.Turret.ShootAutomatic;
+// import frc.robot.commands.Turret.ShootAutomatic;
 import frc.robot.commands.Turret.ShootBall;
-import frc.robot.commands.Turret.ShooterTimeout;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.ControlPanel.panelColor;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import frcteam3255.robotbase.Joystick.SN_SwitchboardStick;
@@ -77,7 +75,7 @@ public class RobotContainer {
   public static DriveMotionProfile getBackMot;
   public static DriveMotionProfile finalMot;
 
-  private static ShootAutomatic smartShot;
+  // private static ShootAutomatic smartShot;
   private static ToggleControlPanel toggleControlPanel;
   private static AlignTurretVision alignTurretVision;
   private static SpinControlPanelCount spinControlPanelCounts;
@@ -87,9 +85,9 @@ public class RobotContainer {
   private static SpinControlPanelManual controlPanelLeft;
   private static SpinControlPanelManual controlPanelRight;
   private static RotateTurret turretManual;
-  private static RotateHood hoodManual;
+  // private static RotateHood hoodManual;
   private static ShootBall shoot;
-  private static SetHoodPosition hoodFar;
+  // private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Auto1 auto1;
   private static DriveToBall driveToBall;
@@ -119,7 +117,7 @@ public class RobotContainer {
 
     // create commands
     shoot = new ShootBall();
-    smartShot = new ShootAutomatic();
+    // smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount);
@@ -129,7 +127,7 @@ public class RobotContainer {
     controlPanelLeft = new SpinControlPanelManual(RobotPreferences.spinSpeedLeft);
     controlPanelRight = new SpinControlPanelManual(RobotPreferences.spinSpeedRight);
     turretManual = new RotateTurret();
-    hoodManual = new RotateHood();
+    // hoodManual = new RotateHood();
     collect = new CollectBall();
     nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
     nudgeHoodDown = new NudgeHood(RobotPreferences.nudgeHoodDown);

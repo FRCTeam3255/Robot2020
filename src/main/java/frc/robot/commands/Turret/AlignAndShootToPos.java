@@ -63,8 +63,8 @@ public class AlignAndShootToPos extends CommandBase {
             timer.start();
             if (!(RobotContainer.turret.susanFinished() && RobotContainer.turret.hoodFinished())) {
 
-                RobotContainer.turret.susanTurnToDegree(turretPos.getValue());
-                RobotContainer.turret.hoodMoveToDegree(hoodPos.getValue());
+                RobotContainer.turret.turnSusanToDegree(turretPos.getValue());
+                RobotContainer.turret.moveHoodToDegree(hoodPos.getValue());
             } else if ((RobotContainer.turret.susanFinished() && RobotContainer.turret.hoodFinished())) {
                 aligned = true;
             }
