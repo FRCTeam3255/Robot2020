@@ -41,7 +41,8 @@ public class ShootBall extends CommandBase {
             initialize()
           else
             true
-
+      return false
+      
     execute()
       noop
 
