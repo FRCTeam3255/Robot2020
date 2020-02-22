@@ -30,7 +30,9 @@ public class SetHoodPosition extends CommandBase {
   public void initialize() {
 
     RobotContainer.turret.hoodMoveToDegree(degrees.getValue());
+    // TODO: The following method is being deleted, and hoodMoveToDegree already calls configureHood
     RobotContainer.turret.configHoodP();
+    // TODO: Don't set shooter velocity in a hood command
     RobotContainer.turret.setShooterVelocity(velocity.getValue());
 
   }
@@ -43,8 +45,8 @@ public class SetHoodPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // TODO: Don't set shooter velocity in a hood command
     RobotContainer.turret.setHoodSpeed(0);
-
   }
 
   // Returns true when the command should end.

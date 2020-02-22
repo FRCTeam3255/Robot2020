@@ -157,7 +157,7 @@ public class RobotContainer {
     manipulator.btn_1.whileHeld(smartShot);
     manipulator.btn_2.whileHeld(toggleControlPanel);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whileHeld(collect);
+    // manipulator.btn_4.whileHeld(collect); moved to driver LB
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     // TODO: can save buttons by having control panel mode button be based on a switchboard mode. Or just move to switchboard!
     manipulator.btn_6.whileHeld(spinToColor);
@@ -165,6 +165,7 @@ public class RobotContainer {
     manipulator.btn_7.whileHeld(hoodFar);
     manipulator.btn_8.whileHeld(winchClimber);
     manipulator.btn_7.whileHeld(hoodMed);
+    // add a button for 'hood-up' in cases of missing the target
 
     // manipulator.btn_9.whileHeld(controlPanelManual);
     manipulator.btn_10.whileHeld(turretManual);
@@ -176,7 +177,38 @@ public class RobotContainer {
     drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
+    drive.btn_LBump.whileHeld(collect);
 
+
+    /*
+      TODO: for mappings
+
+      NOT IN ENDGAME
+      ==============
+      need 6 hood locations
+       middle trench - m7
+       front trench - m9
+       initialization  line - m11
+       close - m12
+       against wall (low target) - m10
+       against wall (high target) - m8
+      hat up - bumps hood back (lower degree) to shoot higher
+      hat down - bumps hood forward (higher degree) to shoot lower
+      shoot - m1
+      manual turret - m2 + twist
+      turret (not hood) vision - m3
+      toggle control panel - m4
+      stage 1 - spin # of times - m5
+      stage 2 - spin to color - m6
+      spin control panel right - hat right
+      spin control panel left - hat left
+      
+      IN ENDGAME
+      ==========
+      climber deploy - m2 + forward stick
+      climber retract - m2 + backward stick
+      winch - m3
+    */
   }
 
   /**
