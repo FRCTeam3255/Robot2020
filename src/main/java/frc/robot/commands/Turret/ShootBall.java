@@ -27,7 +27,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void initialize() {
 
-    RobotContainer.turret.setGoalVelocity(RobotPreferences.shooterMaxRPM.getValue());
+    RobotContainer.turret.setShooterVelocity();
     // RobotContainer.turret.setShooterSpeefd();
 
   }
@@ -35,7 +35,6 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.setShooterSpeed(RobotContainer.manipulator.getDialAxis());
 
     if (RobotContainer.turret.isShooterSpedUp()) {
       RobotContainer.turret.finalShooterGateSetSpeed(-1);
