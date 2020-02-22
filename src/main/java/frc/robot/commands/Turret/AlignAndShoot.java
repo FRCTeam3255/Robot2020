@@ -64,7 +64,7 @@ public class AlignAndShoot extends CommandBase {
 
                 RobotContainer.turret.setSusanSpeed(
                         RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-                RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
+                RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodVisionPosition());
             } else if (RobotContainer.vision.visionHasTarget()
                     && (RobotContainer.vision.isXFinished() && RobotContainer.turret.hoodFinished())) {
                 aligned = true;

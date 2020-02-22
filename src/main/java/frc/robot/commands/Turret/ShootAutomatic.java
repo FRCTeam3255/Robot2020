@@ -29,7 +29,7 @@ public class ShootAutomatic extends CommandBase {
         // RobotContainer.turret.configureShooter();
         // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
         // RobotContainer.turret.shooterVelocity();
-        RobotContainer.turret.hoodMoveToDegree(RobotContainer.turret.getHoodPosition());
+        RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
     }
 
     // Called every time the scheduler runs while the command is scheduled.

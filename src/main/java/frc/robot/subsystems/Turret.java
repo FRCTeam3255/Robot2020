@@ -47,7 +47,11 @@ public class Turret extends SubsystemBase {
     shooterSlave.restoreFactoryDefaults();
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
+    lazySusanTalon.configFactoryDefault();
+    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
+    hoodTalon.configFactoryDefault();
+    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     configureShooter();
   
     configureLazySusan();
@@ -65,8 +69,6 @@ public class Turret extends SubsystemBase {
 
   public void configureLazySusan() {
     // TODO: Move things that aren't PID prefs into constructor
-    lazySusanTalon.configFactoryDefault();
-    lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
@@ -77,8 +79,6 @@ public class Turret extends SubsystemBase {
 
   public void configureHood() {
     // TODO: Move things that aren't PID prefs into constructor
-    hoodTalon.configFactoryDefault();
-    hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
@@ -90,15 +90,8 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  // TODO: Delete this routine. It's not hood, and instead configureHood or
-  // configureLazySusan should be used.
-  public void configHoodP() {
-    lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
-
-  }
-
   // TODO: change name to turnSusanToDegree
-  public void susanTurnToDegree(double degree) {
+  public void turnSusanToDegree(double degree) {
     configureLazySusan();
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
   }
@@ -115,7 +108,7 @@ public class Turret extends SubsystemBase {
   }
 
   // TODO: change name to moveHoodToDegree
-  public void hoodMoveToDegree(double a_degree) {
+  public void moveHoodToDegree(double a_degree) {
     configureHood();
     double degree = a_degree;
     if (degree < RobotPreferences.hoodMinDegree.getValue()) {
