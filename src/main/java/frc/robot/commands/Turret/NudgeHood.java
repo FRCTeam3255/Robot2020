@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
@@ -27,6 +28,7 @@ public class NudgeHood extends CommandBase {
   @Override
   public void initialize() {
 
+    SmartDashboard.putString("NudgeHoodState","INITIALIZE");
     RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
 
   }
@@ -34,11 +36,15 @@ public class NudgeHood extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putString("NudgeHoodState","EXECUTE");
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putString("NudgeHoodState","END");
+
     // RobotContainer.turret.setHoodSpeed(0);
   }
 

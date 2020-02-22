@@ -137,7 +137,7 @@ public class RobotContainer {
     hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM);
     hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM);
     hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
-    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterMaxRPM);
+    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM);
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterCloseLowRPM);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterCloseHighRPM);
 
