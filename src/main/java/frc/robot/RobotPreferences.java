@@ -92,7 +92,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
         public static final SN_DoublePreference spinupTimeout = new SN_DoublePreference("spinupTimeout", 5);
         public static final SN_DoublePreference stagingTimeout = new SN_DoublePreference("stagingTimeout", 1);
-        public static final SN_DoublePreference shootingTimeout = new SN_DoublePreference("shootingTimeout", .5);
+        public static final SN_DoublePreference shootingTimeout = new SN_DoublePreference("shootingTimeout", 1);
         public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
         public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterToleranceSpeed",

@@ -15,19 +15,47 @@ public class CollectBall extends CommandBase {
     /**
      * Creates a new CollectBall.
      */
+    double initialGateSpeed;
+    double turretGateSpeed;
+
     public CollectBall() {
         // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.intake);
+
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        turretGateSpeed = 0;
+        initialGateSpeed = 0;
         RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        turretGateSpeed = 1;
+        initialGateSpeed = 1;
+
+        if (RobotContainer.intake.getStagedSwitch()) {
+            initialGateSpeed = 0;
+
+        }
+        if (RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
+
+            turretGateSpeed = 0;
+
+        }
+
+        if (!RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
+
+            turretGateSpeed = 1;
+            initialGateSpeed = 1;
+        }    
+        RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue()); // m1
+        RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());
+    
     }
 
     // Called once the command ends or is interrupted.

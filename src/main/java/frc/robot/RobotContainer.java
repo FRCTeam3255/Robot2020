@@ -152,7 +152,7 @@ public class RobotContainer {
 
     // set default commands on subsystems
     drivetrain.setDefaultCommand(new DriveArcade());
-    intake.setDefaultCommand(new HandleIntake());
+    // intake.setDefaultCommand(new HandleIntake());
     // turret.setDefaultCommand(new ShooterTimeout());
 
     motionReload();
