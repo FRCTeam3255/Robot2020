@@ -116,7 +116,7 @@ public class ShootBall extends CommandBase {
     }else if(state == stateType.SHOOTING){
       if(timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())){
         RobotContainer.turret.finalShooterGateSetSpeed(0);
-        if(RobotContainer.switchBoard.getRawButton(7)){
+        if(RobotContainer.switchBoard.btn_7.get()){
           initialize();
         }else{
           return true;

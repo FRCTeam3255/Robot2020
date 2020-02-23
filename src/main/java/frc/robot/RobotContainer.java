@@ -32,6 +32,7 @@ import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
+import frc.robot.commands.Turret.ResetShooter;
 // import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
@@ -95,6 +96,7 @@ public class RobotContainer {
   private static NudgeHood nudgeHoodDown;
   private static ConfigEndGameButtons configEndGame;
   private static ConfigDefaultButtons configDefault;
+  private static ResetShooter resetShooter;
 
 
   //finsihed
@@ -116,6 +118,7 @@ public class RobotContainer {
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
 
     // create commands
+    resetShooter = new ResetShooter();
     shoot = new ShootBall();
     // smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
@@ -186,7 +189,8 @@ public class RobotContainer {
 
     //BUTTONS  -  NON END GAME
 
-    manipulator.btn_1.whileHeld(shoot);
+    manipulator.btn_1.whenPressed(shoot);
+    manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
     manipulator.btn_4.whenPressed(toggleControlPanel);
@@ -215,7 +219,8 @@ public class RobotContainer {
 
     //BUTTONS  -  NON END
 
-    manipulator.btn_1.whileHeld(shoot);
+    manipulator.btn_1.whenPressed(shoot);
+    manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(climberManual);
     manipulator.btn_3.whileHeld(winchClimber);
     manipulator.btn_4.whileHeld(toggleControlPanel);
