@@ -202,6 +202,10 @@ public class RobotContainer {
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
+    //emergancies
+    drive.btn_RTrig.whileHeld(climberManual);
+    drive.btn_LTrig.whileHeld(winchClimber);
+
     // switchboards
     switchBoard.btn_8.whileHeld(winchClimber);
     switchBoard.btn_10.whileHeld(climberManual);
