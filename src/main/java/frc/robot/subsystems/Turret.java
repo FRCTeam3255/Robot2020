@@ -69,7 +69,6 @@ public class Turret extends SubsystemBase {
   }
 
   public void configureLazySusan() {
-    // TODO: Move things that aren't PID prefs into constructor
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
@@ -79,7 +78,6 @@ public class Turret extends SubsystemBase {
   }
 
   public void configureHood() {
-    // TODO: Move things that aren't PID prefs into constructor
     hoodTalon.config_kP(0, RobotPreferences.hoodP.getValue());
     hoodTalon.config_kI(0, RobotPreferences.hoodI.getValue());
     hoodTalon.config_kD(0, RobotPreferences.hoodD.getValue());
@@ -91,7 +89,6 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  // TODO: change name to turnSusanToDegree
   public void turnSusanToDegree(double degree) {
     configureLazySusan();
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
@@ -108,7 +105,6 @@ public class Turret extends SubsystemBase {
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  // TODO: change name to moveHoodToDegree
   public void moveHoodToDegree(double a_degree) {
     configureHood();
     double degree = a_degree;

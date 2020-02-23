@@ -18,37 +18,6 @@ public class ShootBall extends CommandBase {
   /**
    * Creates a new ShootBall.
    */
-  
-/*
-  TODO: Logic for shoot ball needs to be:
-    initialize()
-      set state to spinning up
-      set shooter to velocity control
-      reset & start spinup timeout
-    
-    isfinished()
-      if state == spinning up
-        if shooter at velocity or spinup timeout has expired
-          set state to shooting
-          
-          turn on final gate
-          reset and start shooting timeout
-      else if state == shooting
-        if shooting timeout has expired
-          turn off final gate
-
-          if switchboard multi-shot is enabled
-            initialize()
-          else
-            true
-      return false
-      
-    execute()
-      noop
-
-    end()
-      set shooter speed to 0
-*/
   private Timer timer = new Timer();
 
   private enum stateType{

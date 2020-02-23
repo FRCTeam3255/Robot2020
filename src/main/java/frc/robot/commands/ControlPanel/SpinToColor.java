@@ -65,11 +65,6 @@ public class SpinToColor extends CommandBase {
     } else {
       // Code for no data received yet
     }
-    /*
-     * TODO: Will need to verify that motor polarity spins the intended direction
-     * for this optimization to work. Comment of what the heck this logic was trying
-     * to do would have been nice too. :-)
-     */
     if (initialColor == panelColor.red && goalColor == panelColor.yellow) {
       speedCoefficient = -1;
     } else if (initialColor == panelColor.green && goalColor == panelColor.red) {
