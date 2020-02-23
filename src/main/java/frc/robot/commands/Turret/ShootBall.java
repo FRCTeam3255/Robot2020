@@ -49,11 +49,10 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.manipulator.btn_4.get()){
+    if(RobotContainer.drive.btn_LBump.get()) {
       RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
-    }else{
+    } else {
       RobotContainer.intake.collectorSetSpeed(0);
-
     }
   }
 
