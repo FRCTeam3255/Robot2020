@@ -174,8 +174,6 @@ public class Vision extends SubsystemBase {
         // System.out.println("something went wrong! Is your camera plugged in?");
       }
     }
-    // TODO: Let's review the meaning of each of these
-    // we need to redo all of smartdashboard
     SmartDashboard.putNumber("LL X Error", getVisionXError());
     SmartDashboard.putNumber("LL Area Error", getVisionArea());
     SmartDashboard.putBoolean("LL Has Target", visionHasTarget());
