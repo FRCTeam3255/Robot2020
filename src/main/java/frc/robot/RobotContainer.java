@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Autonomous.Auto1;
 import frc.robot.commands.Climber.DeployClimberManual;
 import frc.robot.commands.Climber.WinchClimber;
-import frc.robot.commands.Config.ConfigDefaultButtons;
-import frc.robot.commands.Config.ConfigEndGameButtons;
 import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
 import frc.robot.commands.Config.ResetHoodEncoder;
@@ -29,7 +27,6 @@ import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
-import frc.robot.commands.Intake.HandleIntake;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
@@ -94,18 +91,16 @@ public class RobotContainer {
   private static DriveToBall driveToBall;
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
-  private static ConfigEndGameButtons configEndGame;
-  private static ConfigDefaultButtons configDefault;
   private static ResetShooter resetShooter;
 
-
-  //finsihed
+  // finsihed
   private static SetHoodPosition hoodMiddleTrench;
   private static SetHoodPosition hoodFrontTrench;
   private static SetHoodPosition hoodInitialization;
   private static SetHoodPosition hoodClose;
   private static SetHoodPosition hoodWallLow;
   private static SetHoodPosition hoodWallHigh;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -134,8 +129,6 @@ public class RobotContainer {
     collect = new CollectBall();
     nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
     nudgeHoodDown = new NudgeHood(RobotPreferences.nudgeHoodDown);
-    configDefault = new ConfigDefaultButtons();
-    configEndGame = new ConfigEndGameButtons();
 
     hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM);
     hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM);
@@ -186,9 +179,6 @@ public class RobotContainer {
    */
 
   public static void configureButtonBindings() {
-
-    //BUTTONS  -  NON END GAME
-
     manipulator.btn_1.whenPressed(shoot);
     manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(turretManual);
@@ -212,38 +202,9 @@ public class RobotContainer {
     drive.btn_A.whileHeld(auto1);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
-
-    switchBoard.btn_9.whenPressed(configEndGame);
-  }
-  public static void configureButtonBindingsEndGame() {
-
-    //BUTTONS  -  NON END
-
-    manipulator.btn_1.whenPressed(shoot);
-    manipulator.btn_1.whenReleased(resetShooter);
-    manipulator.btn_2.whileHeld(climberManual);
-    manipulator.btn_3.whileHeld(winchClimber);
-    manipulator.btn_4.whileHeld(toggleControlPanel);
-    manipulator.btn_5.whileHeld(spinControlPanelCounts);
-    manipulator.btn_6.whileHeld(spinToColor);
-    manipulator.btn_7.whenPressed(hoodMiddleTrench);
-    manipulator.btn_8.whenPressed(hoodWallHigh);
-    manipulator.btn_9.whenPressed(hoodFrontTrench);
-    manipulator.btn_10.whenPressed(hoodWallLow);
-    manipulator.btn_11.whenPressed(hoodInitialization);
-    manipulator.btn_12.whenPressed(hoodClose);
-    manipulator.POV_North.whenPressed(nudgeHoodUp);
-    manipulator.POV_East.whileHeld(controlPanelRight);
-    manipulator.POV_South.whenPressed(nudgeHoodDown);
-    manipulator.POV_West.whileHeld(controlPanelLeft);
-
-    // drive stuff in arcade drive command
-    drive.btn_Y.whileHeld(driveToBall);
-    drive.btn_A.whileHeld(auto1);
-    drive.btn_X.whileHeld(failMot);
-    drive.btn_LBump.whileHeld(collect);
-    switchBoard.btn_9.whenReleased(configDefault);
-
+    // switchboards
+    switchBoard.btn_8.whileHeld(winchClimber);
+    switchBoard.btn_10.whileHeld(climberManual);
   }
 
   /**
