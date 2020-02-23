@@ -21,7 +21,6 @@ public class CollectBall extends CommandBase {
     public CollectBall() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.intake);
-
     }
 
     // Called when the command is initially scheduled.
@@ -41,28 +40,20 @@ public class CollectBall extends CommandBase {
         if (RobotContainer.intake.getStagedSwitch()) {
             initialGateSpeed = 0;
 
+            if (RobotContainer.intake.getBottomSwitch()) {
+                turretGateSpeed = 0;
+            }
         }
-        if (RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
-
-            turretGateSpeed = 0;
-
-        }
-
-        if (!RobotContainer.intake.getStagedSwitch() && RobotContainer.intake.getBottomSwitch()) {
-
-            turretGateSpeed = 1;
-            initialGateSpeed = 1;
-        }    
-        RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue()); // m1
-        RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());
-    
+        RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue());
+        RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());    
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         RobotContainer.intake.collectorSetSpeed(0);
-
+        RobotContainer.intake.turretGateSetSpeed(0);
+        RobotContainer.intake.initialShooterGateSetSpeed(0);    
     }
 
     // Returns true when the command should end.
