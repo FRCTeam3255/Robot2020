@@ -5,57 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Config;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class Shoot extends CommandBase {
+public class DoDelay extends CommandBase {
   /**
-   * Creates a new Shoot.
+   * Creates a new DoDelay.
    */
   private Timer timer = new Timer();
-  private boolean empty;
+  SN_DoublePreference delay;
 
-  public Shoot() {
+
+  public DoDelay(SN_DoublePreference a_delay) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.turret);
-
+    delay = a_delay;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    empty = false;
-    RobotContainer.turret.setShooterVelocity();
-
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.turret.isShooterSpedUp()) {
-      if (!empty) {
-        if (RobotContainer.intake.getStagedSwitch()) {
-          RobotContainer.turret.finalShooterGateSetSpeed(-1);
-        } else {
-          empty = true;
-          timer.reset();
-          timer.start();
-
-        }
-
-      }
-    }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.finalShooterGateSetSpeed(0);
+      
 
   }
 
@@ -63,6 +47,6 @@ public class Shoot extends CommandBase {
   @Override
   public boolean isFinished() {
     // return ! intake.getStagedSwitch();
-    return timer.hasPeriodPassed(RobotPreferences.shootDelay.getValue());
+    return timer.hasPeriodPassed(delay.getValue());
   }
 }

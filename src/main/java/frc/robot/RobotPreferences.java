@@ -5,6 +5,7 @@ import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class RobotPreferences {
         // Auto
+        public static final SN_DoublePreference autoDelay = new SN_DoublePreference("autoDelay", 0);
         public static final SN_DoublePreference failHoodPos = new SN_DoublePreference("failHoodPos", 50);
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
         public static final SN_IntPreference toPosTimeout = new SN_IntPreference("toPosTimeout", 50);
@@ -111,8 +112,6 @@ public class RobotPreferences {
         public static final SN_DoublePreference hoodClose = new SN_DoublePreference("hoodClose", 42);
         public static final SN_DoublePreference hoodWallLow = new SN_DoublePreference("hoodWallLow", 80);
         public static final SN_DoublePreference hoodWallHigh = new SN_DoublePreference("hoodWallHigh", 10);
-
-
         public static final SN_DoublePreference shooterTimeout = new SN_DoublePreference("shooterTimeout", 5);
 
         // ControlPanel

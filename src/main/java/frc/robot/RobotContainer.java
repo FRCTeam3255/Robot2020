@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Autonomous.Auto1;
+import frc.robot.commands.Autonomous.Autonomous;
 import frc.robot.commands.Climber.DeployClimberManual;
 import frc.robot.commands.Climber.WinchClimber;
 import frc.robot.commands.Config.ConfigureTalons;
@@ -87,7 +87,7 @@ public class RobotContainer {
   private static ShootBall shoot;
   // private static SetHoodPosition hoodFar;
   private static CollectBall collect;
-  private static Auto1 auto1;
+  private static Autonomous auto;
   private static DriveToBall driveToBall;
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
@@ -138,7 +138,7 @@ public class RobotContainer {
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
-    auto1 = new Auto1();
+    auto = new Autonomous();
 
     // map buttons to commands
     configureButtonBindings();
@@ -199,10 +199,10 @@ public class RobotContainer {
 
     // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);
-    drive.btn_A.whileHeld(auto1);
+    drive.btn_A.whileHeld(auto);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
-    //emergancies
+    // emergancies
     drive.btn_RTrig.whileHeld(climberManual);
     drive.btn_LTrig.whileHeld(winchClimber);
 
@@ -217,8 +217,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // TODO: Need to have the ability to select different autonomous commands,
-    // including do nothing
-    return auto1;
+    return auto;
   }
 }

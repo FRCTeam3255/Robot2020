@@ -11,27 +11,26 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class AlignAndShoot extends CommandBase {
+public class AlignVisionAuto extends CommandBase {
     /**
-     * Creates a new AlignAndShoot. Aligns turret within threshold, then spins up
+     * Creates a new AlignVisionAuto. Aligns turret within threshold, then spins up
      * shooter within threshold, then shoots n times
      */
-    private int numShotsTodo;
-    private int numShots;
+    private SN_DoublePreference hoodPos;
     private Timer timer = new Timer();
     private boolean aligned;
-    private boolean hasCounted;
     public FinishReason finishReason = FinishReason.NOT_FINISHED;
+    private SN_DoublePreference velocity;
 
     public enum FinishReason {
         SUCCESS, NO_TARGET, NOT_FINISHED
     };
 
-    public AlignAndShoot(int a_numShots) {
+    public AlignVisionAuto(SN_DoublePreference a_hoodPos, SN_DoublePreference a_velocity) {
         // Use addRequirements() here to declare subsystem dependencies.
-
-        numShotsTodo = a_numShots;
+        hoodPos = a_hoodPos;
         addRequirements(RobotContainer.turret);
     }
 
@@ -40,14 +39,12 @@ public class AlignAndShoot extends CommandBase {
     public void initialize() {
         finishReason = FinishReason.NOT_FINISHED;
 
+        RobotContainer.turret.setShooterVelocity();
+        RobotContainer.turret.moveHoodToDegree(hoodPos.getValue());
+
         aligned = false;
-        hasCounted = false;
-        numShots = 0;
         timer.reset();
         timer.start();
-        // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
-        // RobotContainer.turret.setShooterSpeefd(RobotContainer);
-        ;
 
     }
 
@@ -55,41 +52,13 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public void execute() {
 
-        if (!aligned) {
-            if (RobotContainer.vision.visionHasTarget()
-                    && !(RobotContainer.vision.isXFinished() && RobotContainer.turret.hoodFinished())) {
+        if (RobotContainer.vision.visionHasTarget() && !(RobotContainer.vision.isXFinished())) {
 
-                timer.reset();
-                timer.start();
+            timer.reset();
+            timer.start();
 
-                RobotContainer.turret.setSusanSpeed(
-                        RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-                RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodVisionPosition());
-            } else if (RobotContainer.vision.visionHasTarget()
-                    && (RobotContainer.vision.isXFinished() && RobotContainer.turret.hoodFinished())) {
-                aligned = true;
-            }
-        } else {
-            timer.stop();
-            if (RobotContainer.turret.isShooterSpedUp()) {
-
-                if (!hasCounted) {
-                    RobotContainer.turret.finalShooterGateSetSpeed(1);
-
-                    numShots++;
-                    hasCounted = true;
-                } else {
-                    if (!RobotContainer.intake.getStagedSwitch()) {
-                        hasCounted = false;
-                        RobotContainer.turret.finalShooterGateSetSpeed(0);
-
-                    }
-                }
-
-            } else {
-                RobotContainer.turret.finalShooterGateSetSpeed(0);
-            }
-
+            RobotContainer.turret
+                    .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
         }
 
     }
@@ -108,8 +77,7 @@ public class AlignAndShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // // return true if X error and hood are within tolerance
-        if (numShots >= numShotsTodo) {
-
+        if (RobotContainer.vision.isXFinished()) {
             finishReason = FinishReason.SUCCESS;
 
             return true;

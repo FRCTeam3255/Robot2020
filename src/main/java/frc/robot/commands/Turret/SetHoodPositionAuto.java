@@ -11,15 +11,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class NudgeHood extends CommandBase {
+public class SetHoodPositionAuto extends CommandBase {
   /**
-   * Creates a new NudgeHood.
+   * Creates a new SetHoodPositionAuto.
    */
   private SN_DoublePreference degrees;
+  private SN_DoublePreference velocity;
 
-  public NudgeHood(SN_DoublePreference a_degrees) {
+  public SetHoodPositionAuto(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity) {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
+    velocity = a_velocity;
     addRequirements(RobotContainer.turret);
   }
 
@@ -27,21 +29,20 @@ public class NudgeHood extends CommandBase {
   @Override
   public void initialize() {
 
-    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
+    RobotContainer.turret.moveHoodToDegree(degrees.getValue());
+    RobotContainer.turret.setShooterSetpoint(velocity.getValue());
+    RobotContainer.turret.setShooterVelocity();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    // RobotContainer.turret.setHoodSpeed(0);
   }
 
   // Returns true when the command should end.
