@@ -96,7 +96,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference shootingTimeout = new SN_DoublePreference("shootingTimeout", 1);
         public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);
-        public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterToleranceSpeed", 200);
+        public static final SN_DoublePreference shooterTolerance = new SN_DoublePreference("shooterToleranceSpeed",
+                        200);
 
         // Hood positions
         public static final SN_DoublePreference shooterMaxRPM = new SN_DoublePreference("shooterMaxRPM", 5000);
