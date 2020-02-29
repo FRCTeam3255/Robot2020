@@ -147,7 +147,7 @@ public class Vision extends SubsystemBase {
   }
 
   public double getNewness(double dist) {
-    return 0;
+    return RobotPreferences.ballNewness.getValue();
   }
 
   public double getVisionArea() {
