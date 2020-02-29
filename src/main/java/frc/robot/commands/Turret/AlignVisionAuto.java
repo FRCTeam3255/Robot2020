@@ -40,7 +40,7 @@ public class AlignVisionAuto extends CommandBase {
         finishReason = FinishReason.NOT_FINISHED;
 
         RobotContainer.turret.setShooterVelocity();
-        RobotContainer.turret.moveHoodToDegree(hoodPos.getValue());
+        RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
 
         aligned = false;
         timer.reset();
@@ -67,7 +67,6 @@ public class AlignVisionAuto extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         RobotContainer.turret.setSusanSpeed(0);
-        RobotContainer.turret.setHoodSpeed(0);
         RobotContainer.turret.finalShooterGateSetSpeed(0);
         // RobotContainer.turret.setShooterSpeefd(0);
 

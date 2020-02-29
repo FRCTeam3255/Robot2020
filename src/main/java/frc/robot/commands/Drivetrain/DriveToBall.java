@@ -45,7 +45,7 @@ public class DriveToBall extends CommandBase {
 
     timer.reset();
     timer.start();
-    priorSwitch = RobotContainer.intake.getCollectionSwitch();
+    // priorSwitch = RobotContainer.intake.getCollectionSwitch();
     counted = 0;
     RobotContainer.vision.setUsingVision(true);
   }
@@ -58,11 +58,12 @@ public class DriveToBall extends CommandBase {
     RobotContainer.drivetrain.arcadeDrive(RobotPreferences.ballSpeed.getValue(),
         RobotContainer.vision.getX() * RobotPreferences.ballP.getValue());
 
-    if (RobotContainer.intake.getCollectionSwitch() != priorSwitch) {
+    // todo collection
+    // if (RobotContainer.intake.getCollectionSwitch() != priorSwitch) {
 
-      counted++;
-      priorSwitch = RobotContainer.intake.getCollectionSwitch();
-    }
+    // counted++;
+    // priorSwitch = RobotContainer.intake.getCollectionSwitch();
+    // }
   }
 
   // Called once the command ends or is interrupted.

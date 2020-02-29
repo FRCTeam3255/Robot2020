@@ -8,6 +8,7 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -20,10 +21,12 @@ public class ShootBall extends CommandBase {
    */
   private Timer timer = new Timer();
 
-  private enum stateType{
+  private enum stateType {
     SPINNING, SHOOTING, STAGING, NONE
   };
+
   private stateType state = stateType.NONE;
+
   public ShootBall() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
@@ -34,6 +37,12 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // RobotContainer.turret.configureShooter();
+    eachRun();
+  }
+
+  public void eachRun() {
+
     RobotContainer.turret.finalShooterGateSetSpeed(0);
 
     state = stateType.STAGING;
@@ -43,22 +52,19 @@ public class ShootBall extends CommandBase {
     timer.reset();
     timer.start();
     // RobotContainer.turret.setShooterSpeefd();
-
+    RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.drive.btn_LBump.get()) {
-      RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
-    } else {
-      RobotContainer.intake.collectorSetSpeed(0);
-    }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.intake.collectorSetSpeed(0);
     RobotContainer.turret.setShooterSpeed(0);
     RobotContainer.turret.finalShooterGateSetSpeed(0);
     RobotContainer.intake.turretGateSetSpeed(0);
@@ -70,29 +76,29 @@ public class ShootBall extends CommandBase {
   @Override
   public boolean isFinished() {
 
-
-    if(state == stateType.STAGING){
-      if(RobotContainer.intake.getStagedSwitch() || timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())){
+    if (state == stateType.STAGING) {
+      if (RobotContainer.intake.getStagedSwitch()
+          || timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())) {
         timer.reset();
         timer.start();
         RobotContainer.intake.turretGateSetSpeed(0);
         RobotContainer.intake.initialShooterGateSetSpeed(0);
-        state= stateType.SPINNING;
+        state = stateType.SPINNING;
       }
-    }
-    else if(state == stateType.SPINNING){
-      if(RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())){
-        state = stateType.SHOOTING;
+    } else if (state == stateType.SPINNING) {
+      if (RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())) {
+
         RobotContainer.turret.finalShooterGateSetSpeed(-1);
         timer.reset();
         timer.start();
+        state = stateType.SHOOTING;
       }
-    }else if(state == stateType.SHOOTING){
-      if(timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())){
+    } else if (state == stateType.SHOOTING) {
+      if (timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())) {
         RobotContainer.turret.finalShooterGateSetSpeed(0);
-        if(RobotContainer.switchBoard.btn_7.get()){
-          initialize();
-        }else{
+        if (!RobotContainer.switchBoard.btn_7.get()) {
+          eachRun();
+        } else {
           return true;
         }
 

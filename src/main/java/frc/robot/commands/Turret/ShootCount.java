@@ -40,8 +40,14 @@ public class ShootCount extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.finalShooterGateSetSpeed(0);
 
+    numShot = 0;
+    initialSetup();
+  }
+
+  public void initialSetup() {
+
+    RobotContainer.turret.finalShooterGateSetSpeed(0);
     state = stateType.STAGING;
     RobotContainer.turret.setShooterVelocity();
     RobotContainer.intake.turretGateSetSpeed(1 * RobotPreferences.turretGateSpeed.getValue());
@@ -68,6 +74,7 @@ public class ShootCount extends CommandBase {
     RobotContainer.turret.setShooterSpeed(0);
     RobotContainer.turret.finalShooterGateSetSpeed(0);
     RobotContainer.intake.turretGateSetSpeed(0);
+    RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
     RobotContainer.intake.initialShooterGateSetSpeed(0);
 
   }
@@ -97,7 +104,7 @@ public class ShootCount extends CommandBase {
         RobotContainer.turret.finalShooterGateSetSpeed(0);
         if (numShot < numToShoot.getValue()) {
           numShot++;
-          initialize();
+          initialSetup();
         } else {
           return true;
         }

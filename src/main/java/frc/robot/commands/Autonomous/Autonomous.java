@@ -14,31 +14,33 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frc.robot.commands.Config.DoDelay;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
-import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Turret.AlignVisionAuto;
-import frc.robot.commands.Turret.SetHoodPositionAuto;
 import frc.robot.commands.Turret.ShootCount;
 
 public class Autonomous extends CommandBase {
 
   DoDelay delay;
-  SetHoodPositionAuto align1;
-  ShootCount shoot1;
-  DriveMotionProfile drive1;
+  AlignVisionAuto align1;
   AlignVisionAuto align2;
+  ShootCount shoot1;
   ShootCount shoot2;
-  DriveMotionProfile rendevouzDrive;
-  AlignVisionAuto align3;
-  ShootCount shoot3;
+  DriveMotionProfile drive1;
+  DriveMotionProfile drive2;
 
   Command currentCommand;
 
   /**
    * Creates a new Autonomous.
    */
-  public Autonomous() {
+  public Autonomous(DriveMotionProfile d1, DriveMotionProfile d2) {
     // Use addRequirements() here to declare subsystem dependencies.
-    // delay = new DoDelay(RobotPreferences.autoDelay);
+    delay = new DoDelay(RobotPreferences.autoDelay);
+    align1 = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
+    align2 = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
+    shoot1 = new ShootCount(RobotPreferences.numToShoot);
+    shoot2 = new ShootCount(RobotPreferences.numToShoot);
+    drive1 = d1;
+    drive2 = d2;
     // align1 = new SetHoodPositionAuto(a_degrees, a_velocity);
     // shoot1 = new ShootCount(a_numToShoot);
     // drive1 = new DriveMotionProfile(a_leftName, a_rightName);
@@ -47,6 +49,8 @@ public class Autonomous extends CommandBase {
     // rendevouzDrive = new DriveMotionProfile(a_leftName, a_rightName);
     // align3 = new AlignVisionAuto(a_hoodPos, a_velocity);
     // shoot3 = new ShootCount(a_numToShoot);
+    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.drivetrain);
 
   }
 
@@ -87,20 +91,41 @@ public class Autonomous extends CommandBase {
     if (currentCommand.isFinished() == false) {
       return false;
     }
-    // if (currentCommand == delay) {
-    // switchCommand();
+    if (currentCommand == delay) {
+      switchCommand(align1);
+      SmartDashboard.putString("Auto Command", "align1");
 
-    // }
+    }
 
-    // else if (currentCommand == comd2) {
-    // SmartDashboard.putString("Auto Command", "failMot");
+    else if (currentCommand == align1) {
+      SmartDashboard.putString("Auto Command", "shoot1");
 
-    // switchCommand(comd);
-    // return false;
-    // } else if (currentCommand == grabBallMot) {
+      switchCommand(shoot1);
+      return false;
+    } else if (currentCommand == shoot1) {
+      SmartDashboard.putString("Auto Command", "drive1");
 
-    // return true;
-    // }
+      switchCommand(drive1);
+      return false;
+    } else if (currentCommand == drive1) {
+      SmartDashboard.putString("Auto Command", "d2");
+
+      switchCommand(drive2);
+      return false;
+    } else if (currentCommand == drive2) {
+      SmartDashboard.putString("Auto Command", "a2");
+
+      switchCommand(align2);
+      return false;
+    } else if (currentCommand == align2) {
+      SmartDashboard.putString("Auto Command", "s2");
+
+      switchCommand(shoot2);
+      return false;
+    } else if (currentCommand == shoot2) {
+
+      return true;
+    }
 
     return false;
   }

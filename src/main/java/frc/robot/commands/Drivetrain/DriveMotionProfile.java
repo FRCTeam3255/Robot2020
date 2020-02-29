@@ -35,6 +35,7 @@ public class DriveMotionProfile extends CommandBase {
     @Override
     public void initialize() {
         SN_MotionProfile.setSensorUnitsPerTick(RobotPreferences.motProfSensorUnitsPerFt.getValue());
+        profile.reload();
         RobotContainer.drivetrain.resetEncoderCounts();
         RobotContainer.drivetrain.startMotionProfile(profile.pointsLeft, profile.pointsRight);
     }

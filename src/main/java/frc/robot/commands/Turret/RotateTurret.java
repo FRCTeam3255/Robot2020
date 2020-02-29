@@ -9,6 +9,7 @@ package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 
 public class RotateTurret extends CommandBase {
   /**
@@ -29,7 +30,8 @@ public class RotateTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.setSusanSpeed(RobotContainer.manipulator.getTwistAxis());
+    RobotContainer.turret
+        .setSusanSpeed(RobotPreferences.turretManualSpeed.getValue() * RobotContainer.manipulator.getTwistAxis());
   }
 
   // Called once the command ends or is interrupted.

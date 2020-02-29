@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -33,9 +34,10 @@ public class AlignTurretVision extends CommandBase {
   public void execute() {
     if (RobotContainer.vision.visionHasTarget()) {
 
-      RobotContainer.turret
-          .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
-      // RobotContainer.turret.hoodMoveToDegree(RobotContainer.vision.getHoodVisionPosition());
+      RobotContainer.turret.turnSusanToDegree(RobotContainer.turret.getSusanPosition()
+          + RobotContainer.vision.getVisionXError() + RobotContainer.vision.getVisionInnerOffset());
+
+      RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
     } else {
 
       // RobotContainer.turret.setHoodSpeed(0);

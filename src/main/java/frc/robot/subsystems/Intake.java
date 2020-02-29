@@ -27,7 +27,6 @@ public class Intake extends SubsystemBase {
   private TalonFX collectorTalon;
   private TalonSRX turretGateTalon;
   private TalonSRX initialShooterGateTalon;
-  private DigitalInput collectionSwitch;
   private DigitalInput bottomSwitch;
   private DigitalInput stagedSwitch;
   private double collectorSpeed;
@@ -46,17 +45,12 @@ public class Intake extends SubsystemBase {
     turretGateTalon.configFactoryDefault();
     initialShooterGateTalon.configFactoryDefault();
 
-    collectionSwitch = new DigitalInput(RobotMap.COLLECTOR_SWITCH);
-    bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
+    bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
 
     // collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A,
     // RobotMap.COLLECTOR_SOLENOID_B);
 
-  }
-
-  public boolean getCollectionSwitch() {
-    return !collectionSwitch.get();
   }
 
   public boolean getBottomSwitch() {
@@ -103,7 +97,6 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Collection Switch", getCollectionSwitch());
     SmartDashboard.putBoolean("Bottom Switch", getBottomSwitch());
     SmartDashboard.putBoolean("Staged Switch", getStagedSwitch());
     // This method will be called once per scheduler run

@@ -28,6 +28,7 @@ import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Turret.AlignTurretVision;
+import frc.robot.commands.Turret.AlignVisionAuto;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
 // import frc.robot.commands.Turret.RotateHood;
@@ -36,6 +37,7 @@ import frc.robot.commands.Turret.SetHoodPosition;
 // import frc.robot.commands.Turret.SetShooterSpeed;
 // import frc.robot.commands.Turret.ShootAutomatic;
 import frc.robot.commands.Turret.ShootBall;
+import frc.robot.commands.Turret.ShootCount;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
@@ -69,6 +71,7 @@ public class RobotContainer {
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
 
   public static DriveMotionProfile failMot;
+  public static DriveMotionProfile failMot2;
   public static DriveMotionProfile grabBallMot;
   public static DriveMotionProfile getBackMot;
   public static DriveMotionProfile finalMot;
@@ -92,6 +95,8 @@ public class RobotContainer {
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
+  private static AlignVisionAuto autoAlign;
+  private static ShootCount autoShoot;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -108,6 +113,7 @@ public class RobotContainer {
 
     // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
+    failMot = new DriveMotionProfile("failMot2_left.csv", "failMot2_right.csv");
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
@@ -138,7 +144,9 @@ public class RobotContainer {
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
-    auto = new Autonomous();
+    auto = new Autonomous(failMot, failMot2);
+    autoAlign = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
+    autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
     // map buttons to commands
     configureButtonBindings();
@@ -199,7 +207,8 @@ public class RobotContainer {
 
     // drive stuff in arcade drive command
     drive.btn_Y.whileHeld(driveToBall);
-    drive.btn_A.whileHeld(auto);
+    drive.btn_A.whenPressed(auto);
+    drive.btn_B.whenPressed(autoShoot);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
     // emergancies

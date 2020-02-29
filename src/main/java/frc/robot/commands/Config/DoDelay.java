@@ -9,6 +9,8 @@ package frc.robot.commands.Config;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class DoDelay extends CommandBase {
@@ -18,7 +20,6 @@ public class DoDelay extends CommandBase {
   private Timer timer = new Timer();
   SN_DoublePreference delay;
 
-
   public DoDelay(SN_DoublePreference a_delay) {
     // Use addRequirements() here to declare subsystem dependencies.
     delay = a_delay;
@@ -27,6 +28,7 @@ public class DoDelay extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
     timer.reset();
     timer.start();
   }
@@ -39,7 +41,6 @@ public class DoDelay extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      
 
   }
 

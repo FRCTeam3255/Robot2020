@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -18,6 +19,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 
@@ -29,12 +31,12 @@ public class Turret extends SubsystemBase {
   private CANSparkMax shooterMaster;
   private CANSparkMax shooterSlave;
   private CANEncoder shooterEnocder;
+  private CANEncoder shooterBEnocder;
   private TalonSRX finalShooterGateTalon;
   private TalonSRX lazySusanTalon;
   private TalonSRX hoodTalon;
   private CANPIDController shooterPIDController;
-  // TODO: Need to consider if this should init to zero or not. Requires moving hood to get to non-zero. What is starting config?
-  private double goalVelocity = 0;
+  private double goalVelocity;
 
   public Turret() {
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
@@ -43,35 +45,40 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon = new TalonSRX(RobotMap.FINAL_SHOOTER_GATE_TALON);
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
-    
+    goalVelocity = RobotPreferences.shooterMaxRPM.getValue();
+    lazySusanTalon.setNeutralMode(NeutralMode.Brake);
+    hoodTalon.setNeutralMode(NeutralMode.Brake);
+
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
+    shooterBEnocder = shooterSlave.getEncoder();
     lazySusanTalon.configFactoryDefault();
     lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     configureShooter();
-  
+
     configureLazySusan();
     configureHood();
   }
 
   public void configureShooter() {
 
-  shooterPIDController.setP(RobotPreferences.shooterP.getValue());
-  shooterPIDController.setI(RobotPreferences.shooterI.getValue());
-  shooterPIDController.setD(RobotPreferences.shooterD.getValue());
-  shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
-  shooterPIDController.setOutputRange(-1.0, 1.0);
+    shooterPIDController.setP(RobotPreferences.shooterP.getValue());
+    shooterPIDController.setI(RobotPreferences.shooterI.getValue());
+    shooterPIDController.setD(RobotPreferences.shooterD.getValue());
+    shooterPIDController.setFF(RobotPreferences.shooterFF.getValue());
+    shooterPIDController.setOutputRange(-1.0, 1.0);
   }
 
   public void configureLazySusan() {
     lazySusanTalon.config_kP(0, RobotPreferences.susanP.getValue());
     lazySusanTalon.config_kI(0, RobotPreferences.susanI.getValue());
     lazySusanTalon.config_kD(0, RobotPreferences.susanD.getValue());
+    lazySusanTalon.config_kF(0, RobotPreferences.susanF.getValue());
     lazySusanTalon.configPeakOutputForward(RobotPreferences.susanMaxSpeed.getValue());
     lazySusanTalon.configPeakOutputReverse(-RobotPreferences.susanMaxSpeed.getValue());
 
@@ -89,19 +96,28 @@ public class Turret extends SubsystemBase {
     finalShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  public void turnSusanToDegree(double degree) {
+  public void turnSusanToDegree(double a_degree) {
     configureLazySusan();
+    double degree;
+    if (a_degree < RobotPreferences.susanMinDegree.getValue()) {
+      degree = RobotPreferences.susanMinDegree.getValue();
+    } else if (a_degree > RobotPreferences.susanMaxDegree.getValue()) {
+      degree = RobotPreferences.susanMaxDegree.getValue();
+    } else {
+      degree = a_degree;
+    }
     lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
   }
 
   public void setSusanSpeed(double a_speed) {
     double speed = a_speed;
-    // if ((getSusanPosition() - hardstopTol < susanMinDegree) && speed < 0) {
-    // speed = 0;
-    // } else if ((getSusanPosition() + hardstopTol > susanMaxDegree) && speed > 0)
-    // {
-    // speed = 0;
-    // }
+    if (((getSusanPosition() + RobotPreferences.susanHardstopTol.getValue()) < RobotPreferences.susanMinDegree
+        .getValue()) && speed < 0) {
+      speed = 0;
+    } else if (((getSusanPosition() - RobotPreferences.susanHardstopTol.getValue()) > RobotPreferences.susanMaxDegree
+        .getValue()) && speed > 0) {
+      speed = 0;
+    }
     lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
@@ -116,15 +132,15 @@ public class Turret extends SubsystemBase {
     hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
   }
 
-  public void setShooterSetpoint(double setpoint){
-  goalVelocity = setpoint;
+  public void setShooterSetpoint(double setpoint) {
+    goalVelocity = setpoint;
 
   }
+
   public void setShooterVelocity() {
-  configureShooter();
-  shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+    configureShooter();
+    shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
   }
-
 
   public boolean hoodFinished() {
     return Math.abs(getHoodError()) <= RobotPreferences.hoodTol.getValue();
@@ -151,6 +167,10 @@ public class Turret extends SubsystemBase {
 
   public double getShooterSpeed() {
     return shooterEnocder.getVelocity();
+  }
+
+  public double getShooter2Speed() {
+    return shooterBEnocder.getVelocity();
   }
 
   public void setGoalVelocity(double a_goal) {
@@ -205,10 +225,13 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("Hood Encoder", getHoodEncoder());
     SmartDashboard.putBoolean("Hood Finished", hoodFinished());
     SmartDashboard.putNumber("Hood Err", getHoodError());
-    SmartDashboard.putNumber("Shooter Velocity", getShooterSpeed());
+    SmartDashboard.putNumber("Shooter A Velocity", getShooterSpeed());
+    SmartDashboard.putNumber("Shooter B Velocity", getShooter2Speed());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
     SmartDashboard.putNumber("Hood Position", getHoodPosition());
     SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp());
+    SmartDashboard.putNumber("Given Pos", RobotContainer.vision.getVisionInnerOffset()
+        + RobotContainer.turret.getSusanPosition() + RobotContainer.vision.getVisionXError());
 
   }
 }

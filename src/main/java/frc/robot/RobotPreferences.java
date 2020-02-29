@@ -8,7 +8,9 @@ public class RobotPreferences {
         public static final SN_DoublePreference autoDelay = new SN_DoublePreference("autoDelay", 0);
         public static final SN_DoublePreference failHoodPos = new SN_DoublePreference("failHoodPos", 50);
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
+        public static final SN_DoublePreference ballNewness = new SN_DoublePreference("ballNewness", 0);
         public static final SN_IntPreference toPosTimeout = new SN_IntPreference("toPosTimeout", 50);
+        public static final SN_IntPreference numToShoot = new SN_IntPreference("numToShoot", 2);
 
         // Vision
         public static final SN_DoublePreference visionDriveP = new SN_DoublePreference("visionDriveP", .4);
@@ -64,6 +66,9 @@ public class RobotPreferences {
         public static final SN_DoublePreference climberUpSpeed = new SN_DoublePreference("climberUpSpeed", .5);
         public static final SN_DoublePreference climberDownSpeed = new SN_DoublePreference("climberDownSpeed", -.5);
         // Turret
+        public static final SN_DoublePreference susanMinDegree = new SN_DoublePreference("susanMinDegree", -90);
+        public static final SN_DoublePreference susanMaxDegree = new SN_DoublePreference("susanMaxDegree", 90);
+        public static final SN_DoublePreference susanHardstopTol = new SN_DoublePreference("susanHardstopTol", 10);
         public static final SN_DoublePreference susanTol = new SN_DoublePreference("susanTol", .5);
         public static final SN_DoublePreference shootDelay = new SN_DoublePreference("shootDelay", .01);
         public static final SN_DoublePreference hoodTol = new SN_DoublePreference("hoodTol", .5);
@@ -76,6 +81,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference susanVisionP = new SN_DoublePreference("susanVisionP", 0.13);
         public static final SN_DoublePreference susanSpeedBackwards = new SN_DoublePreference("susanSpeedBackwards",
                         -0.2);
+        public static final SN_DoublePreference turretManualSpeed = new SN_DoublePreference("turretManualSpeed", 0.5);
         public static final SN_DoublePreference hoodVisionP = new SN_DoublePreference("hoodVisionP", .01);
         public static final SN_DoublePreference susanMaxSpeed = new SN_DoublePreference("susanMaxSpeed", 0.3);
         public static final SN_DoublePreference hoodMaxSpeed = new SN_DoublePreference("hoodMaxSpeed", 0.2);
@@ -84,10 +90,11 @@ public class RobotPreferences {
         public static final SN_DoublePreference susanP = new SN_DoublePreference("susanP", 0.2);
         public static final SN_DoublePreference susanI = new SN_DoublePreference("susanI", 0);
         public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
-        public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 1E-4);
+        public static final SN_DoublePreference susanF = new SN_DoublePreference("susanF", 0.01);
+        public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 0.005);
         public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 0);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
-        public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 1.8E-4);
+        public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 1.71E-4);
         public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", 10);
         public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 0);
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
@@ -103,7 +110,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterMaxRPM = new SN_DoublePreference("shooterMaxRPM", 5000);
         public static final SN_DoublePreference shooterCloseRPM = new SN_DoublePreference("shooterCloseRPM", 4000);
         public static final SN_DoublePreference shooterWallLowRPM = new SN_DoublePreference("shooterWallLowRPM", 1500);
-        public static final SN_DoublePreference shooterWallHighRPM = new SN_DoublePreference("shooterWallHighRPM", 2500);
+        public static final SN_DoublePreference shooterWallHighRPM = new SN_DoublePreference("shooterWallHighRPM",
+                        2500);
         public static final SN_DoublePreference nudgeHoodUp = new SN_DoublePreference("nudgeHoodUp", 2);
         public static final SN_DoublePreference nudgeHoodDown = new SN_DoublePreference("nudgeHoodDown", -2);
         public static final SN_DoublePreference hoodMiddleTrench = new SN_DoublePreference("hoodMiddleTrench", 62);

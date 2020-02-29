@@ -21,6 +21,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 
 public class Vision extends SubsystemBase {
@@ -40,6 +41,7 @@ public class Vision extends SubsystemBase {
   Mat heirarchy;
   List<MatOfPoint> contours;
 
+  boolean ledsForcedOn = false;
   private boolean isUsingVision = false;
   double xPosition = 0;
   int camWidth = 320;
@@ -92,12 +94,60 @@ public class Vision extends SubsystemBase {
     }
   }
 
+  // public void setForcedLEDs(boolean bool){
+  // forcedl
+  // }
+
+  public void turnOnLimelight() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setDouble(0);
+  }
+
+  public void turnOffLimelight() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setDouble(1);
+  }
+
   public double getVisionXError() {
     // TODO: Likely that scaling by innerHoleScalar is more complex than this logic
     // yeah, still wrestling with this one. pretty sure that its gonna end up being
     // err + skew times scalar times whatever side youre on, gonna need to do a grip
     // pipeline for this
     return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
+  }
+
+  public double getVisionInnerOffset() {
+    // Plugged into a exponential regression line calc.
+    if (RobotContainer.manipulator.getDialAxis() < 0.5) {
+
+      double ts = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+      double angle;
+      if (Math.abs(ts) > 45) {
+        angle = Math.abs(ts + 90);
+      } else {
+        angle = -1 * Math.abs(ts);
+      }
+      if (angle < 0) {
+        return (68.167 + (3.42 - 68.17) / 1 + Math.pow((Math.abs(angle) / 13.4), 8.35));
+      } else {
+        return -(68.167 + (3.42 - 68.17) / 1 + Math.pow((Math.abs(angle) / 13.4), 8.35));
+      }
+    } else {
+      return 0;
+    }
+
+  }
+
+  public double getDistanceToTarget() {
+    return 70 / (Math
+        .tan(Math.toRadians(NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) + 26)));
+  }
+
+  public double getHoodAngle() {
+    return getNewness(getDistanceToTarget())
+        + ((63.34171 + (-80.46378 - 63.34171) / (1 + Math.pow((getDistanceToTarget() / 45.55441), 2.088429))));
+  }
+
+  public double getNewness(double dist) {
+    return 0;
   }
 
   public double getVisionArea() {
@@ -134,7 +184,6 @@ public class Vision extends SubsystemBase {
 
         Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2HSV); // ! [houghcircles]
         // Core.inRange(source, lower, upper, output);
-
         Core.inRange(output,
             new Scalar(RobotPreferences.hLow.getValue(), RobotPreferences.sLow.getValue(),
                 RobotPreferences.vLow.getValue()),
@@ -178,7 +227,11 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("LL Area Error", getVisionArea());
     SmartDashboard.putBoolean("LL Has Target", visionHasTarget());
     SmartDashboard.putBoolean("LL X Finished", isXFinished());
-
+    SmartDashboard.putNumber("LL X skew", getVisionInnerOffset());
+    SmartDashboard.putNumber("LL Distance", getDistanceToTarget());
+    SmartDashboard.putNumber("LL Hood Angle", getHoodAngle());
+    SmartDashboard.putNumber("LL TS",
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0));
 
   }
 }

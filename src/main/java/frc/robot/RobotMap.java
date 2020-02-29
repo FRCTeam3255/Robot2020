@@ -39,12 +39,10 @@ public class RobotMap {
     public static final int STEP_SERVO = 0;
 
     // switches
-    public static final int COLLECTOR_SWITCH = 0;
     public static final int BOTTOM_SWITCH = 1;
     public static final int STAGED_SWITCH = 2;
     public static final int HOOD_SWITCH = 3;
-    public static final int SUSAN_LEFT_SWITCH = 4;
-    public static final int SUSAN_RIGHT_SWITCH = 5;
+    public static final int CLIMBER_SWITCH = 4;
 
     // solenoids
     public static final int CONTROL_PANEL_SOLENOID_A = 0;
