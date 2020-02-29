@@ -24,9 +24,9 @@ import frc.robot.commands.ControlPanel.SpinToColor;
 import frc.robot.commands.ControlPanel.ToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
-import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
+import frc.robot.commands.Intake.CollectBallEnable;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
@@ -87,11 +87,11 @@ public class RobotContainer {
   // private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Autonomous auto;
-  private static DriveToBall driveToBall;
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
   private static ShootCount autoShoot;
+  private static CollectBallEnable collectEnable;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -108,7 +108,7 @@ public class RobotContainer {
 
     // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
-    failMot = new DriveMotionProfile("failMot2_left.csv", "failMot2_right.csv");
+    failMot2 = new DriveMotionProfile("failMot2_left.csv", "failMot2_right.csv");
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
@@ -117,6 +117,7 @@ public class RobotContainer {
     resetShooter = new ResetShooter();
     shoot = new ShootBall();
     // smartShot = new ShootAutomatic();
+    collectEnable = new CollectBallEnable();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
@@ -138,7 +139,6 @@ public class RobotContainer {
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
 
-    driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
     auto = new Autonomous(failMot, failMot2);
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
@@ -161,11 +161,6 @@ public class RobotContainer {
 
   }
 
-  public static boolean getModeBtn() {
-    // return switchBoard.btn_9.get();
-    return true;
-  }
-
   public static void motionReload() {
     failMot.reload();
     grabBallMot.reload();
@@ -185,7 +180,7 @@ public class RobotContainer {
     manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whenPressed(toggleControlPanel);
+    manipulator.btn_4.whileHeld(toggleControlPanel);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
@@ -200,9 +195,9 @@ public class RobotContainer {
     manipulator.POV_West.whileHeld(controlPanelLeft);
 
     // drive stuff in arcade drive command
-    drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whenPressed(auto);
     drive.btn_B.whenPressed(autoShoot);
+    drive.btn_Y.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
     // emergancies

@@ -5,6 +5,8 @@ import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class RobotPreferences {
         // Auto
+        public static final SN_DoublePreference firstSusanPos = new SN_DoublePreference("firstSusanPos", 0);
+        public static final SN_DoublePreference firstHoodPos = new SN_DoublePreference("firstHoodPos", 0);
         public static final SN_DoublePreference autoDelay = new SN_DoublePreference("autoDelay", 0);
         public static final SN_DoublePreference failHoodPos = new SN_DoublePreference("failHoodPos", 50);
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
