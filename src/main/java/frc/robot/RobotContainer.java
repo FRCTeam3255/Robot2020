@@ -24,7 +24,6 @@ import frc.robot.commands.ControlPanel.SpinToColor;
 import frc.robot.commands.ControlPanel.ToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
-import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Turret.AlignTurretVision;
@@ -87,7 +86,6 @@ public class RobotContainer {
   // private static SetHoodPosition hoodFar;
   private static CollectBall collect;
   private static Autonomous auto;
-  private static DriveToBall driveToBall;
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
@@ -138,7 +136,6 @@ public class RobotContainer {
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
 
-    driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
     auto = new Autonomous(failMot, failMot2);
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
@@ -200,7 +197,6 @@ public class RobotContainer {
     manipulator.POV_West.whileHeld(controlPanelLeft);
 
     // drive stuff in arcade drive command
-    drive.btn_Y.whileHeld(driveToBall);
     drive.btn_A.whenPressed(auto);
     drive.btn_B.whenPressed(autoShoot);
     drive.btn_X.whileHeld(failMot);
