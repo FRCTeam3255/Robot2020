@@ -107,10 +107,6 @@ public class Vision extends SubsystemBase {
   }
 
   public double getVisionXError() {
-    // TODO: Likely that scaling by innerHoleScalar is more complex than this logic
-    // yeah, still wrestling with this one. pretty sure that its gonna end up being
-    // err + skew times scalar times whatever side youre on, gonna need to do a grip
-    // pipeline for this
     return (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
   }
 

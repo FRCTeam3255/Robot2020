@@ -35,8 +35,8 @@ public class Autonomous extends CommandBase {
   public Autonomous(DriveMotionProfile d1, DriveMotionProfile d2) {
     // Use addRequirements() here to declare subsystem dependencies.
     delay = new DoDelay(RobotPreferences.autoDelay);
-    align1 = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
-    align2 = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
+    align1 = new AlignVisionAuto(RobotPreferences.shooterMaxRPM);
+    align2 = new AlignVisionAuto(RobotPreferences.shooterMaxRPM);
     shoot1 = new ShootCount(RobotPreferences.numToShoot);
     shoot2 = new ShootCount(RobotPreferences.numToShoot);
     drive1 = d1;

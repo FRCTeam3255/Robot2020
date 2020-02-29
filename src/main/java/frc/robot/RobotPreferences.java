@@ -62,7 +62,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference climberF = new SN_DoublePreference("climberF", 1023.0 / 6800.0);
         public static final SN_DoublePreference climberIz = new SN_DoublePreference("climberIz", 400);
         public static final SN_IntPreference climberHeight = new SN_IntPreference("climberHeight", 30);
-        public static final SN_DoublePreference climberWinchSpeed = new SN_DoublePreference("climberWinchSpeed", -.5);
+        public static final SN_DoublePreference climberWinchSpeed = new SN_DoublePreference("climberWinchSpeed", .5);
         public static final SN_DoublePreference climberUpSpeed = new SN_DoublePreference("climberUpSpeed", .5);
         public static final SN_DoublePreference climberDownSpeed = new SN_DoublePreference("climberDownSpeed", -.5);
         // Turret

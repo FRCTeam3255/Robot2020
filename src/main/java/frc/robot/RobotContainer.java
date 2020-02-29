@@ -28,14 +28,10 @@ import frc.robot.commands.Drivetrain.DriveToBall;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Turret.AlignTurretVision;
-import frc.robot.commands.Turret.AlignVisionAuto;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
-// import frc.robot.commands.Turret.RotateHood;
 import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
-// import frc.robot.commands.Turret.SetShooterSpeed;
-// import frc.robot.commands.Turret.ShootAutomatic;
 import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShootCount;
 import frc.robot.subsystems.Climber;
@@ -95,7 +91,6 @@ public class RobotContainer {
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
-  private static AlignVisionAuto autoAlign;
   private static ShootCount autoShoot;
 
   // finsihed
@@ -145,7 +140,6 @@ public class RobotContainer {
 
     driveToBall = new DriveToBall(false, 100.0, RobotPreferences.ballCount);
     auto = new Autonomous(failMot, failMot2);
-    autoAlign = new AlignVisionAuto(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
     // map buttons to commands

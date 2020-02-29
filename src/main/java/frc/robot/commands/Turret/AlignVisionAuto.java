@@ -18,19 +18,15 @@ public class AlignVisionAuto extends CommandBase {
      * Creates a new AlignVisionAuto. Aligns turret within threshold, then spins up
      * shooter within threshold, then shoots n times
      */
-    private SN_DoublePreference hoodPos;
     private Timer timer = new Timer();
-    private boolean aligned;
     public FinishReason finishReason = FinishReason.NOT_FINISHED;
-    private SN_DoublePreference velocity;
 
     public enum FinishReason {
         SUCCESS, NO_TARGET, NOT_FINISHED
     };
 
-    public AlignVisionAuto(SN_DoublePreference a_hoodPos, SN_DoublePreference a_velocity) {
+    public AlignVisionAuto(SN_DoublePreference a_velocity) {
         // Use addRequirements() here to declare subsystem dependencies.
-        hoodPos = a_hoodPos;
         addRequirements(RobotContainer.turret);
     }
 
@@ -42,7 +38,6 @@ public class AlignVisionAuto extends CommandBase {
         RobotContainer.turret.setShooterVelocity();
         RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
 
-        aligned = false;
         timer.reset();
         timer.start();
 

@@ -16,7 +16,6 @@ import frcteam3255.robotbase.Preferences.SN_IntPreference;
 public class DriveToBall extends CommandBase {
   private SN_IntPreference numBalls;
   private int counted;
-  private boolean priorSwitch;
   private boolean autoEnabled;
   private Timer timer = new Timer();
   private double duration;
