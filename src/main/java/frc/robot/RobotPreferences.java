@@ -123,7 +123,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference shooterTimeout = new SN_DoublePreference("shooterTimeout", 5);
 
         // ControlPanel
-        public static final SN_IntPreference spinCount = new SN_IntPreference("spinCount", 1);
+        public static final SN_DoublePreference spinCount = new SN_DoublePreference("spinCount", 3.5);
+        public static final SN_IntPreference numColorSamples = new SN_IntPreference("numColorSamples", 1);
         public static final SN_DoublePreference spinSpeedRight = new SN_DoublePreference("spinSpeedRight", 1);
         public static final SN_DoublePreference spinSpeedLeft = new SN_DoublePreference("spinSpeedLeft", -1);
 

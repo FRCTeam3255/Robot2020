@@ -119,7 +119,7 @@ public class RobotContainer {
     // smartShot = new ShootAutomatic();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
-    spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount);
+    spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
     spinToColor = new SpinToColor();
     climberManual = new DeployClimberManual();
     winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
