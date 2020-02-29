@@ -35,7 +35,9 @@ public class AlignTurretVision extends CommandBase {
       RobotContainer.turret.turnSusanToDegree(RobotContainer.turret.getSusanPosition()
           + RobotContainer.vision.getVisionXError() + RobotContainer.vision.getVisionInnerOffset());
 
-      RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
+      if (RobotContainer.switchBoard.btn_9.get()) {
+        RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
+      }
     } else {
 
       // RobotContainer.turret.setHoodSpeed(0);

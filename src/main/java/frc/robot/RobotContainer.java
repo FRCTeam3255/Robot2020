@@ -106,7 +106,7 @@ public class RobotContainer {
 
     // create motion profiles
     failMot = new DriveMotionProfile("failMot_left.csv", "failMot_right.csv");
-    failMot = new DriveMotionProfile("failMot2_left.csv", "failMot2_right.csv");
+    failMot2 = new DriveMotionProfile("failMot2_left.csv", "failMot2_right.csv");
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
@@ -158,11 +158,6 @@ public class RobotContainer {
 
   }
 
-  public static boolean getModeBtn() {
-    // return switchBoard.btn_9.get();
-    return true;
-  }
-
   public static void motionReload() {
     failMot.reload();
     grabBallMot.reload();
@@ -182,7 +177,7 @@ public class RobotContainer {
     manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whenPressed(toggleControlPanel);
+    manipulator.btn_4.whileHeld(toggleControlPanel);
     manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);

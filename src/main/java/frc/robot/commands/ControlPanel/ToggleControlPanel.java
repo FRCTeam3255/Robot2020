@@ -17,17 +17,14 @@ public class ToggleControlPanel extends CommandBase {
 
   public ToggleControlPanel() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.controlPanel);
+    // addRequirements(RobotContainer.controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (RobotContainer.controlPanel.getControlPanelDeployed()) {
-      RobotContainer.controlPanel.retractControlPanel();
-    } else {
-      RobotContainer.controlPanel.deployControlPanel();
-    }
+    RobotContainer.controlPanel.retractControlPanel();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,11 +35,13 @@ public class ToggleControlPanel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.controlPanel.deployControlPanel();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

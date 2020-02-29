@@ -31,8 +31,7 @@ public class DriveArcade extends CommandBase {
   @Override
 
   public void execute() {
-    RobotContainer.drivetrain.arcadeDrive(-RobotContainer.drive.getArcadeMove(),
-        RobotContainer.drive.getArcadeRotate());
+    RobotContainer.drivetrain.arcadeDrive(RobotContainer.drive.getArcadeMove(), RobotContainer.drive.getArcadeRotate());
   }
 
   // Called once the command ends or is interrupted.
