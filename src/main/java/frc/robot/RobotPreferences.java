@@ -94,10 +94,10 @@ public class RobotPreferences {
         public static final SN_DoublePreference susanI = new SN_DoublePreference("susanI", 0);
         public static final SN_DoublePreference susanD = new SN_DoublePreference("susanD", 0);
         public static final SN_DoublePreference susanF = new SN_DoublePreference("susanF", 0.01);
-        public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 0.005);
+        public static final SN_DoublePreference shooterP = new SN_DoublePreference("shooterP", 1E-4);
         public static final SN_DoublePreference shooterI = new SN_DoublePreference("shooterI", 0);
         public static final SN_DoublePreference shooterD = new SN_DoublePreference("shooterD", 0);
-        public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 1.71E-4);
+        public static final SN_DoublePreference shooterFF = new SN_DoublePreference("shooterFF", 1.8E-4);
         public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", 10);
         public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 0);
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
