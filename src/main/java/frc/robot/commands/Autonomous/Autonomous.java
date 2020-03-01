@@ -16,6 +16,7 @@ import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Turret.AlignAuto;
 import frc.robot.commands.Turret.AlignVisionAuto;
 import frc.robot.commands.Turret.ShootCount;
+import frc.robot.commands.Turret.AlignVisionAuto.FinishReason;
 
 public class Autonomous extends CommandBase {
 
@@ -41,12 +42,12 @@ public class Autonomous extends CommandBase {
 
   // AUTO PLAN:
   // turn on collector at start
-  // align turret, hood, and delay
-  // set hood & shoot? - (button to not perform shot)
-  // drive mp1 & mp2 - (button to not drive, and exit)
-  // align & shoot? - (button to not shoot)
-  // drive mp3 - (button to not drive, and exit)
-  // align & shoot? - (button to not shoot)
+  // align turret, hood, and delay (using preferences)
+  // shoot - (button can disable shoot)
+  // drive mp1 & mp2 - (button can disable drive and force exit)
+  // align with vision & shoot - (button can disable shoot, and won't shoot if no vision)
+  // drive mp3 - (button can disable drive and force exit)
+  // align with vision & shoot - (button can disalbe shoot, and won't shoot if no vision)
   // turn off collector at end
 
   /**
@@ -206,15 +207,15 @@ public class Autonomous extends CommandBase {
     if (currentCommand == drive2) {
       // if shoot2 is enabled, then perform align2 command
       if (RobotContainer.switchBoard.btn_4.get()) {
-        switchCommand(align2);
         updateDashboard("align2");
+        switchCommand(align2);
         return false;
       }
       else {
         // if drive3 is enabled, then perform drive3, else exit
         if (RobotContainer.switchBoard.btn_5.get()) {
-          switchCommand(drive3);
           updateDashboard("drive3");
+          switchCommand(drive3);
           return false;
         }
         else {
@@ -225,18 +226,30 @@ public class Autonomous extends CommandBase {
     
     // determine what to do if the align2 command just ended
     if (currentCommand == align2) {
-      // switch to the shoot2 command
-      updateDashboard("shoot2");
-      switchCommand(shoot2);
-      return false;
+      // if the align2 command finished successfully, switch to the shoot2 command
+      if(align2.finishReason == FinishReason.SUCCESS) {
+        updateDashboard("shoot2");
+        switchCommand(shoot2);
+        return false;
+      }
+
+      // if drive3 is enabled, then perform drive3, else exit
+      if (RobotContainer.switchBoard.btn_5.get()) {
+        updateDashboard("drive3");
+        switchCommand(drive3);
+        return false;
+      }
+      else {
+        return true;
+      }
     }
     
     // determine what to do if the shoot2 command just ended
     if (currentCommand == shoot2) {
       // if drive3 is enabled, then perform drive3, else exit
       if (RobotContainer.switchBoard.btn_5.get()) {
-        switchCommand(drive3);
         updateDashboard("drive3");
+        switchCommand(drive3);
         return false;
       }
       else {
@@ -248,8 +261,8 @@ public class Autonomous extends CommandBase {
     if (currentCommand == drive3){
       // if shoot3 is enabled, then perform align3, else exit
       if (RobotContainer.switchBoard.btn_6.get()) {
-        switchCommand(align3);
         updateDashboard("align3");
+        switchCommand(align3);
         return false;
       }
       else {
@@ -259,10 +272,14 @@ public class Autonomous extends CommandBase {
 
     // determine what to do if the align3 command just ended
     if (currentCommand == align3){
-      // switch to the shoot3 command
-      updateDashboard("shoot3");
-      switchCommand(shoot3);
-      return false;
+      // if the align3 command finished successfully, switch to the shoot3 command
+      if(align3.finishReason == FinishReason.SUCCESS) {
+        updateDashboard("shoot3");
+        switchCommand(shoot3);
+        return false;
+      }
+
+      return true;
     }
 
     // determine what to do if the shoot3 command just ended
