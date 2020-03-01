@@ -226,6 +226,7 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Hood Encoder", getHoodEncoder());
     SmartDashboard.putBoolean("Hood Finished", hoodFinished());
+    SmartDashboard.putBoolean("Susan Finished", susanFinished());
     SmartDashboard.putNumber("Hood Err", getHoodError());
     SmartDashboard.putNumber("Shooter A Velocity", getShooterSpeed());
     SmartDashboard.putNumber("Shooter B Velocity", getShooter2Speed());

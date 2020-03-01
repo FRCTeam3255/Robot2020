@@ -37,7 +37,7 @@ public class ShootCount extends CommandBase {
 
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is initially scheduled
   @Override
   public void initialize() {
 
@@ -59,11 +59,6 @@ public class ShootCount extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.drive.btn_LBump.get()) {
-      RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
-    } else {
-      RobotContainer.intake.collectorSetSpeed(0);
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -72,7 +67,6 @@ public class ShootCount extends CommandBase {
     RobotContainer.turret.setShooterSpeed(0);
     RobotContainer.turret.finalShooterGateSetSpeed(0);
     RobotContainer.intake.turretGateSetSpeed(0);
-    RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
     RobotContainer.intake.initialShooterGateSetSpeed(0);
 
   }

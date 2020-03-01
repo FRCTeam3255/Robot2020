@@ -121,7 +121,7 @@ public class Vision extends SubsystemBase {
   }
 
   public boolean isXFinished() {
-    return ((Math.abs(getVisionXError()) < RobotPreferences.visionXTol.getValue()));
+    return visionHasTarget() && ((Math.abs(getVisionXError()) < RobotPreferences.visionXTol.getValue()));
   }
 
   public double getHoodVisionPosition() {
