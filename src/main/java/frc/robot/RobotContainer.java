@@ -72,6 +72,8 @@ public class RobotContainer {
   public static DriveMotionProfile grabBallMot;
   public static DriveMotionProfile getBackMot;
   public static DriveMotionProfile finalMot;
+  public static DriveMotionProfile spinLeft;
+  public static DriveMotionProfile spinRight;
 
   // private static ShootAutomatic smartShot;
   private static ToggleControlPanel toggleControlPanel;
@@ -113,6 +115,8 @@ public class RobotContainer {
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
+    spinLeft = new DriveMotionProfile("spinLeft_left.csv", "spinLeft_right.csv");
+    spinRight = new DriveMotionProfile("spinRight_left.csv", "spinRight_right.csv");
 
     // create commands
     resetShooter = new ResetShooter();
@@ -170,6 +174,8 @@ public class RobotContainer {
     grabBallMot.reload();
     getBackMot.reload();
     finalMot.reload();
+    spinLeft.reload();
+    spinRight.reload();
   }
 
   /**
@@ -204,6 +210,8 @@ public class RobotContainer {
     drive.btn_RBump.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
+    drive.POV_East.whileHeld(spinRight);
+    drive.POV_West.whileHeld(spinLeft);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() == false
