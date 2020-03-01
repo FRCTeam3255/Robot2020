@@ -139,7 +139,7 @@ public class RobotContainer {
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
 
-    auto = new Autonomous(failMot, failMot2);
+    auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
     // map buttons to commands
@@ -162,6 +162,7 @@ public class RobotContainer {
   }
 
   public static void motionReload() {
+    auto.reloadMotionProfiles();
     failMot.reload();
     grabBallMot.reload();
     getBackMot.reload();
@@ -204,8 +205,19 @@ public class RobotContainer {
     drive.btn_RTrig.whileHeld(climberManual);
     drive.btn_LTrig.whileHeld(winchClimber);
 
-    // switchboards
+    // switchboard buttons
+    // get() == true means switch is 1 (on), when switch is not connected, get() == false
+    // button 1: off = auto1, on = auto2
+    // button 2: Auto1: off = shot1 off, on = shot1 on
+    // button 3: Auto1: off = drive1 and 2 off and exit, on = drive1 and 2 on
+    // button 4: Auto1: off = shot2 off, on = shot2 on
+    // button 5: Auto1: off = drive3 off and exit, on = drive3 on
+    // button 6: Auto1: off = shot3 off, on = shot3 on
+    // TODO: button 7: single shot/multi shot (which is which?)
+    // button 8: winch climber 
     switchBoard.btn_8.whileHeld(winchClimber);
+    // TODO: button9: hood vision enabled (which is which?)
+    // TODO: button 10: enable/disable extend/retract climber 
     switchBoard.btn_10.whileHeld(climberManual);
   }
 
