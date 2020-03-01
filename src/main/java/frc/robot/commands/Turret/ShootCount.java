@@ -42,11 +42,10 @@ public class ShootCount extends CommandBase {
   public void initialize() {
 
     numShot = 0;
-    initialSetup();
+    startStaging();
   }
 
-  public void initialSetup() {
-
+  public void startStaging() {
     RobotContainer.turret.finalShooterGateSetSpeed(0);
     state = stateType.STAGING;
     RobotContainer.turret.setShooterVelocity();
@@ -55,7 +54,6 @@ public class ShootCount extends CommandBase {
     timer.reset();
     timer.start();
     // RobotContainer.turret.setShooterSpeefd();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -82,7 +80,6 @@ public class ShootCount extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     if (state == stateType.STAGING) {
       if (RobotContainer.intake.getStagedSwitch()
           || timer.hasPeriodPassed(RobotPreferences.stagingTimeout.getValue())) {
@@ -102,13 +99,12 @@ public class ShootCount extends CommandBase {
     } else if (state == stateType.SHOOTING) {
       if (timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())) {
         RobotContainer.turret.finalShooterGateSetSpeed(0);
+        numShot = numShot + 1;
         if (numShot < numToShoot.getValue()) {
-          numShot++;
-          initialSetup();
+          startStaging();
         } else {
           return true;
         }
-
       }
     }
     return false;

@@ -72,6 +72,8 @@ public class RobotContainer {
   public static DriveMotionProfile grabBallMot;
   public static DriveMotionProfile getBackMot;
   public static DriveMotionProfile finalMot;
+  public static DriveMotionProfile spinLeft;
+  public static DriveMotionProfile spinRight;
 
   // private static ShootAutomatic smartShot;
   private static ToggleControlPanel toggleControlPanel;
@@ -113,6 +115,8 @@ public class RobotContainer {
     grabBallMot = new DriveMotionProfile("grabBallMot_left.csv", "grabBallMot_right.csv");
     getBackMot = new DriveMotionProfile("getBackMot_left.csv", "getBackMot_right.csv");
     finalMot = new DriveMotionProfile("finalMot_left.csv", "finalMot_right.csv");
+    spinLeft = new DriveMotionProfile("spinLeft_left.csv", "spinLeft_right.csv");
+    spinRight = new DriveMotionProfile("spinRight_left.csv", "spinRight_right.csv");
 
     // create commands
     resetShooter = new ResetShooter();
@@ -141,7 +145,7 @@ public class RobotContainer {
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true);
 
-    auto = new Autonomous(failMot, failMot2);
+    auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
     // map buttons to commands
@@ -165,10 +169,13 @@ public class RobotContainer {
   }
 
   public static void motionReload() {
+    auto.reloadMotionProfiles();
     failMot.reload();
     grabBallMot.reload();
     getBackMot.reload();
     finalMot.reload();
+    spinLeft.reload();
+    spinRight.reload();
   }
 
   /**
@@ -203,9 +210,22 @@ public class RobotContainer {
     drive.btn_RBump.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
+    drive.POV_East.whileHeld(spinRight);
+    drive.POV_West.whileHeld(spinLeft);
 
-    // switchboards
+    // switchboard buttons
+    // get() == true means switch is 1 (on), when switch is not connected, get() == false
+    // button 1: off = auto1, on = auto2
+    // button 2: Auto1: off = shot1 off, on = shot1 on
+    // button 3: Auto1: off = drive1 and 2 off and exit, on = drive1 and 2 on
+    // button 4: Auto1: off = shot2 off, on = shot2 on
+    // button 5: Auto1: off = drive3 off and exit, on = drive3 on
+    // button 6: Auto1: off = shot3 off, on = shot3 on
+    // TODO: button 7: single shot/multi shot (which is which?)
+    // button 8: winch climber 
     switchBoard.btn_8.whileHeld(winchClimber);
+    // TODO: button9: hood vision enabled (which is which?)
+    // TODO: button 10: enable/disable extend/retract climber 
     switchBoard.btn_10.whileHeld(climberManual);
   }
 

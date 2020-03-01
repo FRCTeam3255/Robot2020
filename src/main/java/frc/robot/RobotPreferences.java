@@ -5,10 +5,13 @@ import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class RobotPreferences {
         // Auto
+        public static final SN_DoublePreference auto1SusanPos = new SN_DoublePreference("auto1SusanPos", 0);
+        public static final SN_DoublePreference auto1HoodPos = new SN_DoublePreference("auto1HoodPos", 0);
+        public static final SN_DoublePreference auto1Delay = new SN_DoublePreference("auto1Delay", 0);
+        public static final SN_DoublePreference auto2SusanPos = new SN_DoublePreference("auto2SusanPos", 0);
+        public static final SN_DoublePreference auto2HoodPos = new SN_DoublePreference("auto2HoodPos", 0);
+        public static final SN_DoublePreference auto2Delay = new SN_DoublePreference("auto2Delay", 0);
         public static final SN_DoublePreference collectorSpinTime = new SN_DoublePreference("collectorSpinTime", .3);
-        public static final SN_DoublePreference firstSusanPos = new SN_DoublePreference("firstSusanPos", 0);
-        public static final SN_DoublePreference firstHoodPos = new SN_DoublePreference("firstHoodPos", 0);
-        public static final SN_DoublePreference autoDelay = new SN_DoublePreference("autoDelay", 0);
         public static final SN_DoublePreference failHoodPos = new SN_DoublePreference("failHoodPos", 50);
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
         public static final SN_DoublePreference ballNewness = new SN_DoublePreference("ballNewness", 0);
