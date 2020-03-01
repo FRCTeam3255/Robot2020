@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
@@ -15,6 +16,7 @@ public class CollectorAuto extends CommandBase {
     /**
      * Creates a new CollectorAuto.
      */
+    private Timer timer = new Timer();
 
     public CollectorAuto() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +26,9 @@ public class CollectorAuto extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
+        RobotContainer.intake.collectorSetSpeed(-1);
+        timer.reset();
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -58,6 +62,7 @@ public class CollectorAuto extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return timer.hasPeriodPassed(RobotPreferences.collectorSpinTime.getValue());
+
     }
 }

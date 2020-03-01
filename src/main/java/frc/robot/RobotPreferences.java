@@ -11,6 +11,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference auto2SusanPos = new SN_DoublePreference("auto2SusanPos", 0);
         public static final SN_DoublePreference auto2HoodPos = new SN_DoublePreference("auto2HoodPos", 0);
         public static final SN_DoublePreference auto2Delay = new SN_DoublePreference("auto2Delay", 0);
+        public static final SN_DoublePreference collectorSpinTime = new SN_DoublePreference("collectorSpinTime", .3);
         public static final SN_DoublePreference failHoodPos = new SN_DoublePreference("failHoodPos", 50);
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
         public static final SN_DoublePreference ballNewness = new SN_DoublePreference("ballNewness", 0);
@@ -103,8 +104,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", 10);
         public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 0);
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
-        public static final SN_DoublePreference spinupTimeout = new SN_DoublePreference("spinupTimeout", 5);
-        public static final SN_DoublePreference stagingTimeout = new SN_DoublePreference("stagingTimeout", 1);
+        public static final SN_DoublePreference spinupTimeout = new SN_DoublePreference("spinupTimeout", 2);
+        public static final SN_DoublePreference stagingTimeout = new SN_DoublePreference("stagingTimeout", .5);
         public static final SN_DoublePreference shootingTimeout = new SN_DoublePreference("shootingTimeout", 1);
         public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);

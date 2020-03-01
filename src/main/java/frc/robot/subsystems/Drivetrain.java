@@ -94,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
         && turn < RobotPreferences.drivetrainTurnDeadband.getValue())) {
       turn = 0;
     }
-    if (RobotContainer.drive.getRawButton(6)) {
+    if (RobotContainer.drive.btn_RTrig.get()) {
       speed = speed * RobotPreferences.drivetrainHighSpeed.getValue();
       turn = turn * RobotPreferences.drivetrainHighTurnSpeed.getValue();
     } else {
