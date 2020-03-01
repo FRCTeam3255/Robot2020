@@ -5,6 +5,7 @@ import frcteam3255.robotbase.Preferences.SN_IntPreference;
 
 public class RobotPreferences {
         // Auto
+        public static final SN_DoublePreference collectorSpinTime = new SN_DoublePreference("collectorSpinTime", .3);
         public static final SN_DoublePreference firstSusanPos = new SN_DoublePreference("firstSusanPos", 0);
         public static final SN_DoublePreference firstHoodPos = new SN_DoublePreference("firstHoodPos", 0);
         public static final SN_DoublePreference autoDelay = new SN_DoublePreference("autoDelay", 0);
@@ -100,8 +101,8 @@ public class RobotPreferences {
         public static final SN_DoublePreference hoodP = new SN_DoublePreference("hoodP", 10);
         public static final SN_DoublePreference hoodI = new SN_DoublePreference("hoodI", 0);
         public static final SN_DoublePreference hoodD = new SN_DoublePreference("hoodD", 0);
-        public static final SN_DoublePreference spinupTimeout = new SN_DoublePreference("spinupTimeout", 5);
-        public static final SN_DoublePreference stagingTimeout = new SN_DoublePreference("stagingTimeout", 1);
+        public static final SN_DoublePreference spinupTimeout = new SN_DoublePreference("spinupTimeout", 2);
+        public static final SN_DoublePreference stagingTimeout = new SN_DoublePreference("stagingTimeout", .5);
         public static final SN_DoublePreference shootingTimeout = new SN_DoublePreference("shootingTimeout", 1);
         public static final SN_DoublePreference shooterFullSpeed = new SN_DoublePreference("shooterFullSpeed", 1);
         public static final SN_DoublePreference shooterNoSpeed = new SN_DoublePreference("shooterNoSpeed", 0);

@@ -17,6 +17,7 @@ import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
 import frc.robot.commands.Config.ResetHoodEncoder;
 import frc.robot.commands.Config.ResetSusanEncoder;
+import frc.robot.commands.ControlPanel.LightToggleControlPanel;
 import frc.robot.commands.ControlPanel.ReloadColorTargets;
 import frc.robot.commands.ControlPanel.SpinControlPanelCount;
 import frc.robot.commands.ControlPanel.SpinControlPanelManual;
@@ -91,7 +92,7 @@ public class RobotContainer {
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
   private static ShootCount autoShoot;
-  private static CollectBallEnable collectEnable;
+  private static CollectBall collectEnable;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -117,7 +118,7 @@ public class RobotContainer {
     resetShooter = new ResetShooter();
     shoot = new ShootBall();
     // smartShot = new ShootAutomatic();
-    collectEnable = new CollectBallEnable();
+    collectEnable = new CollectBall();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
@@ -132,12 +133,13 @@ public class RobotContainer {
     nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
     nudgeHoodDown = new NudgeHood(RobotPreferences.nudgeHoodDown);
 
-    hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM);
-    hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM);
-    hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM);
-    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM);
-    hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM);
-    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM);
+    hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM, false);
+    hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM, false);
+    hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM,
+        false);
+    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM, false);
+    hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true);
+    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true);
 
     auto = new Autonomous(failMot, failMot2);
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
@@ -158,6 +160,7 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncoder());
     SmartDashboard.putData("Reset Hood Encoders", new ResetHoodEncoder());
     SmartDashboard.putData("Reset Susan Encoders", new ResetSusanEncoder());
+    SmartDashboard.putData("Toggle CP", new ToggleControlPanel());
 
   }
 
@@ -197,12 +200,9 @@ public class RobotContainer {
     // drive stuff in arcade drive command
     drive.btn_A.whenPressed(auto);
     drive.btn_B.whenPressed(autoShoot);
-    drive.btn_Y.whenPressed(collectEnable);
+    drive.btn_RBump.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);
     drive.btn_LBump.whileHeld(collect);
-    // emergancies
-    drive.btn_RTrig.whileHeld(climberManual);
-    drive.btn_LTrig.whileHeld(winchClimber);
 
     // switchboards
     switchBoard.btn_8.whileHeld(winchClimber);

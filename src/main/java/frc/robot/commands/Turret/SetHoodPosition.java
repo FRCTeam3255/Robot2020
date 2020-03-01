@@ -17,17 +17,22 @@ public class SetHoodPosition extends CommandBase {
    */
   private SN_DoublePreference degrees;
   private SN_DoublePreference velocity;
+  private boolean zero;
 
-  public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity) {
+  public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity, boolean a_zero) {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
     velocity = a_velocity;
+    zero = a_zero;
     addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (zero) {
+      RobotContainer.turret.turnSusanToDegree(0);
+    }
 
     RobotContainer.turret.moveHoodToDegree(degrees.getValue());
     RobotContainer.turret.setShooterSetpoint(velocity.getValue());
