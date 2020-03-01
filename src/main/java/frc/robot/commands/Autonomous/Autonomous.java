@@ -83,9 +83,13 @@ public class Autonomous extends CommandBase {
 
   // reloadMotionProfiles causes all internal motion profiles to be reloaded from their file
   public void reloadMotionProfiles() {
-    drive1.reload();
-    drive2.reload();
-    drive3.reload();
+    auto1Drive1.reload();
+    auto1Drive2.reload();
+    auto1Drive3.reload();
+
+    auto2Drive1.reload();
+    auto2Drive2.reload();
+    auto2Drive3.reload();
   }
 
   // displays a command on the dashboard of the current command name
