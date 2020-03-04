@@ -25,7 +25,7 @@ public class Vision extends SubsystemBase {
   CvSink cvSink;
 
   boolean ledsForcedOn = false;
-  private boolean isUsingVision = false;
+  // private boolean isUsingVision = false;
   double xPosition = 0;
   int camWidth = 320;
   int camHeight = 240;
@@ -52,7 +52,7 @@ public class Vision extends SubsystemBase {
   }
 
   public void setUsingVision(boolean a_vision) {
-    isUsingVision = a_vision;
+    // isUsingVision = a_vision;
   }
 
   // limelight

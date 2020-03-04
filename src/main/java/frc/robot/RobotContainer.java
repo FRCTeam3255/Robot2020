@@ -17,7 +17,7 @@ import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
 import frc.robot.commands.Config.ResetHoodEncoder;
 import frc.robot.commands.Config.ResetSusanEncoder;
-import frc.robot.commands.ControlPanel.LightToggleControlPanel;
+// import frc.robot.commands.ControlPanel.LightToggleControlPanel;
 import frc.robot.commands.ControlPanel.ReloadColorTargets;
 import frc.robot.commands.ControlPanel.SpinControlPanelCount;
 import frc.robot.commands.ControlPanel.SpinControlPanelManual;
@@ -27,7 +27,7 @@ import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
-import frc.robot.commands.Intake.CollectBallEnable;
+// import frc.robot.commands.Intake.CollectBallEnable;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
@@ -214,7 +214,8 @@ public class RobotContainer {
     drive.POV_West.whileHeld(spinLeft);
 
     // switchboard buttons
-    // get() == true means switch is 1 (on), when switch is not connected, get() == false
+    // get() == true means switch is 1 (on), when switch is not connected, get() ==
+    // false
     // button 1: off = auto1, on = auto2
     // button 2: Auto1: off = shot1 off, on = shot1 on
     // button 3: Auto1: off = drive1 and 2 off and exit, on = drive1 and 2 on
@@ -222,10 +223,10 @@ public class RobotContainer {
     // button 5: Auto1: off = drive3 off and exit, on = drive3 on
     // button 6: Auto1: off = shot3 off, on = shot3 on
     // TODO: button 7: single shot/multi shot (which is which?)
-    // button 8: winch climber 
+    // button 8: winch climber
     switchBoard.btn_8.whileHeld(winchClimber);
     // TODO: button9: hood vision enabled (which is which?)
-    // TODO: button 10: enable/disable extend/retract climber 
+    // TODO: button 10: enable/disable extend/retract climber
     switchBoard.btn_10.whileHeld(climberManual);
   }
 
