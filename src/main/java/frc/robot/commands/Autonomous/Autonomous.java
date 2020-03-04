@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
+import frc.robot.commands.Intake.CollectorAuto;
 import frc.robot.commands.Turret.AlignAuto;
 import frc.robot.commands.Turret.AlignVisionAuto;
 import frc.robot.commands.Turret.ShootCount;
@@ -37,6 +38,7 @@ public class Autonomous extends CommandBase {
   DriveMotionProfile drive1;
   DriveMotionProfile drive2;
   DriveMotionProfile drive3;
+  CollectorAuto collectSpin;
 
   Command currentCommand;
 
@@ -56,6 +58,7 @@ public class Autonomous extends CommandBase {
    * Creates a new Autonomous.
    */
   public Autonomous() {
+    collectSpin = new CollectorAuto();
     // create motion profiles
     auto1Drive1 = new DriveMotionProfile("auto1D1_left.csv", "auto1D1_right.csv");
     auto1Drive2 = new DriveMotionProfile("auto1D2_left.csv", "auto1D2_right.csv");
@@ -107,7 +110,6 @@ public class Autonomous extends CommandBase {
   @Override
   public void initialize() {
     // turn on the collector
-    RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
 
     // determine which set of motion profiles and alignment commands to use based on
     // switchboard button 1
@@ -126,8 +128,8 @@ public class Autonomous extends CommandBase {
     }
 
     // run the delay command
-    currentCommand = align1;
-    updateDashboard("align1");
+    currentCommand = collectSpin;
+    updateDashboard("collector spin");
     currentCommand.initialize();
   }
 
@@ -163,12 +165,19 @@ public class Autonomous extends CommandBase {
       return false;
     }
 
+    if (currentCommand == collectSpin) {
+      updateDashboard("align1");
+
+      RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
+      switchCommand(align1);
+    }
     // determine what to do if the align1 command just ended
-    if (currentCommand == align1) {
+    else if (currentCommand == align1) {
       // determine whether we should perform shoot1 or not
       if (RobotContainer.switchBoard.btn_2.get()) {
         // run the shoot1 command
         updateDashboard("shoot1");
+
         switchCommand(shoot1);
         return false;
       } else {

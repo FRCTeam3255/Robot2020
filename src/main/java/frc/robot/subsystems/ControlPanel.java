@@ -31,8 +31,8 @@ public class ControlPanel extends SubsystemBase {
   private ColorTarget blueTarget;
   private ColorTarget yellowTarget;
   private DoubleSolenoid controlPanelSolenoid;
-  private static final Value controlPanelDeployedValue = Value.kReverse;
-  private static final Value controlPanelRetractedValue = Value.kForward;
+  private static final Value controlPanelDeployedValue = Value.kForward;
+  private static final Value controlPanelRetractedValue = Value.kReverse;
 
   public ControlPanel() {
     spinner = new TalonFX(RobotMap.CP_TALON);

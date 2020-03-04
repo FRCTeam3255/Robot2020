@@ -35,7 +35,7 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // RobotContainer.turret.configureShooter();
+    RobotContainer.turret.configureShooter();
     eachRun();
   }
 

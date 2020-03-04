@@ -47,13 +47,14 @@ public class AlignVisionAuto extends CommandBase {
     @Override
     public void execute() {
 
-        if (RobotContainer.vision.visionHasTarget() && !(RobotContainer.vision.isXFinished())) {
+        if (RobotContainer.vision.visionHasTarget()) {
 
             timer.reset();
             timer.start();
 
-            RobotContainer.turret
-                    .setSusanSpeed(RobotContainer.vision.getVisionXError() * RobotPreferences.susanVisionP.getValue());
+            RobotContainer.turret.turnSusanToDegree(
+                    RobotContainer.turret.getSusanPosition() + RobotContainer.vision.getVisionXError());
+            RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
         }
 
     }
@@ -71,7 +72,7 @@ public class AlignVisionAuto extends CommandBase {
     @Override
     public boolean isFinished() {
         // // return true if X error and hood are within tolerance
-        if (RobotContainer.vision.isXFinished()) {
+        if (RobotContainer.vision.isXFinished() && timer.hasPeriodPassed(RobotPreferences.visionTimeout.getValue())) {
             finishReason = FinishReason.SUCCESS;
 
             return true;

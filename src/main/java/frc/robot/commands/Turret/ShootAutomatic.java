@@ -25,7 +25,7 @@ public class ShootAutomatic extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        // RobotContainer.turret.configureShooter();
+        RobotContainer.turret.configureShooter();
         // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
         // RobotContainer.turret.shooterVelocity();
         RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());

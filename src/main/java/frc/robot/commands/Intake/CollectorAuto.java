@@ -57,6 +57,7 @@ public class CollectorAuto extends CommandBase {
         // RobotContainer.intake.collectorSetSpeed(0);
         // RobotContainer.intake.turretGateSetSpeed(0);
         // RobotContainer.intake.initialShooterGateSetSpeed(0);
+        // RobotContainer.controlPanel.retractControlPanel();
     }
 
     // Returns true when the command should end.

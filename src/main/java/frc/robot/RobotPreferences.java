@@ -16,7 +16,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference failTurretPos = new SN_DoublePreference("failTurretPos", 20);
         public static final SN_DoublePreference ballNewness = new SN_DoublePreference("ballNewness", 0);
         public static final SN_IntPreference toPosTimeout = new SN_IntPreference("toPosTimeout", 50);
-        public static final SN_IntPreference numToShoot = new SN_IntPreference("numToShoot", 2);
+        public static final SN_IntPreference numToShoot = new SN_IntPreference("numToShoot", 3);
 
         // Vision
         public static final SN_DoublePreference visionDriveP = new SN_DoublePreference("visionDriveP", .4);
@@ -25,6 +25,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference visionGoalArea = new SN_DoublePreference("visionGoalArea", 1.5);
         public static final SN_DoublePreference visionXTol = new SN_DoublePreference("visionXTol", 1);
         public static final SN_IntPreference visionTimeout = new SN_IntPreference("visionTimeout", 5);
+        public static final SN_DoublePreference visionLineupTime = new SN_DoublePreference("visionTimeout", .5);
         public static final SN_DoublePreference ballP = new SN_DoublePreference("ballP", .005);
         public static final SN_DoublePreference hLow = new SN_DoublePreference("hLow", 10);
         public static final SN_DoublePreference sLow = new SN_DoublePreference("sLow", 100);
