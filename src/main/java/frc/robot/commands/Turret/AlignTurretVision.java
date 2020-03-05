@@ -9,6 +9,7 @@ package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 
 public class AlignTurretVision extends CommandBase {
   /**
@@ -24,6 +25,7 @@ public class AlignTurretVision extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.turret.setGoalVelocity(RobotPreferences.shooterMaxRPM.getValue());
 
   }
 

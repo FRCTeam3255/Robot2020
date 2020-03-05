@@ -27,6 +27,7 @@ import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
+import frc.robot.commands.Intake.CollectorAuto;
 // import frc.robot.commands.Intake.CollectBallEnable;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
@@ -95,6 +96,7 @@ public class RobotContainer {
   private static ResetShooter resetShooter;
   private static ShootCount autoShoot;
   private static CollectBall collectEnable;
+  private static CollectorAuto collectReverse;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -122,6 +124,7 @@ public class RobotContainer {
     resetShooter = new ResetShooter();
     shoot = new ShootBall();
     // smartShot = new ShootAutomatic();
+    collectReverse = new CollectorAuto();
     collectEnable = new CollectBall();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
@@ -209,6 +212,7 @@ public class RobotContainer {
     drive.btn_B.whenPressed(autoShoot);
     drive.btn_RBump.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);
+    drive.btn_Start.whenPressed(collectReverse);
     drive.btn_LBump.whileHeld(collect);
     drive.POV_East.whileHeld(spinRight);
     drive.POV_West.whileHeld(spinLeft);

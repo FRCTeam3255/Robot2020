@@ -38,12 +38,13 @@ public class AlignAuto extends CommandBase {
         RobotContainer.turret.moveHoodToDegree(hoodPos.getValue());
 
         timer.reset();
-        timer.start();    
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        RobotContainer.turret.turnSusanToDegree(susanPos.getValue());
     }
 
     // Called once the command ends or is interrupted.
@@ -56,6 +57,7 @@ public class AlignAuto extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.turret.hoodFinished() && RobotContainer.turret.susanFinished() && timer.hasPeriodPassed(delay.getValue());
+        return RobotContainer.turret.hoodFinished() && RobotContainer.turret.susanFinished()
+                && timer.hasPeriodPassed(delay.getValue());
     }
 }

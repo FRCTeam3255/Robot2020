@@ -97,39 +97,53 @@ public class Turret extends SubsystemBase {
   }
 
   public void turnSusanToDegree(double a_degree) {
-    configureLazySusan();
-    double degree;
-    if (a_degree < RobotPreferences.susanMinDegree.getValue()) {
-      degree = RobotPreferences.susanMinDegree.getValue();
-    } else if (a_degree > RobotPreferences.susanMaxDegree.getValue()) {
-      degree = RobotPreferences.susanMaxDegree.getValue();
+    if (getHoodPosition() > RobotPreferences.hoodSaftey.getValue()) {
+      configureLazySusan();
+      double degree;
+      if (a_degree < RobotPreferences.susanMinDegree.getValue()) {
+        degree = RobotPreferences.susanMinDegree.getValue();
+      } else if (a_degree > RobotPreferences.susanMaxDegree.getValue()) {
+        degree = RobotPreferences.susanMaxDegree.getValue();
+      } else {
+        degree = a_degree;
+      }
+      lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
     } else {
-      degree = a_degree;
+      lazySusanTalon.set(ControlMode.PercentOutput, 0);
     }
-    lazySusanTalon.set(ControlMode.Position, (degree * RobotPreferences.susanCountsPerDegree.getValue()));
   }
 
   public void setSusanSpeed(double a_speed) {
-    double speed = a_speed;
-    if (((getSusanPosition() + RobotPreferences.susanHardstopTol.getValue()) < RobotPreferences.susanMinDegree
-        .getValue()) && speed < 0) {
-      speed = 0;
-    } else if (((getSusanPosition() - RobotPreferences.susanHardstopTol.getValue()) > RobotPreferences.susanMaxDegree
-        .getValue()) && speed > 0) {
-      speed = 0;
+    if (getHoodPosition() > RobotPreferences.hoodSaftey.getValue()) {
+      double speed = a_speed;
+      if (((getSusanPosition() + RobotPreferences.susanHardstopTol.getValue()) < RobotPreferences.susanMinDegree
+          .getValue()) && speed < 0) {
+        speed = 0;
+      } else if (((getSusanPosition() - RobotPreferences.susanHardstopTol.getValue()) > RobotPreferences.susanMaxDegree
+          .getValue()) && speed > 0) {
+        speed = 0;
+      }
+      lazySusanTalon.set(ControlMode.PercentOutput, speed);
+    } else {
+      lazySusanTalon.set(ControlMode.PercentOutput, 0);
     }
-    lazySusanTalon.set(ControlMode.PercentOutput, speed);
   }
 
   public void moveHoodToDegree(double a_degree) {
-    configureHood();
-    double degree = a_degree;
-    if (degree < RobotPreferences.hoodMinDegree.getValue()) {
-      degree = RobotPreferences.hoodMinDegree.getValue();
-    } else if (degree > RobotPreferences.hoodMaxDegree.getValue()) {
-      degree = RobotPreferences.hoodMaxDegree.getValue();
+    if ((Math.abs(getSusanPosition()) < RobotPreferences.susanSafteyTol.getValue())
+        || (getHoodPosition() > RobotPreferences.hoodSaftey.getValue())) {
+      configureHood();
+      double degree = a_degree;
+      if (degree < RobotPreferences.hoodMinDegree.getValue()) {
+        degree = RobotPreferences.hoodMinDegree.getValue();
+      } else if (degree > RobotPreferences.hoodMaxDegree.getValue()) {
+        degree = RobotPreferences.hoodMaxDegree.getValue();
+      }
+      hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
+    } else {
+      setHoodSpeed(0);
     }
-    hoodTalon.set(ControlMode.Position, (degree * RobotPreferences.hoodCountsPerDegree.getValue()));
+
   }
 
   public void setShooterSetpoint(double setpoint) {
@@ -139,7 +153,13 @@ public class Turret extends SubsystemBase {
 
   public void setShooterVelocity() {
     configureShooter();
-    shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+    if (goalVelocity < 3000) {
+      setShooterSpeed(RobotPreferences.shooterLowSpeedCoefficient.getValue()
+          * (goalVelocity / RobotPreferences.shooterMaxRPM.getValue()));
+    } else {
+      shooterPIDController.setReference(goalVelocity, ControlType.kVelocity);
+    }
+
   }
 
   public boolean hoodFinished() {
@@ -153,11 +173,11 @@ public class Turret extends SubsystemBase {
 
   public void setHoodSpeed(double a_speed) {
     double speed = a_speed;
-    // if ((getHoodPosition() - hardstopTol < hoodMinDegree) && speed < 0) {
-    // speed = 0;
-    // } else if ((getHoodPosition() + hardstopTol > hoodMaxDegree) && speed > 0) {
-    // speed = 0;
-    // }
+    if ((getHoodPosition() < RobotPreferences.hoodMinDegree.getValue()) && speed < 0) {
+      speed = 0;
+    } else if ((getHoodPosition() > RobotPreferences.hoodMaxDegree.getValue()) && speed > 0) {
+      speed = 0;
+    }
     hoodTalon.set(ControlMode.PercentOutput, speed);
   }
 
