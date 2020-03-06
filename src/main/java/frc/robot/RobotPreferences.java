@@ -56,9 +56,13 @@ public class RobotPreferences {
         public static final SN_DoublePreference drivetrainLowSpeed = new SN_DoublePreference("drivetrainLowSpeed", .4);
         public static final SN_DoublePreference drivetrainTurnLowSpeed = new SN_DoublePreference(
                         "drivetrainTurnLowSpeed", .2);
+        public static final SN_DoublePreference drivetrainLowLowSpeed = new SN_DoublePreference("drivetrainLowLowSpeed",
+                        .2);
+        public static final SN_DoublePreference drivetrainTurnLowLowSpeed = new SN_DoublePreference(
+                        "drivetrainTurnLowLowSpeed", .1);
         public static final SN_DoublePreference drivetrainRampTime = new SN_DoublePreference("drivetrainRampTime", 0);
         public static final SN_DoublePreference drivetrainLowTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
-                        .2);
+                        .5);
         public static final SN_DoublePreference ballTimeout = new SN_DoublePreference("ballTimeout", 5);
         // Climber
         public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference(
@@ -175,5 +179,5 @@ public class RobotPreferences {
         public static final SN_DoublePreference yellowsBlueHigh = new SN_DoublePreference("yellowsBlueHigh", .2);
         // speed
         public static final SN_DoublePreference controlPanelSpinSpeed = new SN_DoublePreference("controlPanelSpinSpeed",
-                        .5);
+                        1);
 }

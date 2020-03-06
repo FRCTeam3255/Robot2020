@@ -210,6 +210,7 @@ public class Autonomous extends CommandBase {
     if (currentCommand == drive1) {
       // switch to the drive2 command
       updateDashboard("drive2");
+      RobotContainer.turret.setShooterVelocity();
       switchCommand(drive2);
       return false;
     }
