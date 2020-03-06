@@ -72,7 +72,7 @@ public class AlignVisionAuto extends CommandBase {
     @Override
     public boolean isFinished() {
         // // return true if X error and hood are within tolerance
-        if (RobotContainer.vision.isXFinished() && timer.hasPeriodPassed(RobotPreferences.visionTimeout.getValue())) {
+        if (RobotContainer.vision.isXFinished()) {
             finishReason = FinishReason.SUCCESS;
 
             return true;

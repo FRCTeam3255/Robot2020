@@ -131,7 +131,7 @@ public class Turret extends SubsystemBase {
 
   public void moveHoodToDegree(double a_degree) {
     if ((Math.abs(getSusanPosition()) < RobotPreferences.susanSafteyTol.getValue())
-        || (getHoodPosition() > RobotPreferences.hoodSaftey.getValue())) {
+        || (a_degree > RobotPreferences.hoodSaftey.getValue())) {
       configureHood();
       double degree = a_degree;
       if (degree < RobotPreferences.hoodMinDegree.getValue()) {
