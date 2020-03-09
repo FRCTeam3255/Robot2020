@@ -16,12 +16,13 @@ public class DeployClimberManual extends CommandBase {
    */
 
   public DeployClimberManual() {
-    addRequirements(RobotContainer.climber);
+    // addRequirements(RobotContainer.climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.controlPanel.deployControlPanel();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

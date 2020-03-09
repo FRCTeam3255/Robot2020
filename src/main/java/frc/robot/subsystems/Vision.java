@@ -34,12 +34,12 @@ public class Vision extends SubsystemBase {
   // Scalar upper = new Scalar(35, 140, 60);
 
   public Vision() {
-    Thread thread = new Thread() {
-      public void run() {
-        startStreams();
-      }
-    };
-    thread.start();
+    // Thread thread = new Thread() {
+    // public void run() {
+    // startStreams();
+    // }
+    // };
+    // thread.start();
 
   }
 

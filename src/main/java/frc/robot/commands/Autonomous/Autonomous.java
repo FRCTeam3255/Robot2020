@@ -109,7 +109,8 @@ public class Autonomous extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // turn on the collector
+    // spinup
+    RobotContainer.turret.setShooterVelocity();
 
     // determine which set of motion profiles and alignment commands to use based on
     // switchboard button 1

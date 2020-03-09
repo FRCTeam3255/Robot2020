@@ -208,7 +208,7 @@ public class RobotContainer {
     manipulator.POV_West.whileHeld(controlPanelLeft);
 
     // drive stuff in arcade drive command
-    drive.btn_A.whenPressed(auto);
+    // drive.btn_A.whenPressed(auto);
     drive.btn_B.whenPressed(autoShoot);
     drive.btn_RBump.whenPressed(collectEnable);
     drive.btn_X.whileHeld(failMot);

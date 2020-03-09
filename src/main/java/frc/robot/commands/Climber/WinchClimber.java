@@ -20,7 +20,7 @@ public class WinchClimber extends CommandBase {
   public WinchClimber(SN_DoublePreference a_speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     speed = a_speed;
-    addRequirements(RobotContainer.climber);
+    // addRequirements(RobotContainer.climber);
   }
 
   // Called when the command is initially scheduled.

@@ -7,8 +7,10 @@
 
 package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SetHoodPosition extends CommandBase {
@@ -18,6 +20,7 @@ public class SetHoodPosition extends CommandBase {
   private SN_DoublePreference degrees;
   private SN_DoublePreference velocity;
   private boolean zero;
+  private Timer timer = new Timer();
 
   public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity, boolean a_zero) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,8 +35,11 @@ public class SetHoodPosition extends CommandBase {
   public void initialize() {
     if (zero) {
       RobotContainer.turret.turnSusanToDegree(0);
+      RobotContainer.controlPanel.retractControlPanel();
     }
 
+    timer.reset();
+    timer.start();
     RobotContainer.turret.moveHoodToDegree(degrees.getValue());
     RobotContainer.turret.setShooterSetpoint(velocity.getValue());
 
@@ -54,6 +60,6 @@ public class SetHoodPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.turret.hoodFinished();
+    return false;
   }
 }
