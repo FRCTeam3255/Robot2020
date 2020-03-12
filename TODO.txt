@@ -3,3 +3,29 @@ Vegas TODO
     -further seperate subsystems
     -Slightly faster default drivetrain speeds
     -Work on a better practive field
+
+
+driving
+- eli's land
+- maybe go faster (zoom zoom)
+
+
+shooting
+-one general fire button: does not rely on aim, 
+-does not turn off shooter wheel
+-held down
+-automatic ball transfering
+-only fires at goal rpm
+-only fires when hoods done (potentially)
+collecting
+-one button while held collection (bump)
+control panel
+-toggle up/down one button
+-manual on one button
+climbing
+-hook up down one button
+-winch up on one button
+
+Manipulator Buttons:
+    - aim with vision
+    - general fire
