@@ -230,11 +230,11 @@ public class RobotContainer {
     // button 4: Auto1: off = shot2 off, on = shot2 on
     // button 5: Auto1: off = drive3 off and exit, on = drive3 on
     // button 6: Auto1: off = shot3 off, on = shot3 on
-    // TODO: button 7: single shot/multi shot (which is which?)
+    // button 7: single shot/multi shot (which is which?)
     // button 8: winch climber
     switchBoard.btn_8.whileHeld(winchClimber);
-    // TODO: button9: hood vision enabled (which is which?)
-    // TODO: button 10: enable/disable extend/retract climber
+    // button 9: hood vision enabled (which is which?)
+    // button 10: enable/disable extend/retract climber
     switchBoard.btn_10.whileHeld(climberManual);
   }
 
