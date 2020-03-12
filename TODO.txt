@@ -11,6 +11,7 @@ driving
 
 
 shooting
+---------------------
 -one general fire button: does not rely on aim, 
 -does not turn off shooter wheel
 -held down
@@ -18,14 +19,67 @@ shooting
 -only fires at goal rpm
 -only fires when hoods done (potentially)
 collecting
+---------------------
 -one button while held collection (bump)
 control panel
+---------------------
 -toggle up/down one button
 -manual on one button
 climbing
+---------------------
 -hook up down one button
 -winch up on one button
 
 Manipulator Buttons:
-    - aim with vision
-    - general fire
+
+ lineup
+---------------------
+- aim with vision
+- switch for turret manual
+- switch for no hood
+- nudge for hood
+- hood positions for:
+    - trench
+    - init line
+    - zero position
+
+ shooting
+---------------------
+-auto fire fast
+-auto fire slow
+
+ collector
+---------------------
+while held
+
+climber
+---------------
+-up/down
+-climb
+
+transfer
+---------------------
+-automatic population of saved position
+
+Autonomous:
+-drive motion
+-vision lineup
+-position lineup
+-shoot n counts
+
+Necessary commands:
+-vision/manual align
+-set hood position
+-autonomous vision lineup
+-autonomous position lineup
+-shoot (slow and fast feed speeds)
+-collect set speed
+-toggle control panel
+-CP set speed
+-climber set speed
+-winch set speed
+-drive motion profile
+-drive arcade
+-dodelay
+-collector auto thing
+-auto shoot count
