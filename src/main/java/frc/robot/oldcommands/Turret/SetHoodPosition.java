@@ -5,9 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.oldcommands.Turret;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
@@ -19,7 +18,6 @@ public class SetHoodPosition extends CommandBase {
   private SN_DoublePreference degrees;
   private SN_DoublePreference velocity;
   private boolean zero;
-  private Timer timer = new Timer();
 
   public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity, boolean a_zero) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,8 +36,6 @@ public class SetHoodPosition extends CommandBase {
       RobotContainer.controlPanel.retractControlPanel();
     }
 
-    timer.reset();
-    timer.start();
     RobotContainer.hood.moveHoodToDegree(degrees.getValue());
     RobotContainer.shooter.setShooterSetpoint(velocity.getValue());
 

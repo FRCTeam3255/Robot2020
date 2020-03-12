@@ -8,18 +8,31 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SetHoodPosition extends CommandBase {
+
+  private SN_DoublePreference position;
+
   /**
    * Creates a new SetHoodPosition.
    */
-  public SetHoodPosition() {
+  public SetHoodPosition(SN_DoublePreference a_position) {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    position = a_position;
+
+    addRequirements(RobotContainer.hood);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    RobotContainer.hood.moveHoodToDegree(position.getValue());
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
