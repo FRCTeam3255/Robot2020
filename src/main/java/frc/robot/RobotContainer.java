@@ -233,7 +233,7 @@ public class RobotContainer {
     // button 7: single shot/multi shot (which is which?)
     // button 8: winch climber
     switchBoard.btn_8.whileHeld(winchClimber);
-    // hood vision enabled (which is which?)
+    // button 9: hood vision enabled (which is which?)
     // button 10: enable/disable extend/retract climber
     switchBoard.btn_10.whileHeld(climberManual);
   }
