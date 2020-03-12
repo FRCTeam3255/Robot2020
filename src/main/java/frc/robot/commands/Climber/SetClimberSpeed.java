@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class SetClimberSpeed extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new SetClimberSpeed.
    */
-  public ToggleControlPanel() {
+  public SetClimberSpeed() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

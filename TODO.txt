@@ -68,18 +68,18 @@ Autonomous:
 -shoot n counts
 
 Necessary commands:
--vision/manual align
--set hood position
--autonomous vision lineup
--autonomous position lineup
--shoot (slow and fast feed speeds)
--collect set speed
--toggle control panel
--CP set speed
--climber set speed
--winch set speed
--drive motion profile
--drive arcade
--dodelay
--collector auto thing
--auto shoot count
+- vision/manual align
+- set hood position
+- autonomous vision lineup
+- autonomous position lineup
+- shoot (slow and fast feed speeds)
+- collect set speed
+- toggle control panel
+- ConPan set speed
+- climber set speed
+- winch set speed
+- drive motion profile
+- drive arcade
+- dodelay
+- collector auto thing
+- auto shoot count

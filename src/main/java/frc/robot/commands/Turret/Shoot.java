@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class Shoot extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new Shoot.
    */
-  public ToggleControlPanel() {
+  public Shoot() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

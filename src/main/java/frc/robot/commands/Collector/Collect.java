@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.Collector;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class Collect extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new Collect.
    */
-  public ToggleControlPanel() {
+  public Collect() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

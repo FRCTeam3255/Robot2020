@@ -5,21 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
-public class ToggleControlPanel extends CommandBase {
+public class ReloadMotionProfile extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new ReloadMotionProfile.
    */
-  public ToggleControlPanel() {
+
+  public ReloadMotionProfile() {
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.motionReload();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +43,6 @@ public class ToggleControlPanel extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

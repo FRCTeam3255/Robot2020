@@ -8,18 +8,29 @@
 package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
 public class ToggleControlPanel extends CommandBase {
   /**
    * Creates a new ToggleControlPanel.
    */
+
   public ToggleControlPanel() {
     // Use addRequirements() here to declare subsystem dependencies.
+    // addRequirements(RobotContainer.controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (RobotContainer.controlPanel.getControlPanelDeployed()) {
+      RobotContainer.controlPanel.retractControlPanel();
+
+    } else {
+      RobotContainer.controlPanel.deployControlPanel();
+
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,6 +41,7 @@ public class ToggleControlPanel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.

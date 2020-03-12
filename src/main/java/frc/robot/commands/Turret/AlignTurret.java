@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class AlignTurret extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new AlignTurret.
    */
-  public ToggleControlPanel() {
+  public AlignTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

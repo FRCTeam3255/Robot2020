@@ -9,11 +9,11 @@ package frc.robot.commands.ControlPanel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class RotateControlPanel extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new RotateControlPanel.
    */
-  public ToggleControlPanel() {
+  public RotateControlPanel() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

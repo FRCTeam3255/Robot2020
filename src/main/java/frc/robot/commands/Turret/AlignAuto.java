@@ -7,58 +7,34 @@
 
 package frc.robot.commands.Turret;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class AlignAuto extends CommandBase {
-    /**
-     * Creates a new AlignAuto.
-     */
-    private SN_DoublePreference susanPos;
-    private SN_DoublePreference hoodPos;
-    private Timer timer = new Timer();
-    private SN_DoublePreference delay;
+  /**
+   * Creates a new AlignAuto.
+   */
+  public AlignAuto() {
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
 
-    public AlignAuto(SN_DoublePreference a_susanPos, SN_DoublePreference a_hoodPos, SN_DoublePreference a_delay) {
-        // Use addRequirements() here to declare subsystem dependencies.
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
 
-        susanPos = a_susanPos;
-        hoodPos = a_hoodPos;
-        delay = a_delay;
-        addRequirements(RobotContainer.hood);
-        addRequirements(RobotContainer.susan);
-    }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+  }
 
-        RobotContainer.hood.moveHoodToDegree(hoodPos.getValue());
-
-        timer.reset();
-        timer.start();
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        // RobotContainer.turret.setHoodSpeed(0);
-        RobotContainer.susan.setSusanSpeed(0);
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return RobotContainer.hood.hoodFinished() && RobotContainer.susan.susanFinished()
-                && timer.hasPeriodPassed(delay.getValue());
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ControlPanel;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleControlPanel extends CommandBase {
+public class DoDelay extends CommandBase {
   /**
-   * Creates a new ToggleControlPanel.
+   * Creates a new DoDelay.
    */
-  public ToggleControlPanel() {
+  public DoDelay() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
