@@ -27,7 +27,9 @@ public class AlignVisionAuto extends CommandBase {
 
     public AlignVisionAuto(SN_DoublePreference a_velocity) {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.turret);
+        addRequirements(RobotContainer.shooter);
+        addRequirements(RobotContainer.hood);
+        addRequirements(RobotContainer.susan);
     }
 
     // Called when the command is initially scheduled.
@@ -35,8 +37,8 @@ public class AlignVisionAuto extends CommandBase {
     public void initialize() {
         finishReason = FinishReason.NOT_FINISHED;
 
-        RobotContainer.turret.setShooterVelocity();
-        RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
+        RobotContainer.shooter.setShooterVelocity();
+        RobotContainer.hood.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
 
         timer.reset();
         timer.start();
@@ -52,9 +54,9 @@ public class AlignVisionAuto extends CommandBase {
             timer.reset();
             timer.start();
 
-            RobotContainer.turret.turnSusanToDegree(
-                    RobotContainer.turret.getSusanPosition() + RobotContainer.vision.getVisionXError());
-            RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
+            RobotContainer.susan.turnSusanToDegree(
+                    RobotContainer.susan.getSusanPosition() + RobotContainer.vision.getVisionXError());
+            RobotContainer.hood.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
         }
 
     }
@@ -62,8 +64,8 @@ public class AlignVisionAuto extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.turret.setSusanSpeed(0);
-        RobotContainer.turret.finalShooterGateSetSpeed(0);
+        RobotContainer.susan.setSusanSpeed(0);
+        RobotContainer.shooter.finalShooterGateSetSpeed(0);
         // RobotContainer.turret.setShooterSpeefd(0);
 
     }

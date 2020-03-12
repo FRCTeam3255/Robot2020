@@ -27,15 +27,16 @@ public class AlignAuto extends CommandBase {
         susanPos = a_susanPos;
         hoodPos = a_hoodPos;
         delay = a_delay;
-        // addRequirements(RobotContainer.turret);
+        addRequirements(RobotContainer.hood);
+        addRequirements(RobotContainer.susan);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.turret.turnSusanToDegree(susanPos.getValue());
+        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
 
-        RobotContainer.turret.moveHoodToDegree(hoodPos.getValue());
+        RobotContainer.hood.moveHoodToDegree(hoodPos.getValue());
 
         timer.reset();
         timer.start();
@@ -44,20 +45,20 @@ public class AlignAuto extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.turret.turnSusanToDegree(susanPos.getValue());
+        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         // RobotContainer.turret.setHoodSpeed(0);
-        RobotContainer.turret.setSusanSpeed(0);
+        RobotContainer.susan.setSusanSpeed(0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.turret.hoodFinished() && RobotContainer.turret.susanFinished()
+        return RobotContainer.hood.hoodFinished() && RobotContainer.susan.susanFinished()
                 && timer.hasPeriodPassed(delay.getValue());
     }
 }

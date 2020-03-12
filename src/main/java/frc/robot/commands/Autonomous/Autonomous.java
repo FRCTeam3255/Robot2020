@@ -85,7 +85,9 @@ public class Autonomous extends CommandBase {
     align3 = new AlignVisionAuto(RobotPreferences.shooterMaxRPM);
     shoot3 = new ShootCount(RobotPreferences.numToShoot);
 
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.shooter);
+    addRequirements(RobotContainer.susan);
+    addRequirements(RobotContainer.hood);
     addRequirements(RobotContainer.drivetrain);
   }
 
@@ -110,7 +112,7 @@ public class Autonomous extends CommandBase {
   @Override
   public void initialize() {
     // spinup
-    RobotContainer.turret.setShooterVelocity();
+    RobotContainer.shooter.setShooterVelocity();
 
     // determine which set of motion profiles and alignment commands to use based on
     // switchboard button 1
@@ -211,7 +213,7 @@ public class Autonomous extends CommandBase {
     if (currentCommand == drive1) {
       // switch to the drive2 command
       updateDashboard("drive2");
-      RobotContainer.turret.setShooterVelocity();
+      RobotContainer.shooter.setShooterVelocity();
       switchCommand(drive2);
       return false;
     }

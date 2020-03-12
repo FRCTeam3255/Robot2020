@@ -20,14 +20,14 @@ public class NudgeHood extends CommandBase {
   public NudgeHood(SN_DoublePreference a_degrees) {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
+    RobotContainer.hood.moveHoodToDegree(RobotContainer.hood.getHoodPosition() + degrees.getValue());
 
   }
 
@@ -47,6 +47,6 @@ public class NudgeHood extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.turret.hoodFinished();
+    return RobotContainer.hood.hoodFinished();
   }
 }

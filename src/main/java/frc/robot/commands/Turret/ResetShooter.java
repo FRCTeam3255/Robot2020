@@ -19,7 +19,7 @@ public class ResetShooter extends CommandBase {
   
 
   public ResetShooter() {
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.shooter);
     addRequirements(RobotContainer.intake);
 
   }

@@ -18,26 +18,26 @@ public class RotateTurret extends CommandBase {
 
   public RotateTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.susan);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.configureLazySusan();
+    RobotContainer.susan.configureLazySusan();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret
+    RobotContainer.susan
         .setSusanSpeed(RobotPreferences.turretManualSpeed.getValue() * RobotContainer.manipulator.getTwistAxis());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setSusanSpeed(0);
+    RobotContainer.susan.setSusanSpeed(0);
 
   }
 

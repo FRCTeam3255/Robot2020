@@ -22,7 +22,7 @@ public class ShooterTimeout extends CommandBase {
     public ShooterTimeout() {
         // Use addRequirements() here to declare subsystem dependencies.
 
-        addRequirements(RobotContainer.turret);
+        addRequirements(RobotContainer.shooter);
     }
 
     // Called when the command is initially scheduled.

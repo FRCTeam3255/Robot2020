@@ -22,16 +22,17 @@ public class SetHoodPositionAuto extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
     velocity = a_velocity;
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.hood);
+    addRequirements(RobotContainer.shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-    RobotContainer.turret.moveHoodToDegree(degrees.getValue());
-    RobotContainer.turret.setShooterSetpoint(velocity.getValue());
-    RobotContainer.turret.setShooterVelocity();
+    RobotContainer.hood.moveHoodToDegree(degrees.getValue());
+    RobotContainer.shooter.setShooterSetpoint(velocity.getValue());
+    RobotContainer.shooter.setShooterVelocity();
 
   }
 
@@ -48,6 +49,6 @@ public class SetHoodPositionAuto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.turret.hoodFinished();
+    return RobotContainer.hood.hoodFinished();
   }
 }

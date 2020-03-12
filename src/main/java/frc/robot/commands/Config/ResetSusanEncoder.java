@@ -26,7 +26,7 @@ public class ResetSusanEncoder extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.turret.resetSusanEncoder();
+        RobotContainer.susan.resetSusanEncoder();
 
     }
 

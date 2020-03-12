@@ -40,7 +40,9 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Turret.Hood;
+import frc.robot.subsystems.Turret.Shooter;
+import frc.robot.subsystems.Turret.Susan;
 import frc.robot.subsystems.Vision;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
@@ -60,7 +62,9 @@ public class RobotContainer {
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final Vision vision = new Vision();
   public static final ControlPanel controlPanel = new ControlPanel();
-  public static final Turret turret = new Turret();
+  public static final Hood hood = new Hood();
+  public static final Shooter shooter = new Shooter();
+  public static final Susan susan = new Susan();
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 

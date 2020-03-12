@@ -17,7 +17,7 @@ public class RotateHood extends CommandBase {
 
   public RotateHood() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
@@ -29,14 +29,14 @@ public class RotateHood extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.setHoodSpeed(-RobotContainer.manipulator.getY());
+    RobotContainer.hood.setHoodSpeed(-RobotContainer.manipulator.getY());
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
+    RobotContainer.hood.moveHoodToDegree(RobotContainer.hood.getHoodPosition());
 
   }
 

@@ -19,28 +19,29 @@ public class ShootAutomatic extends CommandBase {
     public ShootAutomatic() {
         // Use addRequirements() here to declare subsystem dependencies.
 
-        // addRequirements(RobotContainer.turret);
+        addRequirements(RobotContainer.hood);
+        addRequirements(RobotContainer.shooter);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.turret.configureShooter();
+        RobotContainer.shooter.configureShooter();
         // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
         // RobotContainer.turret.shooterVelocity();
-        RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
+        RobotContainer.hood.moveHoodToDegree(RobotContainer.hood.getHoodPosition());
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-        if (RobotContainer.turret.isShooterSpedUp()) {
+        if (RobotContainer.shooter.isShooterSpedUp()) {
 
-            RobotContainer.turret.finalShooterGateSetSpeed(-1);
+            RobotContainer.shooter.finalShooterGateSetSpeed(-1);
 
         } else {
-            RobotContainer.turret.finalShooterGateSetSpeed(0);
+            RobotContainer.shooter.finalShooterGateSetSpeed(0);
         }
 
     }
@@ -48,8 +49,8 @@ public class ShootAutomatic extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.turret.finalShooterGateSetSpeed(0);
-        RobotContainer.turret.setHoodSpeed(0);
+        RobotContainer.shooter.finalShooterGateSetSpeed(0);
+        RobotContainer.hood.setHoodSpeed(0);
 
         // RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
     }

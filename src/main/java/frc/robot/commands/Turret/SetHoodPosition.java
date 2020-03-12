@@ -10,7 +10,6 @@ package frc.robot.commands.Turret;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SetHoodPosition extends CommandBase {
@@ -27,21 +26,22 @@ public class SetHoodPosition extends CommandBase {
     degrees = a_degrees;
     velocity = a_velocity;
     zero = a_zero;
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.susan);
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     if (zero) {
-      RobotContainer.turret.turnSusanToDegree(0);
+      RobotContainer.susan.turnSusanToDegree(0);
       RobotContainer.controlPanel.retractControlPanel();
     }
 
     timer.reset();
     timer.start();
-    RobotContainer.turret.moveHoodToDegree(degrees.getValue());
-    RobotContainer.turret.setShooterSetpoint(velocity.getValue());
+    RobotContainer.hood.moveHoodToDegree(degrees.getValue());
+    RobotContainer.shooter.setShooterSetpoint(velocity.getValue());
 
   }
 
@@ -49,7 +49,7 @@ public class SetHoodPosition extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.turret.moveHoodToDegree(degrees.getValue());
+    RobotContainer.hood.moveHoodToDegree(degrees.getValue());
   }
 
   // Called once the command ends or is interrupted.
