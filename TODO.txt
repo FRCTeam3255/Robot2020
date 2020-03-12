@@ -1,0 +1,5 @@
+Vegas TODO
+    -Potential actions classes
+    -further seperate subsystems
+    -Slightly faster default drivetrain speeds
+    -Work on a better practive field
