@@ -19,9 +19,8 @@ import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 
 public class Susan extends SubsystemBase {
-  
+
   private TalonSRX lazySusanTalon;
-  
   /**
    * Creates a new Susan.
    */
@@ -88,7 +87,7 @@ public class Susan extends SubsystemBase {
   public boolean susanFinished() {
     return Math.abs(getSusanError()) <= RobotPreferences.susanTol.getValue();
 
-  }  
+  }
 
   public double getSusanError() {
     return lazySusanTalon.getClosedLoopError() / RobotPreferences.susanCountsPerDegree.getValue();
@@ -107,7 +106,7 @@ public class Susan extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Susan Finished", susanFinished());
     SmartDashboard.putNumber("Susan Position", getSusanPosition());
-    SmartDashboard.putNumber("Given Pos", RobotContainer.vision.getVisionInnerOffset()
-        + getSusanPosition() + RobotContainer.vision.getVisionXError());
+    SmartDashboard.putNumber("Given Pos",
+        RobotContainer.vision.getVisionInnerOffset() + getSusanPosition() + RobotContainer.vision.getVisionXError());
   }
 }

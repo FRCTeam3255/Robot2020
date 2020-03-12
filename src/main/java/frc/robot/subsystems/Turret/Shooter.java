@@ -24,11 +24,11 @@ public class Shooter extends SubsystemBase {
 
   private CANSparkMax shooterMaster;
   private CANSparkMax shooterSlave;
-  private CANEncoder shooterEnocder;
-  private CANEncoder shooterBEnocder;
-  private double goalVelocity;
   private CANPIDController shooterPIDController;
   private TalonSRX finalShooterGateTalon;
+  private double goalVelocity;
+  private CANEncoder shooterEnocder;
+  private CANEncoder shooterBEnocder;
 
   /**
    * Creates a new Shooter.
@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase {
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
     shooterBEnocder = shooterSlave.getEncoder();
-    
+
     configureShooter();
 
   }

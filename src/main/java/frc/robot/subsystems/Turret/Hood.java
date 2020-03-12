@@ -58,7 +58,6 @@ public class Hood extends SubsystemBase {
     } else {
       setHoodSpeed(0);
     }
-
   }
 
   public boolean hoodFinished() {
