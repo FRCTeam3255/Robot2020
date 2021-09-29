@@ -47,6 +47,8 @@ public class RobotMap {
     // solenoids
     public static final int CONTROL_PANEL_SOLENOID_A = 0;
     public static final int CONTROL_PANEL_SOLENOID_B = 1;
+    public static final int COLLECTOR_SOLENOID_A = 2;
+    public static final int COLLECTOR_SOLENOID_B = 3;
 
     // Encoders
 

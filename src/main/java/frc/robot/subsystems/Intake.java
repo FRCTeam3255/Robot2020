@@ -12,7 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,10 +33,10 @@ public class Intake extends SubsystemBase {
   private DigitalInput stagedSwitch;
   private double collectorSpeed;
   private Servo stepServo;
-  // private DoubleSolenoid collectorSolenoid;
+  private DoubleSolenoid collectorSolenoid;
 
-  // private static final Value intakeDeployedValue = Value.kReverse;
-  // private static final Value intakeRetractedValue = Value.kForward;
+  private static final Value intakeDeployedValue = Value.kReverse;
+  private static final Value intakeRetractedValue = Value.kForward;
 
   public Intake() {
     collectorTalon = new TalonFX(RobotMap.COLLECTOR_TALON);
@@ -48,8 +50,7 @@ public class Intake extends SubsystemBase {
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
     bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
 
-    // collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A,
-    // RobotMap.COLLECTOR_SOLENOID_B);
+    collectorSolenoid = new DoubleSolenoid(RobotMap.COLLECTOR_SOLENOID_A, RobotMap.COLLECTOR_SOLENOID_B);
 
   }
 
@@ -82,23 +83,24 @@ public class Intake extends SubsystemBase {
     initialShooterGateTalon.set(ControlMode.PercentOutput, speed);
   }
 
-  // public void deployCollector() {
-  // collectorSolenoid.set(intakeDeployedValue);
-  // }
+  public void deployCollector() {
+    collectorSolenoid.set(intakeDeployedValue);
+  }
 
-  // public void retractCollector() {
-  // collectorSolenoid.set(intakeRetractedValue);
+  public void retractCollector() {
+    collectorSolenoid.set(intakeRetractedValue);
 
-  // }
+  }
 
-  // public boolean getCollectorDeployed() {
-  // return (collectorSolenoid.get() == intakeDeployedValue);
-  // }
+  public boolean getCollectorDeployed() {
+    return (collectorSolenoid.get() == intakeDeployedValue);
+  }
 
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Bottom Switch", getBottomSwitch());
     SmartDashboard.putBoolean("Staged Switch", getStagedSwitch());
+    SmartDashboard.putBoolean("Collector Deployed", getCollectorDeployed());
     // This method will be called once per scheduler run
   }
 }
