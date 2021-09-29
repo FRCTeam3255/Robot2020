@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Autonomous.Autonomous;
-import frc.robot.commands.Climber.DeployClimberManual;
-import frc.robot.commands.Climber.WinchClimber;
 import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
 import frc.robot.commands.Config.ResetHoodEncoder;
@@ -37,7 +35,6 @@ import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShootCount;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -62,7 +59,7 @@ public class RobotContainer {
   public static final Vision vision = new Vision();
   public static final ControlPanel controlPanel = new ControlPanel();
   public static final Turret turret = new Turret();
-  public static final Climber climber = new Climber();
+  //
   public static final Intake intake = new Intake();
 
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
@@ -80,10 +77,10 @@ public class RobotContainer {
   // private static ShootAutomatic smartShot;
   private static ToggleControlPanel toggleControlPanel;
   private static AlignTurretVision alignTurretVision;
-  private static SpinControlPanelCount spinControlPanelCounts;
+  // private static SpinControlPanelCount spinControlPanelCounts;
   private static SpinToColor spinToColor;
-  private static DeployClimberManual climberManual;
-  private static WinchClimber winchClimber;
+  // private static DeployClimberManual climberManual;
+  // private static WinchClimber winchClimber;
   private static SpinControlPanelManual controlPanelLeft;
   private static SpinControlPanelManual controlPanelRight;
   private static RotateTurret turretManual;
@@ -133,8 +130,8 @@ public class RobotContainer {
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
     spinToColor = new SpinToColor();
-    climberManual = new DeployClimberManual();
-    winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
+    // climberManual = new DeployClimberManual();
+    // winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
     controlPanelLeft = new SpinControlPanelManual(RobotPreferences.spinSpeedLeft);
     controlPanelRight = new SpinControlPanelManual(RobotPreferences.spinSpeedRight);
     turretManual = new RotateTurret();
@@ -232,10 +229,10 @@ public class RobotContainer {
     // button 6: Auto1: off = shot3 off, on = shot3 on
     // TODO: button 7: single shot/multi shot (which is which?)
     // button 8: winch climber
-    switchBoard.btn_8.whileHeld(winchClimber);
+    // switchBoard.btn_8.whileHeld(winchClimber);
     // TODO: button9: hood vision enabled (which is which?)
     // TODO: button 10: enable/disable extend/retract climber
-    switchBoard.btn_10.whileHeld(climberManual);
+    // switchBoard.btn_10.whileHeld(climberManual);
   }
 
   /**
