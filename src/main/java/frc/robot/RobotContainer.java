@@ -28,6 +28,7 @@ import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.CollectorAuto;
+import frc.robot.commands.Intake.ToggleDeployRetractIntake;
 // import frc.robot.commands.Intake.CollectBallEnable;
 import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
@@ -97,6 +98,7 @@ public class RobotContainer {
   private static ShootCount autoShoot;
   private static CollectBall collectEnable;
   private static CollectorAuto collectReverse;
+  private static ToggleDeployRetractIntake toggleIntake;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -126,6 +128,7 @@ public class RobotContainer {
     // smartShot = new ShootAutomatic();
     collectReverse = new CollectorAuto();
     collectEnable = new CollectBall();
+    toggleIntake = new ToggleDeployRetractIntake();
     toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
     spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
@@ -194,7 +197,8 @@ public class RobotContainer {
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
     manipulator.btn_4.whileHeld(toggleControlPanel);
-    manipulator.btn_5.whileHeld(spinControlPanelCounts);
+    // manipulator.btn_5.whileHeld(spinControlPanelCounts);
+    manipulator.btn_5.whenPressed(toggleIntake);
     manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
     manipulator.btn_8.whenPressed(hoodWallHigh);
