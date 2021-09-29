@@ -16,11 +16,6 @@ import frc.robot.commands.Config.ResetDriveEncoder;
 import frc.robot.commands.Config.ResetHoodEncoder;
 import frc.robot.commands.Config.ResetSusanEncoder;
 // import frc.robot.commands.ControlPanel.LightToggleControlPanel;
-import frc.robot.commands.ControlPanel.ReloadColorTargets;
-import frc.robot.commands.ControlPanel.SpinControlPanelCount;
-import frc.robot.commands.ControlPanel.SpinControlPanelManual;
-import frc.robot.commands.ControlPanel.SpinToColor;
-import frc.robot.commands.ControlPanel.ToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
@@ -35,7 +30,6 @@ import frc.robot.commands.Turret.RotateTurret;
 import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShootCount;
-import frc.robot.subsystems.ControlPanel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
@@ -57,7 +51,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final Vision vision = new Vision();
-  public static final ControlPanel controlPanel = new ControlPanel();
   public static final Turret turret = new Turret();
   //
   public static final Intake intake = new Intake();
@@ -75,14 +68,10 @@ public class RobotContainer {
   public static DriveMotionProfile spinRight;
 
   // private static ShootAutomatic smartShot;
-  private static ToggleControlPanel toggleControlPanel;
   private static AlignTurretVision alignTurretVision;
   // private static SpinControlPanelCount spinControlPanelCounts;
-  private static SpinToColor spinToColor;
   // private static DeployClimberManual climberManual;
   // private static WinchClimber winchClimber;
-  private static SpinControlPanelManual controlPanelLeft;
-  private static SpinControlPanelManual controlPanelRight;
   private static RotateTurret turretManual;
   // private static RotateHood hoodManual;
   private static ShootBall shoot;
@@ -126,14 +115,12 @@ public class RobotContainer {
     collectReverse = new CollectorAuto();
     collectEnable = new CollectBall();
     toggleIntake = new ToggleDeployRetractIntake();
-    toggleControlPanel = new ToggleControlPanel();
     alignTurretVision = new AlignTurretVision();
-    spinControlPanelCounts = new SpinControlPanelCount(RobotPreferences.spinCount, RobotPreferences.numColorSamples);
-    spinToColor = new SpinToColor();
+    // spinControlPanelCounts = new
+    // SpinControlPanelCount(RobotPreferences.spinCount,
+    // RobotPreferences.numColorSamples);
     // climberManual = new DeployClimberManual();
     // winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
-    controlPanelLeft = new SpinControlPanelManual(RobotPreferences.spinSpeedLeft);
-    controlPanelRight = new SpinControlPanelManual(RobotPreferences.spinSpeedRight);
     turretManual = new RotateTurret();
     // hoodManual = new RotateHood();
     collect = new CollectBall();
@@ -162,12 +149,10 @@ public class RobotContainer {
     motionReload();
 
     SmartDashboard.putData("Reload Motions", new ReloadMotionProfile());
-    SmartDashboard.putData("Reload Colors", new ReloadColorTargets());
     SmartDashboard.putData("Reload Talons", new ConfigureTalons());
     SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncoder());
     SmartDashboard.putData("Reset Hood Encoders", new ResetHoodEncoder());
     SmartDashboard.putData("Reset Susan Encoders", new ResetSusanEncoder());
-    SmartDashboard.putData("Toggle CP", new ToggleControlPanel());
 
   }
 
@@ -193,10 +178,10 @@ public class RobotContainer {
     manipulator.btn_1.whenReleased(resetShooter);
     manipulator.btn_2.whileHeld(turretManual);
     manipulator.btn_3.whileHeld(alignTurretVision);
-    manipulator.btn_4.whileHeld(toggleControlPanel);
+    // manipulator.btn_4.whileHeld(toggleControlPanel);
     // manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_5.whenPressed(toggleIntake);
-    manipulator.btn_6.whileHeld(spinToColor);
+    // manipulator.btn_6.whileHeld(spinToColor);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
     manipulator.btn_8.whenPressed(hoodWallHigh);
     manipulator.btn_9.whenPressed(hoodFrontTrench);
@@ -204,9 +189,9 @@ public class RobotContainer {
     manipulator.btn_11.whenPressed(hoodInitialization);
     manipulator.btn_12.whenPressed(hoodClose);
     manipulator.POV_North.whenPressed(nudgeHoodUp);
-    manipulator.POV_East.whileHeld(controlPanelRight);
+    // manipulator.POV_East.whileHeld(controlPanelRight);
     manipulator.POV_South.whenPressed(nudgeHoodDown);
-    manipulator.POV_West.whileHeld(controlPanelLeft);
+    // manipulator.POV_West.whileHeld(controlPanelLeft);
 
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);

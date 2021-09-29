@@ -34,7 +34,7 @@ public class SetHoodPosition extends CommandBase {
   public void initialize() {
     if (zero) {
       RobotContainer.turret.turnSusanToDegree(0);
-      RobotContainer.controlPanel.retractControlPanel();
+      // RobotContainer.controlPanel.retractControlPanel();
     }
 
     timer.reset();
