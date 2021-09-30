@@ -25,9 +25,9 @@ public class RobotMap {
     public static final int FINAL_SHOOTER_GATE_TALON = 7;
     // Climber
     public static final int CLIMBER_TALON = 8;
-    public static final int WINCH_TALON = 9;
+    // public static final int WINCH_TALON = 9;
     // Control Panel
-    public static final int CP_TALON = 10;
+    // public static final int CP_TALON = 10;
     // shooter
     public static final int LAZY_SUSAN_TALON = 11;
     public static final int HOOD_TALON = 12;
@@ -45,10 +45,12 @@ public class RobotMap {
     public static final int CLIMBER_SWITCH = 4;
 
     // solenoids
-    public static final int CONTROL_PANEL_SOLENOID_A = 0;
-    public static final int CONTROL_PANEL_SOLENOID_B = 1;
-    public static final int COLLECTOR_SOLENOID_A = 2;
-    public static final int COLLECTOR_SOLENOID_B = 3;
+    // public static final int CONTROL_PANEL_SOLENOID_A = 0;
+    // public static final int CONTROL_PANEL_SOLENOID_B = 1;
+    public static final int CLIMBER_SOLENOID_A = 3;
+    public static final int CLIMBER_SOLENOID_B = 2;
+    public static final int COLLECTOR_SOLENOID_A = 0;
+    public static final int COLLECTOR_SOLENOID_B = 1;
 
     // Encoders
 

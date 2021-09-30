@@ -107,10 +107,10 @@ public class Drivetrain extends SubsystemBase {
     rightMaster.set(ControlMode.Position, distance * RobotPreferences.motProfSensorUnitsPerFt.getValue() / 12);
 
   }
-
-  public int getPositionError() {
-    return leftMaster.getClosedLoopError();
-  }
+  // vendor library update broke this, it's not used anywhere so Ctrl + / it goes
+  // public int getPositionError() {
+  // return leftMaster.getClosedLoopError();
+  // }
 
   public void resetMotionProfile() {
     rightMaster.set(ControlMode.PercentOutput, 0.0);
