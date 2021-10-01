@@ -29,6 +29,7 @@ public class CollectBall extends CommandBase {
         turretGateSpeed = 0;
         initialGateSpeed = 0;
         RobotContainer.intake.collectorSetSpeed(RobotPreferences.collectorSpeed.getValue());
+        RobotContainer.intake.deployCollector();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +46,8 @@ public class CollectBall extends CommandBase {
             }
         }
         RobotContainer.intake.turretGateSetSpeed(turretGateSpeed * RobotPreferences.turretGateSpeed.getValue());
-        RobotContainer.intake.initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());    
+        RobotContainer.intake
+                .initialShooterGateSetSpeed(initialGateSpeed * RobotPreferences.initialGateSpeed.getValue());
     }
 
     // Called once the command ends or is interrupted.
@@ -53,7 +55,7 @@ public class CollectBall extends CommandBase {
     public void end(boolean interrupted) {
         RobotContainer.intake.collectorSetSpeed(0);
         RobotContainer.intake.turretGateSetSpeed(0);
-        RobotContainer.intake.initialShooterGateSetSpeed(0);    
+        RobotContainer.intake.initialShooterGateSetSpeed(0);
     }
 
     // Returns true when the command should end.
