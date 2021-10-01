@@ -61,7 +61,6 @@ public class RobotContainer {
   public static SN_DualActionStick drive = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
-  public static SN_F310Gamepad f310 = new SN_F310Gamepad(3);
 
   public static DriveMotionProfile failMot;
   public static DriveMotionProfile failMot2;
@@ -220,6 +219,15 @@ public class RobotContainer {
     // button 8: enable manual climber (true means can climb)
     // switchBoard.btn_8.whileHeld(winchClimber);
     // TODO: button9: hood vision enabled (which is which?)
+
+    // CONTROLS:
+    // -Drive (SN_DualActionStick):
+    // --Left Stick (axis): drivetrain, forward and backwards
+    // --Right Stick (axis): drivetrain, turn left and right
+    // --Left Trigger (button): drivetrain, slow down
+    // --Right Trigger (button): drivetrain, speed up
+    // --
+
   }
 
   /**
