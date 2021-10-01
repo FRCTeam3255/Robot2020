@@ -11,7 +11,7 @@ public class ToggleBrake extends CommandBase {
   /** Creates a new ToggleBrake. */
   public ToggleBrake() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.climber);
+    // addRequirements(RobotContainer.climber);
   }
 
   // Called when the command is initially scheduled.

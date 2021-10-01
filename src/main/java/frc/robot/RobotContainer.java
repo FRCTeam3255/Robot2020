@@ -89,7 +89,6 @@ public class RobotContainer {
   private static CollectBall collectEnable;
   private static CollectorAuto collectReverse;
   private static ToggleDeployRetractIntake toggleIntake;
-  private static MoveClimber moveClimber;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -139,8 +138,6 @@ public class RobotContainer {
     hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM, false);
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true);
-
-    moveClimber = new MoveClimber();
 
     auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
@@ -220,11 +217,9 @@ public class RobotContainer {
     // button 5: Auto1: off = drive3 off and exit, on = drive3 on
     // button 6: Auto1: off = shot3 off, on = shot3 on
     // TODO: button 7: single shot/multi shot (which is which?)
-    // button 8: winch climber
+    // button 8: enable manual climber (true means can climb)
     // switchBoard.btn_8.whileHeld(winchClimber);
     // TODO: button9: hood vision enabled (which is which?)
-    // TODO: button 10: enable/disable extend/retract climber
-    // switchBoard.btn_10.whileHeld(climberManual);
   }
 
   /**
