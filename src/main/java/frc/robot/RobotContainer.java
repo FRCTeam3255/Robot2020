@@ -20,6 +20,7 @@ import frc.robot.commands.Config.ResetSusanEncoder;
 // import frc.robot.commands.ControlPanel.LightToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
+import frc.robot.commands.Drivetrain.DriveTriggers;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
 import frc.robot.commands.Intake.CollectorAuto;
@@ -145,7 +146,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // set default commands on subsystems
-    drivetrain.setDefaultCommand(new DriveArcade());
+    drivetrain.setDefaultCommand(new DriveTriggers());
     // intake.setDefaultCommand(new HandleIntake());
     // turret.setDefaultCommand(new ShooterTimeout());
     climber.setDefaultCommand(new MoveClimber());
@@ -246,9 +247,9 @@ public class RobotContainer {
     // ----Trigger / btn_1: turret, shoot
     // ----Thumb / btn_2: turret, rotate susan
     // ----btn_3: turret, align using vision
-    // ----btn_4: unbound
+    // ----btn_4: intake, hold to collect
     // ----btn_5: intake, toggle deploy retract
-    // ----btn_6: unbound
+    // ----btn_6: intake, enable collector
     // ----btn_7: turret, preset
     // ----btn_8: turret, preset
     // ----btn_9: turret, preset

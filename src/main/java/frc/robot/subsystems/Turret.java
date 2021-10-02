@@ -46,18 +46,20 @@ public class Turret extends SubsystemBase {
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     goalVelocity = RobotPreferences.shooterMaxRPM.getValue();
-    lazySusanTalon.setNeutralMode(NeutralMode.Brake);
-    hoodTalon.setNeutralMode(NeutralMode.Brake);
 
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
+    lazySusanTalon.configFactoryDefault();
+    hoodTalon.configFactoryDefault();
+
+    lazySusanTalon.setNeutralMode(NeutralMode.Brake);
+    hoodTalon.setNeutralMode(NeutralMode.Brake);
+
     shooterSlave.follow(shooterMaster);
     shooterEnocder = shooterMaster.getEncoder();
     shooterBEnocder = shooterSlave.getEncoder();
-    lazySusanTalon.configFactoryDefault();
     lazySusanTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
-    hoodTalon.configFactoryDefault();
     hoodTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     configureShooter();
 

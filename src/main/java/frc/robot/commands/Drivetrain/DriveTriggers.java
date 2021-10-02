@@ -25,7 +25,7 @@ public class DriveTriggers extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.drivetrain.arcadeDrive(RobotContainer.driveF.getAxisRT() - RobotContainer.driveF.getAxisLT(),
-        RobotContainer.driveF.getAxisLSX());
+        RobotContainer.driveF.getAxisRSX());
   }
 
   // Called once the command ends or is interrupted.

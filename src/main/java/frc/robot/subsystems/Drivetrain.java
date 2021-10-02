@@ -11,6 +11,7 @@ import com.ctre.phoenix.motion.BufferedTrajectoryPointStream;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
@@ -57,6 +58,8 @@ public class Drivetrain extends SubsystemBase {
     config.peakOutputReverse = -1;
     config.slot0.integralZone = (int) RobotPreferences.motProfIz.getValue();
     config.slot0.closedLoopPeakOutput = RobotPreferences.motProfPeakOut.getValue();
+    rightMaster.setNeutralMode(NeutralMode.Brake);
+    leftMaster.setNeutralMode(NeutralMode.Brake);
     rightMaster.configAllSettings(config);
     leftMaster.configAllSettings(config);
     leftSlave.follow(leftMaster);

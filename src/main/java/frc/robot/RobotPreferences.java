@@ -62,7 +62,7 @@ public class RobotPreferences {
                         "drivetrainTurnLowLowSpeed", .1);
         public static final SN_DoublePreference drivetrainRampTime = new SN_DoublePreference("drivetrainRampTime", 0);
         public static final SN_DoublePreference drivetrainLowTurnSpeed = new SN_DoublePreference("drivetrainTurnSpeed",
-                        .5);
+                        .4);
         public static final SN_DoublePreference ballTimeout = new SN_DoublePreference("ballTimeout", 5);
         // Climber
         public static final SN_DoublePreference climberCountsPerInches = new SN_DoublePreference(
