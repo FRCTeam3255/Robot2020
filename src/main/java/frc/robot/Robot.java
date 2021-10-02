@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Climber.DeployBrake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +24,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private static DeployBrake deployBrake;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -33,6 +36,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    deployBrake = new DeployBrake();
   }
 
   /**
@@ -61,11 +65,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    RobotContainer.climber.deployBrake();
+    deployBrake.initialize();
   }
 
   @Override
   public void disabledPeriodic() {
+
   }
 
   /**

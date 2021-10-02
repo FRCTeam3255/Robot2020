@@ -38,17 +38,27 @@ public class Climber extends SubsystemBase {
 
   // positive on climbTalon pulls climber down (subject to change)
   // setInverted(true) instead of changing this setClimbTalon() if it is flipped
+
+  // ^ that guy is dumb just have positive go up and invert it if it doesn't work
+  // physically
   public void setClimbTalon(double a_speed) {
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    boolean bench = false;
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
     double speed = a_speed;
 
-    // if climber is lowered and input tells it to go lower (positive input)
-    if (isClimberLowered() && a_speed > 0) {
+    if (a_speed < 0 && isClimberLowered()) {
       speed = 0;
     }
-    // if climber is beyond max height and input tells it to go heigher (negative
-    // input)
-    if (getClimbTalon() > RobotPreferences.climberMaxHeight.getValue() && a_speed < 0) {
+
+    if (!bench && (Math.abs(getClimbTalon()) > RobotPreferences.climberMaxHeight.getValue()) && a_speed > 0) {
+
       speed = 0;
+    }
+
+    if (isClimberLowered()) {
+      resetClimbTalonEncoder();
     }
 
     climbTalon.set(ControlMode.PercentOutput, speed);
@@ -79,7 +89,16 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean isClimberLowered() {
+    // digital input returns true when nothing is plugged in
+    // limit switches can return either true or false when triggered
+    // this is controlled via a hardware change
+    // mag switches can only return true when triggered
+    // this is a limit switch, so loweredSwitch.get() returns false when triggered
     return loweredSwitch.get();
+  }
+
+  public void resetClimbTalonEncoder() {
+    climbTalon.setSelectedSensorPosition(0);
   }
 
   @Override

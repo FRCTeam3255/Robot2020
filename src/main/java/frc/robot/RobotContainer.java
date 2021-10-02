@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Autonomous.Autonomous;
+import frc.robot.commands.Climber.DeployBrake;
 import frc.robot.commands.Climber.MoveClimber;
 import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
@@ -97,6 +98,8 @@ public class RobotContainer {
   private static SetHoodPosition hoodWallLow;
   private static SetHoodPosition hoodWallHigh;
 
+  private static DeployBrake deployBrake;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -141,6 +144,8 @@ public class RobotContainer {
     auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
 
+    deployBrake = new DeployBrake();
+
     // map buttons to commands
     configureButtonBindings();
 
@@ -148,6 +153,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new DriveArcade());
     // intake.setDefaultCommand(new HandleIntake());
     // turret.setDefaultCommand(new ShooterTimeout());
+    climber.setDefaultCommand(new MoveClimber());
 
     motionReload();
 
