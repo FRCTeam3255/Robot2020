@@ -86,10 +86,10 @@ public class Drivetrain extends SubsystemBase {
   public void arcadeDrive(double a_speed, double a_turn) {
     double speed = a_speed;
     double turn = a_turn;
-    if (RobotContainer.drive.btn_RTrig.get()) {
+    if (RobotContainer.driveF.btn_RBump.get()) {
       speed = speed * RobotPreferences.drivetrainHighSpeed.getValue();
       turn = turn * RobotPreferences.drivetrainHighTurnSpeed.getValue();
-    } else if (RobotContainer.drive.btn_LTrig.get()) {
+    } else if (RobotContainer.driveF.btn_LBump.get()) {
       speed = speed * RobotPreferences.drivetrainLowLowSpeed.getValue();
       turn = turn * RobotPreferences.drivetrainTurnLowLowSpeed.getValue();
     } else {

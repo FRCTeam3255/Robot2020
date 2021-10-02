@@ -59,7 +59,7 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
-  public static SN_DualActionStick drive = new SN_DualActionStick(0);
+  public static SN_F310Gamepad driveF = new SN_F310Gamepad(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
 
@@ -183,9 +183,11 @@ public class RobotContainer {
     manipulator.btn_2.whileHeld(turretManual); // thumb
     manipulator.btn_3.whileHeld(alignTurretVision); //
     // manipulator.btn_4.whileHeld(toggleControlPanel);
+    manipulator.btn_4.whileHeld(collect);
     // manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_5.whenPressed(toggleIntake);
     // manipulator.btn_6.whileHeld(spinToColor);
+    manipulator.btn_6.whenPressed(collectEnable);
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
     manipulator.btn_8.whenPressed(hoodWallHigh);
     manipulator.btn_9.whenPressed(hoodFrontTrench);
@@ -200,10 +202,10 @@ public class RobotContainer {
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
-    drive.btn_RBump.whenPressed(collectEnable);
+    // drive.btn_RBump.whenPressed(collectEnable);
     // drive.btn_X.whileHeld(failMot);
-    drive.btn_Start.whenPressed(collectReverse);
-    drive.btn_LBump.whileHeld(collect);
+    // drive.btn_Start.whenPressed(collectReverse);
+    // drive.btn_LBump.whileHeld(collect);
     // drive.POV_East.whileHeld(spinRight);
     // drive.POV_West.whileHeld(spinLeft);
 
@@ -222,22 +224,20 @@ public class RobotContainer {
     // TODO: button9: hood vision enabled (which is which?)
 
     // CONTROLS:
-    // --Drive (SN_DualActionStick):
+    // --Drive (SN_F310Gamepad):
     // ----A (button): unbound
     // ----B (button): unbound
     // ----X (button): unbound
     // ----Y (button): unbound
-    // ----Left Bumper (button): intake, hold to enable intake
-    // ----Right Bumper (button): intake, toggle on
-    // ----Left Trigger (button): drivetrain, slow down
-    // ----Right Trigger (button): drivetrain, speed up
+    // ----Left Bumper (button): drivetrain, slow down
+    // ----Right Bumper (button): drivetrain, speed up
     // ----Back (button): unbound
     // ----Start (button): intake, hold to enable reverse
     // ----Left Stick (button): unbound
     // ----Right Stick (button): unbound
     // ----
-    // ----Left Stick (axis): drivetrain, forward and backwards
-    // ----Right Stick (axis): drivetrain, turn left and right
+    // ----Left Stick (axis): drivetrain, turn left and right
+    // ----Right Stick (axis): unbound
     // ----
     // ---- D Pad / POV buttons (button): unbound
     // ----
