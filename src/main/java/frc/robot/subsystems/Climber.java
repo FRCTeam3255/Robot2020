@@ -52,8 +52,7 @@ public class Climber extends SubsystemBase {
       speed = 0;
     }
 
-    if (!bench && (Math.abs(getClimbTalon()) > RobotPreferences.climberMaxHeight.getValue()) && a_speed > 0) {
-
+    if (!bench && (getClimbTalon() > RobotPreferences.climberMaxHeight.getValue()) && a_speed > 0) {
       speed = 0;
     }
 
@@ -93,8 +92,7 @@ public class Climber extends SubsystemBase {
     // limit switches can return either true or false when triggered
     // this is controlled via a hardware change
     // mag switches can only return true when triggered
-    // this is a limit switch, so loweredSwitch.get() returns false when triggered
-    return loweredSwitch.get();
+    return !loweredSwitch.get();
   }
 
   public void resetClimbTalonEncoder() {

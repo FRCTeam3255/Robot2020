@@ -98,8 +98,6 @@ public class RobotContainer {
   private static SetHoodPosition hoodWallLow;
   private static SetHoodPosition hoodWallHigh;
 
-  private static DeployBrake deployBrake;
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -143,9 +141,6 @@ public class RobotContainer {
 
     auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
-
-    deployBrake = new DeployBrake();
-
     // map buttons to commands
     configureButtonBindings();
 
@@ -183,10 +178,10 @@ public class RobotContainer {
    */
 
   public static void configureButtonBindings() {
-    manipulator.btn_1.whenPressed(shoot);
+    manipulator.btn_1.whenPressed(shoot); // trigger
     manipulator.btn_1.whenReleased(resetShooter);
-    manipulator.btn_2.whileHeld(turretManual);
-    manipulator.btn_3.whileHeld(alignTurretVision);
+    manipulator.btn_2.whileHeld(turretManual); // thumb
+    manipulator.btn_3.whileHeld(alignTurretVision); //
     // manipulator.btn_4.whileHeld(toggleControlPanel);
     // manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_5.whenPressed(toggleIntake);
@@ -204,13 +199,13 @@ public class RobotContainer {
 
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
-    drive.btn_B.whenPressed(autoShoot);
+    // drive.btn_B.whenPressed(autoShoot);
     drive.btn_RBump.whenPressed(collectEnable);
-    drive.btn_X.whileHeld(failMot);
+    // drive.btn_X.whileHeld(failMot);
     drive.btn_Start.whenPressed(collectReverse);
     drive.btn_LBump.whileHeld(collect);
-    drive.POV_East.whileHeld(spinRight);
-    drive.POV_West.whileHeld(spinLeft);
+    // drive.POV_East.whileHeld(spinRight);
+    // drive.POV_West.whileHeld(spinLeft);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() ==
@@ -227,12 +222,44 @@ public class RobotContainer {
     // TODO: button9: hood vision enabled (which is which?)
 
     // CONTROLS:
-    // -Drive (SN_DualActionStick):
-    // --Left Stick (axis): drivetrain, forward and backwards
-    // --Right Stick (axis): drivetrain, turn left and right
-    // --Left Trigger (button): drivetrain, slow down
-    // --Right Trigger (button): drivetrain, speed up
-    // --
+    // --Drive (SN_DualActionStick):
+    // ----A (button): unbound
+    // ----B (button): unbound
+    // ----X (button): unbound
+    // ----Y (button): unbound
+    // ----Left Bumper (button): intake, hold to enable intake
+    // ----Right Bumper (button): intake, toggle on
+    // ----Left Trigger (button): drivetrain, slow down
+    // ----Right Trigger (button): drivetrain, speed up
+    // ----Back (button): unbound
+    // ----Start (button): intake, hold to enable reverse
+    // ----Left Stick (button): unbound
+    // ----Right Stick (button): unbound
+    // ----
+    // ----Left Stick (axis): drivetrain, forward and backwards
+    // ----Right Stick (axis): drivetrain, turn left and right
+    // ----
+    // ---- D Pad / POV buttons (button): unbound
+    // ----
+    //
+    // --Manipulator
+    // ----Trigger / btn_1: turret, shoot
+    // ----Thumb / btn_2: turret, rotate susan
+    // ----btn_3: turret, align using vision
+    // ----btn_4: unbound
+    // ----btn_5: intake, toggle deploy retract
+    // ----btn_6: unbound
+    // ----btn_7: turret, preset
+    // ----btn_8: turret, preset
+    // ----btn_9: turret, preset
+    // ----btn_10: turret, preset
+    // ----btn_11: turret, preset
+    // ----btn_12: turret, preset
+    // ----
+    // ----POV_North: turret, nudge up
+    // ----POV_East: unbound
+    // ----POV_South: turret, nudge down
+    // ----POV_West: unbound
 
   }
 
