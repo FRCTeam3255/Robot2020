@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
 /**
  * Custom 12 Button Joystick set up for Logitech F310 Gamepad
  * <p>
- * Adds custom axis return methods such as {@link #getArcadeMove()} &
+ * Adds custom axis return methods such as {@link #getArcadeMove()} and
  * {@link #getArcadeRotate()}
  */
 public class SN_DualActionStick extends Joystick {
@@ -104,5 +104,13 @@ public class SN_DualActionStick extends Joystick {
 	 */
 	public double getTankRight() {
 		return -getRawAxis(AXIS_TANK_RIGHT);
+	}
+
+	/**
+	 * @param axisId id number of controller axis, viewable in this file if needed
+	 * @return position value of RawAxis(axisId)
+	 */
+	public double getAxisVar(int axisId) {
+		return getRawAxis(axisId);
 	}
 }

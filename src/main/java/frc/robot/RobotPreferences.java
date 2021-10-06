@@ -182,4 +182,7 @@ public class RobotPreferences {
         // speed
         public static final SN_DoublePreference controlPanelSpinSpeed = new SN_DoublePreference("controlPanelSpinSpeed",
                         1);
+        // controls
+        public static final SN_IntPreference steeringAxis = new SN_IntPreference("steeringAxis", 4);
+
 }

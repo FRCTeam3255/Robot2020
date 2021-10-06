@@ -200,15 +200,28 @@ public class RobotContainer {
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
 
+    driveF.btn_Start.whenPressed(collectReverse);
+
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
     // drive.btn_RBump.whenPressed(collectEnable);
     // drive.btn_X.whileHeld(failMot);
-    // drive.btn_Start.whenPressed(collectReverse);
     // drive.btn_LBump.whileHeld(collect);
     // drive.POV_East.whileHeld(spinRight);
     // drive.POV_West.whileHeld(spinLeft);
+
+    // the following block of code is actually used for stuff, whether or not it's
+    // commented out
+
+    driveF.btn_A.whileHeld(collect);
+    driveF.btn_B.whenPressed(toggleIntake);
+    driveF.btn_X.whenPressed(shoot);
+    driveF.btn_X.whenReleased(resetShooter);
+    driveF.btn_Y.whileHeld(alignTurretVision);
+    driveF.POV_North.whenPressed(nudgeHoodUp);
+    driveF.POV_South.whenPressed(nudgeHoodDown);
+    driveF.btn_Back.whenPressed(hoodWallHigh);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() ==
@@ -219,10 +232,13 @@ public class RobotContainer {
     // button 4: Auto1: off = shot2 off, on = shot2 on
     // button 5: Auto1: off = drive3 off and exit, on = drive3 on
     // button 6: Auto1: off = shot3 off, on = shot3 on
-    // TODO: button 7: single shot/multi shot (which is which?)
+    // todo: button 7: single shot/multi shot (which is which?)
+    // these todos weren't
+    // really valid and they were annoying me so I made them lowercase so they
+    // wouldn't give the error/warning type notification
     // button 8: enable manual climber (true means can climb)
     // switchBoard.btn_8.whileHeld(winchClimber);
-    // TODO: button9: hood vision enabled (which is which?)
+    // todo: button9: hood vision enabled (which is which?)
 
     // CONTROLS:
     // --Drive (SN_F310Gamepad):
@@ -238,7 +254,7 @@ public class RobotContainer {
     // ----Right Stick (button): unbound
     // ----
     // ----Left Stick (axis): drivetrain, turn left and right
-    // ----Right Stick (axis): unbound
+    // ----Right Stick (axis): drivetrain, turn left and right
     // ----
     // ---- D Pad / POV buttons (button): unbound
     // ----
