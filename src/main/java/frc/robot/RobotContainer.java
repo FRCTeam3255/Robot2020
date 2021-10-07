@@ -144,14 +144,17 @@ public class RobotContainer {
 
     auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
+
+    moveClimber = new MoveClimber();
     // map buttons to commands
     configureButtonBindings();
 
     // set default commands on subsystems
-    drivetrain.setDefaultCommand(new DriveTriggers());
+    // drivetrain.setDefaultCommand(new DriveTriggers());
+    drivetrain.setDefaultCommand(new DriveArcade());
     // intake.setDefaultCommand(new HandleIntake());
     // turret.setDefaultCommand(new ShooterTimeout());
-    climber.setDefaultCommand(new MoveClimber());
+    // climber.setDefaultCommand(new MoveClimber());
 
     motionReload();
 
@@ -206,7 +209,7 @@ public class RobotContainer {
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
 
-    driveF.btn_Start.whenPressed(collectReverse);
+    driveF.btn_Start.whenHeld(collectReverse);
 
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
@@ -220,14 +223,14 @@ public class RobotContainer {
     // the following block of code is actually used for stuff, whether or not it's
     // commented out
 
-    // driveF.btn_A.whileHeld(collect);
-    // driveF.btn_B.whenPressed(toggleIntake);
-    // driveF.btn_X.whenPressed(shoot);
-    // driveF.btn_X.whenReleased(resetShooter);
-    // driveF.btn_Y.whileHeld(alignTurretVision);
-    // driveF.POV_North.whenPressed(nudgeHoodUp);
-    // driveF.POV_South.whenPressed(nudgeHoodDown);
-    // fdriveF.btn_Back.whenPressed(hoodWallHigh);
+    driveF.btn_A.whileHeld(collect);
+    driveF.btn_B.whenPressed(toggleIntake);
+    driveF.btn_X.whenPressed(shoot);
+    driveF.btn_X.whenReleased(resetShooter);
+    driveF.btn_Y.whileHeld(alignTurretVision);
+    driveF.POV_North.whenPressed(nudgeHoodUp);
+    driveF.POV_South.whenPressed(nudgeHoodDown);
+    driveF.btn_Back.whenPressed(hoodWallHigh);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() ==

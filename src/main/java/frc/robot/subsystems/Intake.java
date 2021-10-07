@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -46,6 +47,8 @@ public class Intake extends SubsystemBase {
     collectorTalon.configFactoryDefault();
     turretGateTalon.configFactoryDefault();
     initialShooterGateTalon.configFactoryDefault();
+
+    collectorTalon.setInverted(true);
 
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
     bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);
