@@ -91,6 +91,8 @@ public class RobotContainer {
   private static CollectorAuto collectReverse;
   private static ToggleDeployRetractIntake toggleIntake;
 
+  private static MoveClimber moveClimber;
+
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
   private static SetHoodPosition hoodFrontTrench;
@@ -188,7 +190,11 @@ public class RobotContainer {
     // manipulator.btn_5.whileHeld(spinControlPanelCounts);
     manipulator.btn_5.whenPressed(toggleIntake);
     // manipulator.btn_6.whileHeld(spinToColor);
-    manipulator.btn_6.whenPressed(collectEnable);
+    manipulator.btn_6.whileHeld(moveClimber);
+
+    // manipulator.btn_6.whenPressed(collectEnable);
+    // removed since btn_4 is basically same thing but whileHeld
+
     manipulator.btn_7.whenPressed(hoodMiddleTrench);
     manipulator.btn_8.whenPressed(hoodWallHigh);
     manipulator.btn_9.whenPressed(hoodFrontTrench);
@@ -214,14 +220,14 @@ public class RobotContainer {
     // the following block of code is actually used for stuff, whether or not it's
     // commented out
 
-    driveF.btn_A.whileHeld(collect);
-    driveF.btn_B.whenPressed(toggleIntake);
-    driveF.btn_X.whenPressed(shoot);
-    driveF.btn_X.whenReleased(resetShooter);
-    driveF.btn_Y.whileHeld(alignTurretVision);
-    driveF.POV_North.whenPressed(nudgeHoodUp);
-    driveF.POV_South.whenPressed(nudgeHoodDown);
-    driveF.btn_Back.whenPressed(hoodWallHigh);
+    // driveF.btn_A.whileHeld(collect);
+    // driveF.btn_B.whenPressed(toggleIntake);
+    // driveF.btn_X.whenPressed(shoot);
+    // driveF.btn_X.whenReleased(resetShooter);
+    // driveF.btn_Y.whileHeld(alignTurretVision);
+    // driveF.POV_North.whenPressed(nudgeHoodUp);
+    // driveF.POV_South.whenPressed(nudgeHoodDown);
+    // fdriveF.btn_Back.whenPressed(hoodWallHigh);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() ==

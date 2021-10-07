@@ -17,35 +17,20 @@ public class MoveClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.climber.retractBrake();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // if the switch is ON and the climber is braking, turn off the brakes
-    if (RobotContainer.switchBoard.btn_10.get() && RobotContainer.climber.isBrake()) {
-      RobotContainer.climber.retractBrake();
-    } else
-
-    // if the switch is OFF and the brakes are OFF, turn on the brakes
-    if (!RobotContainer.switchBoard.btn_10.get() && !RobotContainer.climber.isBrake()) {
-      RobotContainer.climber.deployBrake();
-    } else
-
-    // if the switch is ON and the brakes are OFF, manip stick controls climber
-    if (RobotContainer.switchBoard.btn_10.get() && !RobotContainer.climber.isBrake()) {
-      RobotContainer.climber.setClimbTalon(-RobotContainer.manipulator.getY());
-    }
-
-    if (!RobotContainer.switchBoard.btn_10.get()) {
-      RobotContainer.climber.setClimbTalon(0);
-    }
+    RobotContainer.climber.setClimbTalon(-RobotContainer.manipulator.getY());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.climber.setClimbTalon(0);
     RobotContainer.climber.deployBrake();
   }
 

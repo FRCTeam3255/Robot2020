@@ -43,7 +43,7 @@ public class Climber extends SubsystemBase {
   // physically
   public void setClimbTalon(double a_speed) {
     // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    boolean bench = false;
+    
     // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
     double speed = a_speed;
@@ -52,7 +52,7 @@ public class Climber extends SubsystemBase {
       speed = 0;
     }
 
-    if (!bench && (getClimbTalon() > RobotPreferences.climberMaxHeight.getValue()) && a_speed > 0) {
+    if (getClimbTalon() > RobotPreferences.climberMaxHeight.getValue() && a_speed > 0) {
       speed = 0;
     }
 
