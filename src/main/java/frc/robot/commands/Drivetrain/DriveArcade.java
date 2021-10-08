@@ -31,7 +31,7 @@ public class DriveArcade extends CommandBase {
   @Override
 
   public void execute() {
-    RobotContainer.drivetrain.arcadeDriveDTrigM(RobotContainer.driveD.getArcadeMove(),
+    RobotContainer.drivetrain.arcadeDrive(RobotContainer.driveD.getArcadeMove(),
         RobotContainer.driveD.getArcadeRotate());
 
   }
