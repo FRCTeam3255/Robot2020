@@ -30,8 +30,9 @@ public class DriveTriggers extends CommandBase {
 
     // sAxis should probably only ever be 0 or 4 on an F310, 0 or 2 on a DualAction
 
-    RobotContainer.drivetrain.arcadeDriveDanger(RobotContainer.driveF.getAxisRT() - RobotContainer.driveF.getAxisLT(),
-        RobotContainer.driveF.getAxisVar(sAxis));
+    // RobotContainer.drivetrain.arcadeDriveTriggers(RobotContainer.driveF.getAxisRT()
+    // - RobotContainer.driveF.getAxisLT(),
+    // RobotContainer.driveF.getAxisVar(sAxis));
   }
 
   // Called once the command ends or is interrupted.

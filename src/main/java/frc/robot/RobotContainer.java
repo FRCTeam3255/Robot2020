@@ -60,7 +60,8 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
-  public static SN_F310Gamepad driveF = new SN_F310Gamepad(0);
+  // public static SN_F310Gamepad driveF = new SN_F310Gamepad(0);
+  public static SN_DualActionStick driveD = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
 
@@ -209,8 +210,6 @@ public class RobotContainer {
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
 
-    driveF.btn_Start.whenHeld(collectReverse);
-
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
@@ -223,14 +222,16 @@ public class RobotContainer {
     // the following block of code is actually used for stuff, whether or not it's
     // commented out
 
-    driveF.btn_A.whileHeld(collect);
-    driveF.btn_B.whenPressed(toggleIntake);
-    driveF.btn_X.whenPressed(shoot);
-    driveF.btn_X.whenReleased(resetShooter);
-    driveF.btn_Y.whileHeld(alignTurretVision);
-    driveF.POV_North.whenPressed(nudgeHoodUp);
-    driveF.POV_South.whenPressed(nudgeHoodDown);
-    driveF.btn_Back.whenPressed(hoodWallHigh);
+    // driveF.btn_A.whenPressed(collect);
+    // driveF.btn_B.whenPressed(toggleIntake);
+    // driveF.btn_X.whenPressed(shoot);
+    // driveF.btn_X.whenReleased(resetShooter);
+    // driveF.btn_Y.whileHeld(alignTurretVision);
+    // driveF.POV_North.whenPressed(nudgeHoodUp);
+    // driveF.POV_South.whenPressed(nudgeHoodDown);
+    // driveF.btn_Start.whenHeld(collectReverse);
+    // driveF.btn_Back.whenPressed(hoodWallHigh);
+    // driveF.POV_West.whenHeld(collect);
 
     // switchboard buttons
     // get() == true means switch is 1 (on), when switch is not connected, get() ==
