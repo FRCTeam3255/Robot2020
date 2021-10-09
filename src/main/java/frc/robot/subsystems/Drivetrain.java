@@ -85,60 +85,8 @@ public class Drivetrain extends SubsystemBase {
   public void arcadeDriveInit() {
     configureRamps();
   }
-
-  // public void arcadeDriveFBumpM(double a_speed, double a_turn) {
-  // double speed = a_speed;
-  // double turn = a_turn;
-  // if (RobotContainer.driveF.btn_RBump.get()) {
-  // speed = speed * RobotPreferences.drivetrainHighSpeed.getValue();
-  // turn = turn * RobotPreferences.drivetrainHighTurnSpeed.getValue();
-  // } else if (RobotContainer.driveF.btn_LBump.get()) {
-  // speed = speed * RobotPreferences.drivetrainLowLowSpeed.getValue();
-  // turn = turn * RobotPreferences.drivetrainTurnLowLowSpeed.getValue();
-  // } else {
-  // speed = speed * RobotPreferences.drivetrainLowSpeed.getValue();
-  // turn = turn * RobotPreferences.drivetrainLowTurnSpeed.getValue();
-
-  // }
-  // leftMaster.set(ControlMode.PercentOutput, speed,
-  // DemandType.ArbitraryFeedForward, -turn);
-  // rightMaster.set(ControlMode.PercentOutput, speed,
-  // DemandType.ArbitraryFeedForward, turn);
-  // }
-
-  // public void arcadeDriveTriggers(double a_speed, double a_turn) {
-
-  // // this exists because when driving with triggers, you have more granular
-  // // control over you inputs, so a base multiplier isn't necessary. it may seem
-  // // redundant to have the bumpers still act as multipliers, but it could still
-  // be
-  // // useful and the buttons aren't being used for anything else
-
-  // double speed = a_speed;
-  // double turn = a_turn;
-
-  // if (RobotContainer.driveF.btn_RBump.get()) {
-  // speed = speed * RobotPreferences.drivetrainHighSpeed.getValue();
-  // turn = turn * RobotPreferences.drivetrainHighTurnSpeed.getValue();
-  // } else if (RobotContainer.driveF.btn_LBump.get()) {
-  // speed = speed * RobotPreferences.drivetrainLowLowSpeed.getValue();
-  // turn = turn * RobotPreferences.drivetrainTurnLowLowSpeed.getValue();
-  // } else {
-  // speed = speed * 1;
-  // turn = turn * 1;
-  // // I know it doesn't do anything the point of it is to show that it doesn't
-  // have
-  // // a multiplier when there isn't a modifier button held down
-  // }
-
-  // leftMaster.set(ControlMode.PercentOutput, speed,
-  // DemandType.ArbitraryFeedForward, -turn);
-  // rightMaster.set(ControlMode.PercentOutput, speed,
-  // DemandType.ArbitraryFeedForward, turn);
-
-  // }
-
-  public void arcadeDriveDTrigM(double a_speed, double a_turn) {
+  
+  public void arcadeDrive(double a_speed, double a_turn) {
     double speed = a_speed;
     double turn = a_turn;
     if (RobotContainer.driveD.btn_RTrig.get()) {

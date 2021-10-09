@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Autonomous.Autonomous;
-import frc.robot.commands.Climber.DeployBrake;
 import frc.robot.commands.Climber.MoveClimber;
 import frc.robot.commands.Config.ConfigureTalons;
 import frc.robot.commands.Config.ResetDriveEncoder;
@@ -20,10 +19,10 @@ import frc.robot.commands.Config.ResetSusanEncoder;
 // import frc.robot.commands.ControlPanel.LightToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
-import frc.robot.commands.Drivetrain.DriveTriggers;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
-import frc.robot.commands.Intake.CollectorAuto;
+// import frc.robot.commands.Intake.CollectorAuto;
+import frc.robot.commands.Intake.ReverseCollector;
 import frc.robot.commands.Intake.ToggleDeployRetractIntake;
 // import frc.robot.commands.Intake.CollectBallEnable;
 import frc.robot.commands.Turret.AlignTurretVision;
@@ -40,7 +39,6 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
-import frcteam3255.robotbase.Joystick.SN_F310Gamepad;
 import frcteam3255.robotbase.Joystick.SN_SwitchboardStick;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -60,7 +58,6 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final Intake intake = new Intake();
 
-  // public static SN_F310Gamepad driveF = new SN_F310Gamepad(0);
   public static SN_DualActionStick driveD = new SN_DualActionStick(0);
   public static SN_Extreme3DStick manipulator = new SN_Extreme3DStick(1);
   public static SN_SwitchboardStick switchBoard = new SN_SwitchboardStick(2);
@@ -89,7 +86,7 @@ public class RobotContainer {
   private static ResetShooter resetShooter;
   private static ShootCount autoShoot;
   private static CollectBall collectEnable;
-  private static CollectorAuto collectReverse;
+  private static ReverseCollector collectReverse;
   private static ToggleDeployRetractIntake toggleIntake;
 
   private static MoveClimber moveClimber;
@@ -120,7 +117,7 @@ public class RobotContainer {
     resetShooter = new ResetShooter();
     shoot = new ShootBall();
     // smartShot = new ShootAutomatic();
-    collectReverse = new CollectorAuto();
+    collectReverse = new ReverseCollector();
     collectEnable = new CollectBall();
     toggleIntake = new ToggleDeployRetractIntake();
     alignTurretVision = new AlignTurretVision();
@@ -151,7 +148,6 @@ public class RobotContainer {
     configureButtonBindings();
 
     // set default commands on subsystems
-    // drivetrain.setDefaultCommand(new DriveTriggers());
     drivetrain.setDefaultCommand(new DriveArcade());
     // intake.setDefaultCommand(new HandleIntake());
     // turret.setDefaultCommand(new ShooterTimeout());
@@ -209,7 +205,8 @@ public class RobotContainer {
     // manipulator.POV_East.whileHeld(controlPanelRight);
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
-    manipulator.POV_West.whileHeld(collectReverse);
+    manipulator.POV_West.whenHeld(collectReverse);
+
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
@@ -251,19 +248,21 @@ public class RobotContainer {
     // todo: button9: hood vision enabled (which is which?)
 
     // CONTROLS:
-    // --Drive (SN_F310Gamepad):
+    // --Drive (SN_DualActionStick):
     // ----A (button): unbound
     // ----B (button): unbound
     // ----X (button): unbound
     // ----Y (button): unbound
-    // ----Left Bumper (button): drivetrain, slow down
-    // ----Right Bumper (button): drivetrain, speed up
+    // ----Left Trigger (button): drivetrain, slow down
+    // ----Right Trigger (button): drivetrain, speed up
+    // ----Left Bumper (button): unbound
+    // ----Right Bumper (button): unbound
     // ----Back (button): unbound
-    // ----Start (button): intake, hold to enable reverse
+    // ----Start (button): unbound
     // ----Left Stick (button): unbound
     // ----Right Stick (button): unbound
     // ----
-    // ----Left Stick (axis): drivetrain, turn left and right
+    // ----Left Stick (axis): drivetrain, move forward and backwards
     // ----Right Stick (axis): drivetrain, turn left and right
     // ----
     // ---- D Pad / POV buttons (button): unbound
