@@ -199,6 +199,7 @@ public class RobotContainer {
     manipulator.btn_8.whenPressed(hoodWallHigh);
     manipulator.btn_9.whenPressed(hoodFrontTrench);
     manipulator.btn_10.whenPressed(hoodWallLow);
+
     manipulator.btn_11.whenPressed(hoodInitialization);
     manipulator.btn_12.whenPressed(hoodClose);
     manipulator.POV_North.whenPressed(nudgeHoodUp);
@@ -206,6 +207,9 @@ public class RobotContainer {
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
     manipulator.POV_West.whenHeld(collectReverse);
+
+    driveD.btn_Back.whileHeld(collectReverse);
+    driveD.btn_Start.whileHeld(collect);
 
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);

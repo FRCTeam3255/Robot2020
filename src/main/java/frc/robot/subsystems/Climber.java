@@ -33,7 +33,8 @@ public class Climber extends SubsystemBase {
 
     climbTalon.configFactoryDefault();
     climbTalon.setNeutralMode(NeutralMode.Brake);
-    climbTalon.setInverted(false);
+    climbTalon.setInverted(true);
+
   }
 
   // positive on climbTalon pulls climber down (subject to change)
@@ -41,9 +42,11 @@ public class Climber extends SubsystemBase {
 
   // ^ that guy is dumb just have positive go up and invert it if it doesn't work
   // physically
+
+  // 2021-10-08 20:54 it was inverted
   public void setClimbTalon(double a_speed) {
     // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    
+
     // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
     double speed = a_speed;
