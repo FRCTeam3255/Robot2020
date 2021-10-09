@@ -209,7 +209,7 @@ public class RobotContainer {
     // manipulator.POV_East.whileHeld(controlPanelRight);
     manipulator.POV_South.whenPressed(nudgeHoodDown);
     // manipulator.POV_West.whileHeld(controlPanelLeft);
-
+    manipulator.POV_West.whileHeld(collectReverse);
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
