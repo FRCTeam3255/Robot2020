@@ -18,6 +18,7 @@ import frc.robot.commands.Config.ResetHoodEncoder;
 import frc.robot.commands.Config.ResetSusanEncoder;
 // import frc.robot.commands.ControlPanel.LightToggleControlPanel;
 import frc.robot.commands.Drivetrain.DriveArcade;
+import frc.robot.commands.Drivetrain.DriveAuto;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Drivetrain.ReloadMotionProfile;
 import frc.robot.commands.Intake.CollectBall;
@@ -80,7 +81,7 @@ public class RobotContainer {
   private static ShootBall shoot;
   // private static SetHoodPosition hoodFar;
   private static CollectBall collect;
-  private static Autonomous auto;
+  // private static Autonomous auto;
   private static NudgeHood nudgeHoodUp;
   private static NudgeHood nudgeHoodDown;
   private static ResetShooter resetShooter;
@@ -90,6 +91,8 @@ public class RobotContainer {
   private static ToggleDeployRetractIntake toggleIntake;
 
   private static MoveClimber moveClimber;
+
+  private static DriveAuto driveAuto;
 
   // finsihed
   private static SetHoodPosition hoodMiddleTrench;
@@ -140,8 +143,10 @@ public class RobotContainer {
     hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true);
     hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true);
 
-    auto = new Autonomous();
+    // auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
+
+    driveAuto = new DriveAuto();
 
     moveClimber = new MoveClimber();
     // map buttons to commands
@@ -164,7 +169,7 @@ public class RobotContainer {
   }
 
   public static void motionReload() {
-    auto.reloadMotionProfiles();
+    // auto.reloadMotionProfiles();
     failMot.reload();
     grabBallMot.reload();
     getBackMot.reload();
@@ -299,6 +304,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return auto;
+    // return new DriveAuto().withTimeout(2);
+    return null;
   }
 }

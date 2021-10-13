@@ -77,7 +77,7 @@ public class RobotPreferences {
         public static final SN_DoublePreference climberUpSpeed = new SN_DoublePreference("climberUpSpeed", .5);
         public static final SN_DoublePreference climberDownSpeed = new SN_DoublePreference("climberDownSpeed", -.5);
         // Climber but Cooler
-        public static final SN_DoublePreference climberMaxHeight = new SN_DoublePreference("climberMaxHeight", 10000);
+        public static final SN_DoublePreference climberMaxHeight = new SN_DoublePreference("climberMaxHeight", 370000);
         // Turret
         public static final SN_DoublePreference shooterLowSpeedCoefficient = new SN_DoublePreference(
                         "shooterLowSpeedCoefficient", 1.2);
