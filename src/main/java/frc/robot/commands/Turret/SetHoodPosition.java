@@ -10,6 +10,8 @@ package frc.robot.commands.Turret;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Turret.currentHoodPreset;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
 public class SetHoodPosition extends CommandBase {
@@ -20,18 +22,23 @@ public class SetHoodPosition extends CommandBase {
   private SN_DoublePreference velocity;
   private boolean zero;
   private Timer timer = new Timer();
+  private currentHoodPreset preset;
 
-  public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity, boolean a_zero) {
+  public SetHoodPosition(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity, boolean a_zero,
+      currentHoodPreset a_preset) {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
     velocity = a_velocity;
     zero = a_zero;
+    preset = a_preset;
+
     addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.turret.setCurrentPresetE(preset);
     if (zero) {
       RobotContainer.turret.turnSusanToDegree(0);
       // RobotContainer.controlPanel.retractControlPanel();

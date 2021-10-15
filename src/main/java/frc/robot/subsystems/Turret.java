@@ -37,6 +37,7 @@ public class Turret extends SubsystemBase {
   private TalonSRX hoodTalon;
   private CANPIDController shooterPIDController;
   private double goalVelocity;
+  private currentHoodPreset currentPreset;
 
   public Turret() {
     shooterMaster = new CANSparkMax(RobotMap.SHOOTER_FRONT_SPARK, MotorType.kBrushless);
@@ -46,6 +47,7 @@ public class Turret extends SubsystemBase {
     lazySusanTalon = new TalonSRX(RobotMap.LAZY_SUSAN_TALON);
     hoodTalon = new TalonSRX(RobotMap.HOOD_TALON);
     goalVelocity = RobotPreferences.shooterMaxRPM.getValue();
+    currentPreset = currentHoodPreset.NONE;
 
     shooterMaster.restoreFactoryDefaults();
     shooterSlave.restoreFactoryDefaults();
@@ -243,6 +245,46 @@ public class Turret extends SubsystemBase {
     return hoodTalon.getSelectedSensorPosition() / RobotPreferences.hoodCountsPerDegree.getValue();
   }
 
+  public enum currentHoodPreset {
+    MIDDLE_TRENCH, FRONT_TRENCH, INITIALIZATION, CLOSE, WALL_LOW, WALL_HIGH, NONE
+  }
+
+  public void setCurrentPresetE(currentHoodPreset a_preset) {
+    currentPreset = a_preset;
+  }
+
+  public String getCurrentHoodPreset() {
+    String presetString;
+    switch (currentPreset) {
+
+      case MIDDLE_TRENCH:
+        presetString = "Middle Trench";
+        break;
+      case CLOSE:
+        presetString = "Close";
+        break;
+      case FRONT_TRENCH:
+        presetString = "Front Trench";
+        break;
+      case INITIALIZATION:
+        presetString = "Init Line";
+        break;
+      case NONE:
+        presetString = "None";
+        break;
+      case WALL_HIGH:
+        presetString = "Wall High";
+        break;
+      case WALL_LOW:
+        presetString = "Wall Low";
+        break;
+      default:
+        presetString = "Default (something is broken)";
+        break;
+    }
+    return presetString;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -257,6 +299,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("Shooter finished", isShooterSpedUp());
     SmartDashboard.putNumber("Given Pos", RobotContainer.vision.getVisionInnerOffset()
         + RobotContainer.turret.getSusanPosition() + RobotContainer.vision.getVisionXError());
+    SmartDashboard.putString("Hood Preset", getCurrentHoodPreset());
 
   }
 }

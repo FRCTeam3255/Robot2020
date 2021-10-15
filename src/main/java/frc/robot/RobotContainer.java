@@ -37,6 +37,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Turret.currentHoodPreset;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
 import frcteam3255.robotbase.Joystick.SN_SwitchboardStick;
@@ -132,13 +133,18 @@ public class RobotContainer {
     nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
     nudgeHoodDown = new NudgeHood(RobotPreferences.nudgeHoodDown);
 
-    hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM, false);
-    hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM, false);
-    hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM,
-        false);
-    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM, false);
-    hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true);
-    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true);
+    hoodMiddleTrench = new SetHoodPosition(RobotPreferences.hoodMiddleTrench, RobotPreferences.shooterMaxRPM, false,
+        currentHoodPreset.MIDDLE_TRENCH);
+    hoodFrontTrench = new SetHoodPosition(RobotPreferences.hoodFrontTrench, RobotPreferences.shooterMaxRPM, false,
+        currentHoodPreset.FRONT_TRENCH);
+    hoodInitialization = new SetHoodPosition(RobotPreferences.hoodInitialization, RobotPreferences.shooterMaxRPM, false,
+        currentHoodPreset.INITIALIZATION);
+    hoodClose = new SetHoodPosition(RobotPreferences.hoodClose, RobotPreferences.shooterCloseRPM, false,
+        currentHoodPreset.CLOSE);
+    hoodWallLow = new SetHoodPosition(RobotPreferences.hoodWallLow, RobotPreferences.shooterWallLowRPM, true,
+        currentHoodPreset.WALL_LOW);
+    hoodWallHigh = new SetHoodPosition(RobotPreferences.hoodWallHigh, RobotPreferences.shooterWallHighRPM, true,
+        currentHoodPreset.WALL_HIGH);
 
     auto = new Autonomous();
     autoShoot = new ShootCount(RobotPreferences.numToShoot);
