@@ -5,59 +5,59 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Susan;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class ShootAutomatic extends CommandBase {
+public class AlignAuto extends CommandBase {
     /**
-     * Creates a new AlignAndShootToPos. Aligns turret within threshold, then spins
-     * up shooter within threshold, then shoots n times
+     * Creates a new AlignAuto.
      */
+    private SN_DoublePreference susanPos;
+    private SN_DoublePreference hoodPos;
+    private Timer timer = new Timer();
+    private SN_DoublePreference delay;
 
-    public ShootAutomatic() {
+    public AlignAuto(SN_DoublePreference a_susanPos, SN_DoublePreference a_hoodPos, SN_DoublePreference a_delay) {
         // Use addRequirements() here to declare subsystem dependencies.
 
+        susanPos = a_susanPos;
+        hoodPos = a_hoodPos;
+        delay = a_delay;
         // addRequirements(RobotContainer.turret);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.turret.configureShooter();
-        // RobotContainer.turret.setShooterVelocity(RobotPreferences.shooterMaxRPM.getValue());
-        // RobotContainer.turret.shooterVelocity();
-        RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
+        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
+
+        RobotContainer.hood.moveHoodToDegree(hoodPos.getValue());
+
+        timer.reset();
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
-        if (RobotContainer.turret.isShooterSpedUp()) {
-
-            RobotContainer.turret.finalShooterGateSetSpeed(-1);
-
-        } else {
-            RobotContainer.turret.finalShooterGateSetSpeed(0);
-        }
-
+        RobotContainer.susan.turnSusanToDegree(susanPos.getValue());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.turret.finalShooterGateSetSpeed(0);
-        RobotContainer.turret.setHoodSpeed(0);
-
-        // RobotContainer.turret.setShooterSpeed(RobotPreferences.shooterNoSpeed.getValue());
+        // RobotContainer.turret.setHoodSpeed(0);
+        RobotContainer.susan.setSusanSpeed(0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // // return true if X error and hood are within tolerance
-        return false;
+        return RobotContainer.hood.hoodFinished() && RobotContainer.susan.susanFinished()
+                && timer.hasPeriodPassed(delay.getValue());
     }
 }

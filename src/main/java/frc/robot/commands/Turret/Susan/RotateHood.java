@@ -5,53 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Susan;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
 
-public class AlignTurretVision extends CommandBase {
+public class RotateHood extends CommandBase {
   /**
-   * Creates a new AlignTurretVision.
+   * Creates a new RotateHood.
    */
 
-  public AlignTurretVision() {
+  public RotateHood() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    // addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.setGoalVelocity(RobotPreferences.shooterMaxRPM.getValue());
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.vision.visionHasTarget()) {
+    RobotContainer.hood.setHoodSpeed(-RobotContainer.manipulator.getY());
 
-      RobotContainer.turret.turnSusanToDegree(RobotContainer.turret.getSusanPosition()
-          + RobotContainer.vision.getVisionXError() + RobotContainer.vision.getVisionInnerOffset());
-
-      if (RobotContainer.switchBoard.btn_9.get()) {
-        RobotContainer.turret.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
-      }
-    } else {
-
-      // RobotContainer.turret.setHoodSpeed(0);
-      RobotContainer.turret.setSusanSpeed(0);
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // RobotContainer.turret.setHoodSpeed(0);
-    RobotContainer.turret.setSusanSpeed(0);
+    RobotContainer.hood.moveHoodToDegree(RobotContainer.hood.getHoodPosition());
+
   }
 
   // Returns true when the command should end.

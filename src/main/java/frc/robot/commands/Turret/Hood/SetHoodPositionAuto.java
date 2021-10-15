@@ -5,48 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Hood;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class NudgeHood extends CommandBase {
+public class SetHoodPositionAuto extends CommandBase {
   /**
-   * Creates a new NudgeHood.
+   * Creates a new SetHoodPositionAuto.
    */
   private SN_DoublePreference degrees;
+  private SN_DoublePreference velocity;
 
-  public NudgeHood(SN_DoublePreference a_degrees) {
+  public SetHoodPositionAuto(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity) {
     // Use addRequirements() here to declare subsystem dependencies.
     degrees = a_degrees;
-    addRequirements(RobotContainer.turret);
+    velocity = a_velocity;
+    addRequirements(RobotContainer.shooter);
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition() + degrees.getValue());
+    RobotContainer.hood.moveHoodToDegree(degrees.getValue());
+    RobotContainer.shooter.setShooterSetpoint(velocity.getValue());
+    RobotContainer.shooter.setShooterVelocity();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    // RobotContainer.turret.setHoodSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.turret.hoodFinished();
+    return RobotContainer.hood.hoodFinished();
   }
 }
