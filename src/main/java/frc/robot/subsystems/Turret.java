@@ -245,6 +245,10 @@ public class Turret extends SubsystemBase {
     return hoodTalon.getSelectedSensorPosition() / RobotPreferences.hoodCountsPerDegree.getValue();
   }
 
+  public enum Direction {
+    NORTH, EAST, SOUTH, WEST
+  }
+
   public enum currentHoodPreset {
     MIDDLE_TRENCH, FRONT_TRENCH, INITIALIZATION, CLOSE, WALL_LOW, WALL_HIGH, NONE
   }

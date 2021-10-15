@@ -29,6 +29,7 @@ import frc.robot.commands.Turret.AlignTurretVision;
 import frc.robot.commands.Turret.NudgeHood;
 import frc.robot.commands.Turret.ResetShooter;
 import frc.robot.commands.Turret.RotateTurret;
+import frc.robot.commands.Turret.RotateTurretButton;
 import frc.robot.commands.Turret.SetHoodPosition;
 import frc.robot.commands.Turret.ShootBall;
 import frc.robot.commands.Turret.ShootCount;
@@ -37,6 +38,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Turret.Direction;
 import frc.robot.subsystems.Turret.currentHoodPreset;
 import frcteam3255.robotbase.Joystick.SN_DualActionStick;
 import frcteam3255.robotbase.Joystick.SN_Extreme3DStick;
@@ -77,6 +79,8 @@ public class RobotContainer {
   // private static DeployClimberManual climberManual;
   // private static WinchClimber winchClimber;
   private static RotateTurret turretManual;
+  private static RotateTurretButton rotateTurretWest;
+  private static RotateTurretButton rotateTurretEast;
   // private static RotateHood hoodManual;
   private static ShootBall shoot;
   // private static SetHoodPosition hoodFar;
@@ -128,6 +132,8 @@ public class RobotContainer {
     // climberManual = new DeployClimberManual();
     // winchClimber = new WinchClimber(RobotPreferences.climberWinchSpeed);
     turretManual = new RotateTurret();
+    rotateTurretWest = new RotateTurretButton(Direction.WEST);
+    rotateTurretEast = new RotateTurretButton(Direction.EAST);
     // hoodManual = new RotateHood();
     collect = new CollectBall();
     nudgeHoodUp = new NudgeHood(RobotPreferences.nudgeHoodUp);
@@ -228,6 +234,19 @@ public class RobotContainer {
 
     // the following block of code is actually used for stuff, whether or not it's
     // commented out
+
+    driveD.btn_A.whenPressed(shoot);
+    driveD.btn_A.whenReleased(resetShooter);
+
+    driveD.btn_X.whenPressed(hoodWallLow);
+    driveD.btn_Y.whenPressed(hoodFrontTrench);
+    driveD.btn_B.whenPressed(hoodWallHigh);
+
+    driveD.POV_East.whenHeld(rotateTurretEast);
+    driveD.POV_West.whenHeld(rotateTurretWest);
+
+    driveD.POV_North.whenPressed(nudgeHoodUp);
+    driveD.POV_South.whenPressed(nudgeHoodDown);
 
     // driveF.btn_A.whenPressed(collect);
     // driveF.btn_B.whenPressed(toggleIntake);
