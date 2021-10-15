@@ -238,9 +238,9 @@ public class RobotContainer {
     driveD.btn_A.whenPressed(shoot);
     driveD.btn_A.whenReleased(resetShooter);
 
+    driveD.btn_B.whenPressed(hoodWallHigh);
     driveD.btn_X.whenPressed(hoodWallLow);
     driveD.btn_Y.whenPressed(hoodFrontTrench);
-    driveD.btn_B.whenPressed(hoodWallHigh);
 
     driveD.POV_East.whenHeld(rotateTurretEast);
     driveD.POV_West.whenHeld(rotateTurretWest);
