@@ -226,6 +226,9 @@ public class RobotContainer {
     driveD.btn_Back.whileHeld(collectReverse);
     driveD.btn_Start.whileHeld(collect);
 
+    driveD.btn_RBump.whenPressed(collect);
+    driveD.btn_LBump.whenPressed(collect);
+
     // drive stuff in arcade drive command
     // drive.btn_A.whenPressed(auto);
     // drive.btn_B.whenPressed(autoShoot);
