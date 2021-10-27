@@ -5,49 +5,58 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Susan;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frcteam3255.robotbase.Preferences.SN_DoublePreference;
+import frc.robot.RobotPreferences;
 
-public class SetHoodPositionAuto extends CommandBase {
+public class AlignTurretVision extends CommandBase {
   /**
-   * Creates a new SetHoodPositionAuto.
+   * Creates a new AlignTurretVision.
    */
-  private SN_DoublePreference degrees;
-  private SN_DoublePreference velocity;
 
-  public SetHoodPositionAuto(SN_DoublePreference a_degrees, SN_DoublePreference a_velocity) {
+  public AlignTurretVision() {
     // Use addRequirements() here to declare subsystem dependencies.
-    degrees = a_degrees;
-    velocity = a_velocity;
-    addRequirements(RobotContainer.turret);
+
+    // addRequirements(RobotContainer.turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    RobotContainer.turret.moveHoodToDegree(degrees.getValue());
-    RobotContainer.turret.setShooterSetpoint(velocity.getValue());
-    RobotContainer.turret.setShooterVelocity();
+    RobotContainer.shooter.setGoalVelocity(RobotPreferences.shooterMaxRPM.getValue());
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (RobotContainer.vision.visionHasTarget()) {
+
+      RobotContainer.susan.turnSusanToDegree(RobotContainer.susan.getSusanPosition()
+          + RobotContainer.vision.getVisionXError() + RobotContainer.vision.getVisionInnerOffset());
+
+      if (RobotContainer.switchBoard.btn_9.get()) {
+        RobotContainer.hood.moveHoodToDegree(RobotContainer.vision.getHoodAngle());
+      }
+    } else {
+
+      // RobotContainer.turret.setHoodSpeed(0);
+      RobotContainer.susan.setSusanSpeed(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // RobotContainer.turret.setHoodSpeed(0);
+    RobotContainer.susan.setSusanSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.turret.hoodFinished();
+    return false;
   }
 }

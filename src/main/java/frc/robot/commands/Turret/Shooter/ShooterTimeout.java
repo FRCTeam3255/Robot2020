@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,7 +22,7 @@ public class ShooterTimeout extends CommandBase {
     public ShooterTimeout() {
         // Use addRequirements() here to declare subsystem dependencies.
 
-        addRequirements(RobotContainer.turret);
+        addRequirements(RobotContainer.shooter);
     }
 
     // Called when the command is initially scheduled.

@@ -14,10 +14,10 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 import frc.robot.commands.Drivetrain.DriveMotionProfile;
 import frc.robot.commands.Intake.CollectorAuto;
-import frc.robot.commands.Turret.AlignAuto;
-import frc.robot.commands.Turret.AlignVisionAuto;
-import frc.robot.commands.Turret.ShootCount;
-import frc.robot.commands.Turret.AlignVisionAuto.FinishReason;
+import frc.robot.commands.Turret.Shooter.ShootCount;
+import frc.robot.commands.Turret.Susan.AlignAuto;
+import frc.robot.commands.Turret.Susan.AlignVisionAuto;
+import frc.robot.commands.Turret.Susan.AlignVisionAuto.FinishReason;
 
 public class Autonomous extends CommandBase {
 
@@ -85,7 +85,9 @@ public class Autonomous extends CommandBase {
     align3 = new AlignVisionAuto(RobotPreferences.shooterMaxRPM);
     shoot3 = new ShootCount(RobotPreferences.numToShoot);
 
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.hood);
+    addRequirements(RobotContainer.susan);
+    addRequirements(RobotContainer.shooter);
     addRequirements(RobotContainer.drivetrain);
   }
 
@@ -110,7 +112,7 @@ public class Autonomous extends CommandBase {
   @Override
   public void initialize() {
     // spinup
-    RobotContainer.turret.setShooterVelocity();
+    RobotContainer.shooter.setShooterVelocity();
 
     // determine which set of motion profiles and alignment commands to use based on
     // switchboard button 1
@@ -211,7 +213,7 @@ public class Autonomous extends CommandBase {
     if (currentCommand == drive1) {
       // switch to the drive2 command
       updateDashboard("drive2");
-      RobotContainer.turret.setShooterVelocity();
+      RobotContainer.shooter.setShooterVelocity();
       switchCommand(drive2);
       return false;
     }

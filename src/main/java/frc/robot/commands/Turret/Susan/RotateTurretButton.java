@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Susan;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
-import frc.robot.subsystems.Turret.Direction;
+import frc.robot.subsystems.Turret.Hood.Direction;
 
 public class RotateTurretButton extends CommandBase {
 
@@ -16,7 +16,7 @@ public class RotateTurretButton extends CommandBase {
   /** Creates a new RotateTurretButton. */
   public RotateTurretButton(Direction a_dir) {
     // Use addRequirements() here to declare subsystem dependencies
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.susan);
 
     dir = a_dir;
   }
@@ -24,7 +24,7 @@ public class RotateTurretButton extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.configureLazySusan();
+    RobotContainer.susan.configureLazySusan();
 
   }
 
@@ -32,16 +32,16 @@ public class RotateTurretButton extends CommandBase {
   @Override
   public void execute() {
     if (dir.equals(Direction.WEST)) {
-      RobotContainer.turret.setSusanSpeed(RobotPreferences.turretManualSpeed.getValue());
+      RobotContainer.susan.setSusanSpeed(RobotPreferences.turretManualSpeed.getValue());
     } else if (dir.equals(Direction.EAST)) {
-      RobotContainer.turret.setSusanSpeed(-RobotPreferences.turretManualSpeed.getValue());
+      RobotContainer.susan.setSusanSpeed(-RobotPreferences.turretManualSpeed.getValue());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setSusanSpeed(0);
+    RobotContainer.susan.setSusanSpeed(0);
   }
 
   // Returns true when the command should end.
