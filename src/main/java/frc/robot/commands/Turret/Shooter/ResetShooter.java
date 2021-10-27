@@ -5,45 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Shooter;
 
+// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
+// import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class RotateTurret extends CommandBase {
+public class ResetShooter extends CommandBase {
   /**
-   * Creates a new RotateTurret.
+   * Creates a new ResetShooter.
    */
 
-  public RotateTurret() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.turret);
+  public ResetShooter() {
+    addRequirements(RobotContainer.shooter);
+    addRequirements(RobotContainer.intake);
+    addRequirements(RobotContainer.hood);
+    addRequirements(RobotContainer.susan);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.turret.configureLazySusan();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret
-        .setSusanSpeed(RobotPreferences.turretManualSpeed.getValue() * RobotContainer.manipulator.getTwistAxis());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setSusanSpeed(0);
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+    return true;
   }
 }

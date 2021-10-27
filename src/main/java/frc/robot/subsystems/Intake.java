@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
     turretGateTalon.configFactoryDefault();
     initialShooterGateTalon.configFactoryDefault();
 
-    collectorTalon.setInverted(true);
+    collectorTalon.setInverted(false);
 
     stagedSwitch = new DigitalInput(RobotMap.STAGED_SWITCH);
     bottomSwitch = new DigitalInput(RobotMap.BOTTOM_SWITCH);

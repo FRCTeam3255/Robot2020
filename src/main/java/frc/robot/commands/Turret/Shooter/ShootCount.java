@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.Timer;
@@ -32,7 +32,7 @@ public class ShootCount extends CommandBase {
   public ShootCount(SN_IntPreference a_numToShoot) {
     // Use addRequirements() here to declare subsystem dependencies.
     numToShoot = a_numToShoot;
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.shooter);
     addRequirements(RobotContainer.intake);
 
   }
@@ -46,9 +46,9 @@ public class ShootCount extends CommandBase {
   }
 
   public void startStaging() {
-    RobotContainer.turret.finalShooterGateSetSpeed(0);
+    RobotContainer.shooter.finalShooterGateSetSpeed(0);
     state = stateType.STAGING;
-    RobotContainer.turret.setShooterVelocity();
+    RobotContainer.shooter.setShooterVelocity();
     RobotContainer.intake.turretGateSetSpeed(1 * RobotPreferences.turretGateSpeed.getValue());
     RobotContainer.intake.initialShooterGateSetSpeed(1 * RobotPreferences.initialGateSpeed.getValue());
     timer.reset();
@@ -64,8 +64,8 @@ public class ShootCount extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.setShooterSpeed(0);
-    RobotContainer.turret.finalShooterGateSetSpeed(0);
+    RobotContainer.shooter.setShooterSpeed(0);
+    RobotContainer.shooter.finalShooterGateSetSpeed(0);
     RobotContainer.intake.turretGateSetSpeed(0);
     RobotContainer.intake.initialShooterGateSetSpeed(0);
 
@@ -84,15 +84,16 @@ public class ShootCount extends CommandBase {
         state = stateType.SPINNING;
       }
     } else if (state == stateType.SPINNING) {
-      if (RobotContainer.turret.isShooterSpedUp() || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())) {
+      if (RobotContainer.shooter.isShooterSpedUp()
+          || timer.hasPeriodPassed(RobotPreferences.spinupTimeout.getValue())) {
         state = stateType.SHOOTING;
-        RobotContainer.turret.finalShooterGateSetSpeed(-1);
+        RobotContainer.shooter.finalShooterGateSetSpeed(-1);
         timer.reset();
         timer.start();
       }
     } else if (state == stateType.SHOOTING) {
       if (timer.hasPeriodPassed(RobotPreferences.shootingTimeout.getValue())) {
-        RobotContainer.turret.finalShooterGateSetSpeed(0);
+        RobotContainer.shooter.finalShooterGateSetSpeed(0);
         numShot = numShot + 1;
         if (numShot < numToShoot.getValue()) {
           startStaging();

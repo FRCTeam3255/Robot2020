@@ -21,12 +21,13 @@ public class ResetHoodEncoder extends CommandBase {
 
     @Override
     public boolean runsWhenDisabled() {
-      return true;
+        return true;
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.turret.resetHoodEncoder();
+        RobotContainer.hood.resetHoodEncoder();
 
     }
 

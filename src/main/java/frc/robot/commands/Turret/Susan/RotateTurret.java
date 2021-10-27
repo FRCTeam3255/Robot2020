@@ -5,38 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Susan;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 
-public class RotateHood extends CommandBase {
+public class RotateTurret extends CommandBase {
   /**
-   * Creates a new RotateHood.
+   * Creates a new RotateTurret.
    */
 
-  public RotateHood() {
+  public RotateTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.turret);
+    addRequirements(RobotContainer.susan);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    RobotContainer.susan.configureLazySusan();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.setHoodSpeed(-RobotContainer.manipulator.getY());
-
+    RobotContainer.susan
+        .setSusanSpeed(RobotPreferences.turretManualSpeed.getValue() * RobotContainer.manipulator.getTwistAxis());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.moveHoodToDegree(RobotContainer.turret.getHoodPosition());
+    RobotContainer.susan.setSusanSpeed(0);
 
   }
 

@@ -5,47 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Turret.Hood;
 
-// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-// import frcteam3255.robotbase.Preferences.SN_DoublePreference;
+import frcteam3255.robotbase.Preferences.SN_DoublePreference;
 
-public class ResetShooter extends CommandBase {
+public class NudgeHood extends CommandBase {
   /**
-   * Creates a new ResetShooter.
+   * Creates a new NudgeHood.
    */
-  
+  private SN_DoublePreference degrees;
 
-  public ResetShooter() {
-    addRequirements(RobotContainer.turret);
-    addRequirements(RobotContainer.intake);
-
+  public NudgeHood(SN_DoublePreference a_degrees) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    degrees = a_degrees;
+    addRequirements(RobotContainer.hood);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
+    RobotContainer.hood.moveHoodToDegree(RobotContainer.hood.getHoodPosition() + degrees.getValue());
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
+    // RobotContainer.turret.setHoodSpeed(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-
-    return true;
+    return RobotContainer.hood.hoodFinished();
   }
 }
